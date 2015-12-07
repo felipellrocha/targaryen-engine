@@ -2,18 +2,6 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="ship" tilewidth="32" tileheight="32" tilecount="121">
   <image source="ship.png" width="352" height="352"/>
-  <terraintypes>
-   <terrain name="ship" tile="-1"/>
-  </terraintypes>
-  <tile id="1" terrain=",,,0"/>
-  <tile id="2" terrain=",,0,0"/>
-  <tile id="3" terrain=",,0,"/>
-  <tile id="12" terrain=",0,,0"/>
-  <tile id="13" terrain="0,0,0,0"/>
-  <tile id="14" terrain="0,,0,"/>
-  <tile id="23" terrain=",0,,"/>
-  <tile id="24" terrain="0,0,,"/>
-  <tile id="25" terrain="0,,,"/>
  </tileset>
  <imagelayer name="sky">
   <image source="sky.png"/>
