@@ -17,7 +17,8 @@ src = [
 ]
 
 sdl = dependency('SDL2')
+sdl_image = dependency('SDL2_image')
 
 executable('../game',
   sources : src,
-  dependencies : sdl)
+  dependencies : [sdl, sdl_image])
