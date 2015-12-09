@@ -81,7 +81,7 @@ class Renderer {
         .at("tilesets")
         .at(0)
         .at("image")
-        .get<string>().c_str();
+        .get<string>();
 
       string base_path = string(SDL_GetBasePath());
       string tileset_path = base_path + "assets/" + tileset_file;

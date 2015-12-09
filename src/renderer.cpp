@@ -5,7 +5,6 @@ void Renderer::render() {
     auto data = this->data.at("layers").at(4).at("data");
 
     SDL_RenderClear(this->ren);
-    /*
     for (int i = 0; i < data.size(); i++) {
       int element = data[i];
 
@@ -25,9 +24,5 @@ void Renderer::render() {
 
       SDL_RenderCopy(this->ren, this->texture, &src, &dst);
     }
-    */
-    SDL_Rect dst = { 0, 0, 100, 100 };
-    SDL_RenderCopy(this->ren, this->texture, NULL, &dst);
     SDL_RenderPresent(this->ren);
-    SDL_Delay(1000);
 }
