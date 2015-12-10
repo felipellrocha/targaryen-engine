@@ -46,7 +46,7 @@ class Renderer {
         "Game",
         0,
         0,
-        640,
+        1280,
         480,
         SDL_WINDOW_SHOWN
       );
@@ -101,13 +101,13 @@ class Renderer {
       this->tile_count_w = this->data
         .at("tilesets")
         .at(0)
-        .at("tilewidth")
-        .get<int>();
+        .at("imagewidth")
+        .get<int>() / this->tile_w;
       this->tile_count_h = this->data
         .at("tilesets")
         .at(0)
-        .at("tileheight")
-        .get<int>();
+        .at("imageheight")
+        .get<int>() / this->tile_h;
 
       this->layer_count_w = this->data.at("width").get<int>();
       this->layer_count_h = this->data.at("height").get<int>();
