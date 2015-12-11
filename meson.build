@@ -3,12 +3,15 @@ add_global_arguments('-std=c++11', language : 'cpp')
 
 src = [
   'src/json.hpp',
+  'src/exceptions.h',
 
   'src/timer.h',
   'src/timer.cpp',
 
   'src/readjson.h',
   'src/readjson.cpp',
+
+  'src/node.h',
 
   'src/renderer.h',
   'src/renderer.cpp',

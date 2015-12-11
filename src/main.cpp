@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "timer.h"
+#include "exceptions.h"
 #include "renderer.h"
 #include "tile.h"
 
