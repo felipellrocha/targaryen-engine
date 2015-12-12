@@ -4,7 +4,7 @@
 #include "timer.h"
 #include "exceptions.h"
 #include "renderer.h"
-#include "tile.h"
+#include "tilelayer.h"
 
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;

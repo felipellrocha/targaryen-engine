@@ -27,6 +27,10 @@
          "image":"ocean.png",
          "name":"ocean",
          "opacity":1,
+         "properties":
+            {
+             "tiling":"horizontal"
+            },
          "type":"imagelayer",
          "visible":true,
          "width":0,

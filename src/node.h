@@ -5,7 +5,8 @@
 
 class Node {
   protected:
-    SDL_Texture *image;
+    SDL_Texture *texture = nullptr;
+    SDL_Renderer *renderer = nullptr;
 
   public:
     virtual void render() =0;

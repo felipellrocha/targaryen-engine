@@ -11,6 +11,9 @@
  </imagelayer>
  <imagelayer name="ocean" y="249">
   <image source="ocean.png"/>
+  <properties>
+   <property name="tiling" value="horizontal"/>
+  </properties>
  </imagelayer>
  <imagelayer name="islands" y="49">
   <image source="Islands.png"/>

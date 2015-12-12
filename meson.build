@@ -16,8 +16,11 @@ src = [
   'src/renderer.h',
   'src/renderer.cpp',
 
-  'src/tile.h',
-  'src/tile.cpp',
+  'src/imagelayer.h',
+  'src/imagelayer.cpp',
+
+  'src/tilelayer.h',
+  'src/tilelayer.cpp',
 
   'src/main.cpp'
 ]

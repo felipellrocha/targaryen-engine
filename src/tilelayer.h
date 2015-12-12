@@ -1,5 +1,5 @@
-#ifndef TILE_H
-#define TILE_H
+#ifndef TILELAYER_H
+#define TILELAYER_H
 
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
@@ -15,9 +15,6 @@ using namespace std;
 class TileLayer : public Node {
 
   protected:
-    SDL_Texture *texture = nullptr;
-    SDL_Renderer *renderer = nullptr;
-
     int tile_w;
     int tile_h;
 

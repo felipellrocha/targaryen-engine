@@ -11,7 +11,8 @@
 #include "exceptions.h"
 #include "readjson.h"
 
-#include "tile.h"
+#include "imagelayer.h"
+#include "tilelayer.h"
 
 using json = nlohmann::json;
 using namespace std;

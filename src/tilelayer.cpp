@@ -1,4 +1,4 @@
-#include "tile.h"
+#include "tilelayer.h"
 
 TileLayer::TileLayer(SDL_Renderer *renderer, json data, int layer) {
 
@@ -22,6 +22,8 @@ TileLayer::TileLayer(SDL_Renderer *renderer, json data, int layer) {
     .at("imageheight")
     .get<int>() / this->tile_h;
 
+  this->tiles = data.at("layers").at(layer).at("data").get<vector<int>>();
+
   string tileset_file = data
     .at("tilesets")
     .at(0)
@@ -30,8 +32,6 @@ TileLayer::TileLayer(SDL_Renderer *renderer, json data, int layer) {
 
   string base_path = string(SDL_GetBasePath());
   string tileset_path = base_path + "assets/" + tileset_file;
-
-  this->tiles = data.at("layers").at(layer).at("data").get<vector<int>>();
 
   this->texture = IMG_LoadTexture(this->renderer, tileset_path.c_str());
 

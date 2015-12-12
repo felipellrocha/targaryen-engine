@@ -27,7 +27,7 @@ Renderer::Renderer(string levelFile) {
   this->ren = SDL_CreateRenderer(
     this->win,
     -1,
-    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+    SDL_RENDERER_ACCELERATED
   );
   if (this->ren == nullptr) {
     SDL_DestroyWindow(this->win);
@@ -43,11 +43,19 @@ Renderer::Renderer(string levelFile) {
   }
 
   json data = readFile(levelFile.c_str());
-  TileLayer *t1 = new TileLayer(this->ren, data, 4);
-  TileLayer *t2 = new TileLayer(this->ren, data, 5);
+  ImageLayer *t1 = new ImageLayer(this->ren, data, 0);
+  ImageLayer *t2 = new ImageLayer(this->ren, data, 1);
+  ImageLayer *t3 = new ImageLayer(this->ren, data, 2);
+  ImageLayer *t4 = new ImageLayer(this->ren, data, 3);
+  TileLayer *t5 = new TileLayer(this->ren, data, 4);
+  TileLayer *t6 = new TileLayer(this->ren, data, 5);
 
   this->nodes.push_back(t1);
   this->nodes.push_back(t2);
+  this->nodes.push_back(t3);
+  this->nodes.push_back(t4);
+  this->nodes.push_back(t5);
+  this->nodes.push_back(t6);
 
 };
 
