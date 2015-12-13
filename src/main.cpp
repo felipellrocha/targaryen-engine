@@ -4,7 +4,6 @@
 #include "timer.h"
 #include "exceptions.h"
 #include "renderer.h"
-#include "tilelayer.h"
 
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
@@ -18,7 +17,6 @@ int main( int argc, char* args[] ) {
 
   try {
     Renderer r("assets/pirates.json");
-    //TileLayer T(data, "foreground");
 
     while (true) {
       capTimer.start();

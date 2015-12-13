@@ -16,7 +16,7 @@ using namespace std;
 class ImageLayer : public Node {
 
   protected:
-    int x, y, w, h;
+    int x, y, w, h, total_width;
     string tiling;
 
   public:

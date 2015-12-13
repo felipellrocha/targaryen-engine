@@ -5,9 +5,15 @@
  </tileset>
  <imagelayer name="sky">
   <image source="sky.png"/>
+  <properties>
+   <property name="tiling" value="horizontal"/>
+  </properties>
  </imagelayer>
  <imagelayer name="clouds">
   <image source="clouds.png"/>
+  <properties>
+   <property name="tiling" value="horizontal"/>
+  </properties>
  </imagelayer>
  <imagelayer name="ocean" y="249">
   <image source="ocean.png"/>
@@ -17,6 +23,9 @@
  </imagelayer>
  <imagelayer name="islands" y="49">
   <image source="Islands.png"/>
+  <properties>
+   <property name="tiling" value="horizontal"/>
+  </properties>
  </imagelayer>
  <layer name="mainground" width="60" height="15">
   <data>

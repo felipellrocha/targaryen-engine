@@ -5,6 +5,10 @@
          "image":"sky.png",
          "name":"sky",
          "opacity":1,
+         "properties":
+            {
+             "tiling":"horizontal"
+            },
          "type":"imagelayer",
          "visible":true,
          "width":0,
@@ -16,6 +20,10 @@
          "image":"clouds.png",
          "name":"clouds",
          "opacity":1,
+         "properties":
+            {
+             "tiling":"horizontal"
+            },
          "type":"imagelayer",
          "visible":true,
          "width":0,
@@ -42,6 +50,10 @@
          "image":"Islands.png",
          "name":"islands",
          "opacity":1,
+         "properties":
+            {
+             "tiling":"horizontal"
+            },
          "type":"imagelayer",
          "visible":true,
          "width":0,

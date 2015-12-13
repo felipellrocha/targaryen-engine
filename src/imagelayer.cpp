@@ -3,6 +3,15 @@
 ImageLayer::ImageLayer(SDL_Renderer *renderer, json data, int layer) {
   this->renderer = renderer;
 
+  int tilewidth = data
+    .at("tilewidth")
+    .get<int>();
+  int width = data
+    .at("width")
+    .get<int>();
+  this->total_width = tilewidth * width;
+
+
   this->x = data
     .at("layers")
     .at(layer)
@@ -32,19 +41,8 @@ ImageLayer::ImageLayer(SDL_Renderer *renderer, json data, int layer) {
     .at("image")
     .get<string>();
 
-  cout
-    << this->tiling
-    << ' '
-    << this->x
-    << ' '
-    << this->y
-    << ' '
-    << endl;
-
   string base_path = string(SDL_GetBasePath());
   string tileset_path = base_path + "assets/" + tileset_file;
-
-  cout << tileset_path << endl;
 
   this->texture = IMG_LoadTexture(this->renderer, tileset_path.c_str());
   if (this->texture == nullptr){
@@ -66,9 +64,11 @@ void ImageLayer::render() {
     SDL_RenderCopy(this->renderer, this->texture, NULL, &pos);
   }
   if (this->tiling == "horizontal") {
-    SDL_Rect pos = {
-      this->x, this->y, this->w, this->h
-    };
-    SDL_RenderCopy(this->renderer, this->texture, NULL, &pos);
+    for (int i = 0; this->w * i < this->total_width; i++) {
+      SDL_Rect pos = {
+        this->w * i, this->y, this->w, this->h
+      };
+      SDL_RenderCopy(this->renderer, this->texture, NULL, &pos);
+    }
   }
 }

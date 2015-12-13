@@ -11,6 +11,7 @@
 #include "exceptions.h"
 #include "readjson.h"
 
+#include "node.h"
 #include "imagelayer.h"
 #include "tilelayer.h"
 
@@ -30,6 +31,7 @@ class Renderer {
     ~Renderer();
 
     void render();
+    void input();
 };
 
 #endif

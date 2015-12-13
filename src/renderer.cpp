@@ -43,24 +43,23 @@ Renderer::Renderer(string levelFile) {
   }
 
   json data = readFile(levelFile.c_str());
-  ImageLayer *t1 = new ImageLayer(this->ren, data, 0);
-  ImageLayer *t2 = new ImageLayer(this->ren, data, 1);
-  ImageLayer *t3 = new ImageLayer(this->ren, data, 2);
-  ImageLayer *t4 = new ImageLayer(this->ren, data, 3);
-  TileLayer *t5 = new TileLayer(this->ren, data, 4);
-  TileLayer *t6 = new TileLayer(this->ren, data, 5);
 
-  this->nodes.push_back(t1);
-  this->nodes.push_back(t2);
-  this->nodes.push_back(t3);
-  this->nodes.push_back(t4);
-  this->nodes.push_back(t5);
-  this->nodes.push_back(t6);
+  for (int i = 0; i < data.at("layers").size(); i++) {
+    auto element = data.at("layers").at(i);
+    string type = element
+      .at("type")
+      .get<string>();
 
+    Node * layer = nullptr;
+    if (type == "imagelayer") layer = new ImageLayer(this->ren, data, i);
+    if (type == "tilelayer") layer = new TileLayer(this->ren, data, i);
+    this->nodes.push_back(layer);
+  }
 };
 
 Renderer::~Renderer() {
   for (int i = 0; i < this->nodes.size(); i++) delete this->nodes[i];
+
   SDL_DestroyRenderer(this->ren);
   SDL_DestroyWindow(this->win);
 }
@@ -73,3 +72,7 @@ void Renderer::render() {
 
   SDL_RenderPresent(this->ren);
 }
+
+void Renderer::input() {
+}
+
