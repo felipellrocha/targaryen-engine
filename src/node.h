@@ -4,11 +4,10 @@
 #include <SDL2/SDL.h>
 
 class Node {
-  protected:
+  public:
     SDL_Texture *texture = nullptr;
     SDL_Renderer *renderer = nullptr;
 
-  public:
     virtual void render() =0;
     virtual ~Node() { };
 };

@@ -42,19 +42,25 @@ Renderer::Renderer(string levelFile) {
     throw renderer_error();
   }
 
-  json data = readFile(levelFile.c_str());
+  json level_data = readFile(levelFile.c_str());
 
-  for (int i = 0; i < data.at("layers").size(); i++) {
-    auto element = data.at("layers").at(i);
+  for (int i = 0; i < level_data.at("layers").size(); i++) {
+    auto element = level_data.at("layers").at(i);
     string type = element
       .at("type")
       .get<string>();
 
     Node * layer = nullptr;
-    if (type == "imagelayer") layer = new ImageLayer(this->ren, data, i);
-    if (type == "tilelayer") layer = new TileLayer(this->ren, data, i);
+    if (type == "imagelayer") layer = new ImageLayer(this->ren, level_data, i);
+    if (type == "tilelayer") layer = new TileLayer(this->ren, level_data, i);
     this->nodes.push_back(layer);
   }
+
+  json character_data = readFile("assets/jean.json");
+
+  Node * c = new CharacterLayer(this->ren, character_data);
+  this->nodes.push_back(c);
+
 };
 
 Renderer::~Renderer() {

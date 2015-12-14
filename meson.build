@@ -22,6 +22,14 @@ src = [
   'src/tilelayer.h',
   'src/tilelayer.cpp',
 
+  'src/states/basestate.h',
+
+  'src/states/idling.h',
+  'src/states/idling.cpp',
+
+  'src/characterlayer.h',
+  'src/characterlayer.cpp',
+
   'src/main.cpp'
 ]
 
