@@ -72,3 +72,6 @@ void ImageLayer::render() {
     }
   }
 }
+
+void ImageLayer::input(SDL_Event event) {
+}

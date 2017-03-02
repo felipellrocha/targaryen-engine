@@ -26,3 +26,7 @@ void CharacterLayer::render() {
   this->state->animate();
 }
 
+void CharacterLayer::input(SDL_Event event) {
+  this->state->input(event);
+}
+

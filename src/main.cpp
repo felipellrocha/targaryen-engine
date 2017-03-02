@@ -9,7 +9,6 @@
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
-SDL_Event event;
 LTimer fpsTimer;
 LTimer capTimer;
 int countedFrames = 0;
@@ -17,17 +16,17 @@ int countedFrames = 0;
 void loop(Renderer r) {
   capTimer.start();
 
-  SDL_PollEvent(&event);
-
   float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
   if (avgFPS > 2000000) avgFPS = 0;
 
+  r.input();
   r.render();
 
   countedFrames++;
 
   int frameTicks = capTimer.getTicks();
-  if (frameTicks < SCREEN_TICKS_PER_FRAME) SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
+  if (frameTicks < SCREEN_TICKS_PER_FRAME)
+    SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
 }
 
 extern "C" int mainf() {

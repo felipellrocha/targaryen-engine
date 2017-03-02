@@ -8,6 +8,7 @@
 #include "json.hpp"
 #include "exceptions.h"
 #include "node.h"
+#include "orientation.h"
 
 #include "states/basestate.h"
 #include "states/idling.h"
@@ -23,8 +24,11 @@ class CharacterLayer : public Node {
     int x = 160;
     int y = 280;
 
+    Orientation orientation = Orientation::RIGHT;
+
     CharacterLayer(SDL_Renderer *renderer, json data_path);
     void render() override;
+    void input(SDL_Event event) override;
 };
 
 #endif

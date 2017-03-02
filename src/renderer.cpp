@@ -12,7 +12,7 @@ Renderer::Renderer(string levelFile) {
   this->win = SDL_CreateWindow(
     "Game",
     0, 0,
-    1280, 480,
+    1200, 480,
     SDL_WINDOW_SHOWN
   );
   if (this->win == nullptr) {
@@ -40,9 +40,10 @@ Renderer::Renderer(string levelFile) {
     throw renderer_error();
   }
 
+  // This needs to be moved out of here
   json level_data = readFile(levelFile.c_str());
 
-  for (int i = 0; i < level_data.at("layers").size(); i++) {
+  for (uint i = 0; i < level_data.at("layers").size(); i++) {
     auto element = level_data.at("layers").at(i);
     string type = element
       .at("type")
@@ -54,6 +55,7 @@ Renderer::Renderer(string levelFile) {
     this->nodes.push_back(layer);
   }
 
+  // Same as this
   json character_data = readFile("assets/jean.json");
 
   Node * c = new CharacterLayer(this->ren, character_data);
@@ -62,7 +64,7 @@ Renderer::Renderer(string levelFile) {
 };
 
 Renderer::~Renderer() {
-  for (int i = 0; i < this->nodes.size(); i++) delete this->nodes[i];
+  for (uint i = 0; i < this->nodes.size(); i++) delete this->nodes[i];
 
   SDL_DestroyRenderer(this->ren);
   SDL_DestroyWindow(this->win);
@@ -72,11 +74,22 @@ void Renderer::render() {
 
   SDL_RenderClear(this->ren);
 
-  for (int i = 0; i < this->nodes.size(); i++) this->nodes[i]->render();
+  for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->render();
 
   SDL_RenderPresent(this->ren);
 }
 
 void Renderer::input() {
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    switch(event.type){
+      case SDL_KEYDOWN:
+				for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->input(event);
+        break;
+
+      default:
+        break;
+    }
+  }
 }
 

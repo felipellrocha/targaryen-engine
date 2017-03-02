@@ -66,3 +66,6 @@ void TileLayer::render() {
     SDL_RenderCopy(this->renderer, this->texture, &src, &dst);
   }
 }
+
+void TileLayer::input(SDL_Event event) {
+}

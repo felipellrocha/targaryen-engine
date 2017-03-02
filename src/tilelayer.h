@@ -30,6 +30,7 @@ class TileLayer : public Node {
   public:
     TileLayer(SDL_Renderer *renderer, json data, int layer);
     void render() override;
+    void input(SDL_Event event) override;
 };
 
 #endif
