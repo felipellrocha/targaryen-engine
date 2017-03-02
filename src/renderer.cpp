@@ -2,7 +2,7 @@
 
 
 Renderer::Renderer(string levelFile) {
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     std::cout << "SDL: " << SDL_GetError() << std::endl;
     SDL_Quit();
     throw renderer_error();
@@ -11,10 +11,8 @@ Renderer::Renderer(string levelFile) {
   // creating a window
   this->win = SDL_CreateWindow(
     "Game",
-    0,
-    0,
-    1280,
-    480,
+    0, 0,
+    1280, 480,
     SDL_WINDOW_SHOWN
   );
   if (this->win == nullptr) {

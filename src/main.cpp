@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <emscripten/emscripten.h>
 #include <iostream>
 
 #include "timer.h"
@@ -8,35 +9,32 @@
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
-int main( int argc, char* args[] ) {
-  SDL_Event event;
-  LTimer fpsTimer;
-  LTimer capTimer;
-  int countedFrames = 0;
+SDL_Event event;
+LTimer fpsTimer;
+LTimer capTimer;
+int countedFrames = 0;
+
+void loop(Renderer r) {
+  capTimer.start();
+
+  SDL_PollEvent(&event);
+
+  float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+  if (avgFPS > 2000000) avgFPS = 0;
+
+  r.render();
+
+  countedFrames++;
+
+  int frameTicks = capTimer.getTicks();
+  if (frameTicks < SCREEN_TICKS_PER_FRAME) SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
+}
+
+extern "C" int mainf() {
   fpsTimer.start();
+  Renderer *game = new Renderer("assets/pirates.json");
 
-  try {
-    Renderer r("assets/pirates.json");
-
-    while (true) {
-      capTimer.start();
-
-      SDL_PollEvent(&event);
-      if (event.type == SDL_QUIT) break;
-
-      float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
-      if (avgFPS > 2000000) avgFPS = 0;
-
-      r.render();
-
-      countedFrames++;
-
-      int frameTicks = capTimer.getTicks();
-      if (frameTicks < SCREEN_TICKS_PER_FRAME) SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
-    }
-  } catch (renderer_error &stop) {
-    return 1;
-  }
+  emscripten_set_main_loop_arg((em_arg_callback_func)loop, game, -1, 1);
 
   SDL_Quit();
   return 0;

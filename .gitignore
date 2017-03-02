@@ -1,3 +1,5 @@
 game@exe/
 build
 game
+.DS_Store
+obj/*
