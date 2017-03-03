@@ -1,5 +1,6 @@
 game@exe/
-build
+build/*
+!build/index.html
 game
 .DS_Store
 obj/*
