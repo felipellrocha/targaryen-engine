@@ -8,8 +8,6 @@ OBJ_DIR := obj
 CXX := em++
 LINKER := em++
 INC_DIRS := -I$(INC_DIR)
-LINKER_FLAGS = \
-  --emrun
 CXX_FLAGS = \
 	-std=c++11 \
 	-std=c++14 \
@@ -20,13 +18,14 @@ CXX_FLAGS = \
 	-O2 \
 	-s USE_SDL=2 \
 	-s USE_SDL_IMAGE=2 \
-	-s USE_SDL_TTF=2 \
 	-s SDL2_IMAGE_FORMATS='["png"]' \
 	-s DISABLE_EXCEPTION_CATCHING=0 \
 	-s WASM=1
+	#-s USE_SDL_TTF=2
 EXEC_FLAGS = \
 	--preload-file assets \
-	-s EXPORTED_FUNCTIONS='["_mainf"]'
+	-s EXPORTED_FUNCTIONS='["_mainf"]' \
+	--emrun
 LIBS :=
 
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp')
@@ -34,7 +33,7 @@ OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 DEPFILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(SRC_FILES))
 
 $(OUT_DIR)/$(OUT_FILE): $(OBJ_FILES)
-	$(LINKER) $(CXX_FLAGS) $(LINKER_FLAGS) $(EXEC_FLAGS) $^ $(LIBS) -o $@
+	$(LINKER) $(CXX_FLAGS) $(EXEC_FLAGS) $^ $(LIBS) -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)/* $(OUT_DIR)/main*.{js,data,wasm,wast}

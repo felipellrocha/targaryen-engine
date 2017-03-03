@@ -69,3 +69,6 @@ void TileLayer::render() {
 
 void TileLayer::input(SDL_Event event) {
 }
+
+void TileLayer::update() {
+}

@@ -79,11 +79,19 @@ void Renderer::render() {
   SDL_RenderPresent(this->ren);
 }
 
+void Renderer::update() {
+  for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->update();
+}
+
 void Renderer::input() {
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch(event.type){
       case SDL_KEYDOWN:
+				for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->input(event);
+        break;
+
+      case SDL_KEYUP:
 				for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->input(event);
         break;
 

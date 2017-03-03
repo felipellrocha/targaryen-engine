@@ -26,7 +26,19 @@ void CharacterLayer::render() {
   this->state->animate();
 }
 
+void CharacterLayer::update() {
+  BaseState * _state = this->state->update();
+  if (_state) {
+    delete this->state;
+    this->state = _state;
+  }
+}
+
 void CharacterLayer::input(SDL_Event event) {
-  this->state->input(event);
+  BaseState * _state = this->state->input(event);
+  if (_state) {
+    delete this->state;
+    this->state = _state;
+  }
 }
 

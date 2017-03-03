@@ -9,6 +9,7 @@ class Node {
     SDL_Renderer *renderer = nullptr;
 
     virtual void render() =0;
+    virtual void update() =0;
     virtual void input(SDL_Event event) =0;
     virtual ~Node() { };
 };

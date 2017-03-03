@@ -33,6 +33,7 @@ class Renderer {
 
     void render();
     void input();
+    void update();
 };
 
 #endif

@@ -20,6 +20,7 @@ void loop(Renderer r) {
   if (avgFPS > 2000000) avgFPS = 0;
 
   r.input();
+  r.update();
   r.render();
 
   countedFrames++;

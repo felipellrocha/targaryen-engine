@@ -1,18 +1,16 @@
-#ifndef IDLING_H
-#define IDLING_H
+#ifndef RUNNING_H
+#define RUNNING_H
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
 #include "basestate.h"
-#include "running.h"
+#include "idling.h"
 #include "../characterlayer.h"
 #include "../orientation.h"
 
-using namespace std;
-
 class CharacterLayer;
 
-class IdlingState : public BaseState {
+class RunningState : public BaseState {
   private:
     int frame_index = 0;
     int x, y, h, w = 0;
@@ -20,13 +18,14 @@ class IdlingState : public BaseState {
     CharacterLayer * parent;
 
   public:
-    IdlingState(CharacterLayer * parent);
+    RunningState(CharacterLayer * parent);
 
     void render() override;
     void animate() override;
+    BaseState* update() override;
     BaseState* input(SDL_Event event) override;
 
-    ~IdlingState() { };
+    ~RunningState() { };
 };
 
 #endif

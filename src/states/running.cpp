@@ -1,16 +1,16 @@
-#include "idling.h"
+#include "running.h"
 
-IdlingState::IdlingState(CharacterLayer * parent) {
+RunningState::RunningState(CharacterLayer * parent) {
   this->parent = parent;
 }
 
-void IdlingState::render() {
+void RunningState::render() {
 
   try {
     // that to_string just *cannot* be efficient... Alas...
     auto frame = this->parent->data
       .at("animations")
-      .at("idling")
+      .at("running")
       .at("keyframes")
       .at(to_string(frame_index));
 
@@ -49,26 +49,41 @@ void IdlingState::render() {
   );
 }
 
-void IdlingState::animate() {
+void RunningState::animate() {
     int total_frames = this->parent->data
       .at("animations")
-      .at("idling")
+      .at("running")
       .at("total_frames").get<int>();
     frame_index = (frame_index + 1) % total_frames;
 }
 
-BaseState* IdlingState::input(SDL_Event event) {
+BaseState* RunningState::update() {
+  switch (this->parent->orientation)
+  {
+    case Orientation::LEFT:
+      this->parent->x -= 2;
+      break;
+    case Orientation::RIGHT:
+      this->parent->x += 2;
+      break;
+  }
+
+  return NULL;
+}
+
+BaseState* RunningState::input(SDL_Event event) {
   if (event.type == SDL_KEYDOWN) {
+  }
+
+  if (event.type == SDL_KEYUP) {
     switch (event.key.keysym.sym)
     {
       case SDLK_LEFT:
-        this->parent->orientation = Orientation::LEFT;
-        return new RunningState(this->parent);
+        return new IdlingState(this->parent);
       case SDLK_RIGHT:
-        this->parent->orientation = Orientation::RIGHT;
-        return new RunningState(this->parent);
+        return new IdlingState(this->parent);
     }
-	}
+  }
 
   return NULL;
 }

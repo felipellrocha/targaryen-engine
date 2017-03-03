@@ -18,7 +18,7 @@ using namespace std;
 
 class CharacterLayer : public Node {
   public:
-    BaseState * state;
+    BaseState * state = NULL;
     json data;
 
     int x = 160;
@@ -28,6 +28,7 @@ class CharacterLayer : public Node {
 
     CharacterLayer(SDL_Renderer *renderer, json data_path);
     void render() override;
+    void update() override;
     void input(SDL_Event event) override;
 };
 
