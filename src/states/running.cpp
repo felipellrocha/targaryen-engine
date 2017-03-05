@@ -72,9 +72,6 @@ BaseState* RunningState::update() {
 }
 
 BaseState* RunningState::input(SDL_Event event) {
-  if (event.type == SDL_KEYDOWN) {
-  }
-
   if (event.type == SDL_KEYUP) {
     switch (event.key.keysym.sym)
     {

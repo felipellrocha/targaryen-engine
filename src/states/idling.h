@@ -5,8 +5,9 @@
 #include <stdexcept>
 #include "basestate.h"
 #include "running.h"
-#include "../characterlayer.h"
-#include "../orientation.h"
+#include "jumping.h"
+#include "characterlayer.h"
+#include "orientation.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ class IdlingState : public BaseState {
 
     void render() override;
     void animate() override;
+    BaseState* update() override;
     BaseState* input(SDL_Event event) override;
 
     ~IdlingState() { };

@@ -50,17 +50,25 @@ void IdlingState::render() {
 }
 
 void IdlingState::animate() {
-    int total_frames = this->parent->data
-      .at("animations")
-      .at("idling")
-      .at("total_frames").get<int>();
-    frame_index = (frame_index + 1) % total_frames;
+  int total_frames = this->parent->data
+    .at("animations")
+    .at("idling")
+    .at("total_frames").get<int>();
+  frame_index = (frame_index + 1) % total_frames;
+}
+
+BaseState* IdlingState::update() {
+  //this->parent->y += 1;
+
+  return NULL;
 }
 
 BaseState* IdlingState::input(SDL_Event event) {
   if (event.type == SDL_KEYDOWN) {
     switch (event.key.keysym.sym)
     {
+      case SDLK_UP:
+        return new JumpingState(this->parent);
       case SDLK_LEFT:
         this->parent->orientation = Orientation::LEFT;
         return new RunningState(this->parent);
