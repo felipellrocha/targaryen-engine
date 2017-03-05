@@ -6,15 +6,15 @@
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
 #include <string>
-#include "json.hpp"
-#include "node.h"
+#include "renderer/node.h"
 #include "exceptions.h"
-#include "readjson.h"
+#include "json/json.hpp"
+#include "json/readjson.h"
 
 #include "node.h"
-#include "imagelayer.h"
-#include "tilelayer.h"
-#include "characterlayer.h"
+#include "layers/imagelayer.h"
+#include "layers/tilelayer.h"
+#include "layers/characterlayer.h"
 
 using json = nlohmann::json;
 using namespace std;

@@ -2,9 +2,9 @@
 #include <emscripten/emscripten.h>
 #include <iostream>
 
-#include "timer.h"
+#include "timer/timer.h"
+#include "renderer/renderer.h"
 #include "exceptions.h"
-#include "renderer.h"
 
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;

@@ -5,10 +5,10 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
-#include "json.hpp"
+#include "json/json.hpp"
 #include "exceptions.h"
-#include "node.h"
-#include "orientation.h"
+#include "renderer/node.h"
+#include "renderer/orientation.h"
 
 #include "states/basestate.h"
 #include "states/idling.h"

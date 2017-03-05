@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include "basestate.h"
 #include "idling.h"
-#include "characterlayer.h"
-#include "orientation.h"
+#include "layers/characterlayer.h"
+#include "renderer/orientation.h"
 
 class CharacterLayer;
 

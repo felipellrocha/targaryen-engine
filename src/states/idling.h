@@ -6,8 +6,8 @@
 #include "basestate.h"
 #include "running.h"
 #include "jumping.h"
-#include "characterlayer.h"
-#include "orientation.h"
+#include "layers/characterlayer.h"
+#include "renderer/orientation.h"
 
 using namespace std;
 

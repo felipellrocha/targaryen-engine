@@ -5,9 +5,9 @@
 #include <SDL_image.h>
 #include <string>
 #include <vector>
-#include "json.hpp"
+#include "json/json.hpp"
 #include "exceptions.h"
-#include "node.h"
+#include "renderer/node.h"
 
 using json = nlohmann::json;
 using namespace std;
