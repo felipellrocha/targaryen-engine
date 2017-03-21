@@ -23,7 +23,6 @@ CharacterLayer::CharacterLayer(SDL_Renderer *renderer, json data) {
 
 void CharacterLayer::render() {
   this->state->render();
-  this->state->animate();
 }
 
 void CharacterLayer::update() {
@@ -41,4 +40,3 @@ void CharacterLayer::input(SDL_Event event) {
     this->state = _state;
   }
 }
-

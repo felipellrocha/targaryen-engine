@@ -7,7 +7,6 @@ class BaseState {
   public:
     virtual ~BaseState() { };
     virtual void render() =0;
-    virtual void animate() =0;
     virtual BaseState* input(SDL_Event event) =0;
 
     virtual BaseState* update() {

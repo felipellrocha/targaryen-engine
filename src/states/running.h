@@ -12,7 +12,7 @@ class CharacterLayer;
 
 class RunningState : public BaseState {
   private:
-    int frame_index = 0;
+    int frame_index = -1;
     int x, y, h, w = 0;
 
     CharacterLayer * parent;
@@ -21,9 +21,10 @@ class RunningState : public BaseState {
     RunningState(CharacterLayer * parent);
 
     void render() override;
-    void animate() override;
     BaseState* update() override;
     BaseState* input(SDL_Event event) override;
+
+    void moveAnimationFrame();
 
     ~RunningState() { };
 };

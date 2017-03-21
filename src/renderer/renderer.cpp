@@ -40,7 +40,6 @@ Renderer::Renderer(string levelFile) {
     throw renderer_error();
   }
 
-  // This needs to be moved out of here
   json level_data = readFile(levelFile.c_str());
 
   for (uint i = 0; i < level_data.at("layers").size(); i++) {
@@ -51,7 +50,15 @@ Renderer::Renderer(string levelFile) {
 
     Node * layer = nullptr;
     if (type == "imagelayer") layer = new ImageLayer(this->ren, level_data, i);
-    if (type == "tilelayer") layer = new TileLayer(this->ren, level_data, i);
+    if (type == "tilelayer") {
+      type = element
+        .at("properties")
+        .at("layerType")
+        .get<string>();
+
+      if (type == "itemsLayer") layer = new ItemsLayer(this->ren, level_data, i);
+      else layer = new TileLayer(this->ren, level_data, i);
+    }
     this->nodes.push_back(layer);
   }
 

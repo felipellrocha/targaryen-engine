@@ -21,6 +21,7 @@ CXX_FLAGS = \
 	-s SDL2_IMAGE_FORMATS='["png"]' \
 	-s DISABLE_EXCEPTION_CATCHING=0 \
 	-s WASM=1
+  -s ASSERTIONS=1
 	#-s USE_SDL_TTF=2
 EXEC_FLAGS = \
 	--preload-file assets \

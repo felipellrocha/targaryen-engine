@@ -38,28 +38,28 @@
 		<canvas oncontextmenu="event.preventDefault()"></canvas>
 
 		<div style="width:200px; margin-left:auto; margin-right:auto">
-		<p id="startButton" onclick="start(this)">Click to start</p>
-		<p id="fullScreenButton" onclick="Module.requestFullScreen(true, false)">Click for full-screen</p>
 	</div>
 
 	<script>
 		Module = {
 			onRuntimeInitialized () {
 				const el = document.getElementById('loadingDiv');
-
 				el.style.visibility = 'hidden';
+
+        this.ccall('mainf', null, null);
 			},
 			print: console.log.bind(console),
 			printErr: console.error.bind(console),
 			canvas: document.querySelector('canvas'),
 		};
 
+    /*
 		const start = function (btn) {
 			btn.style.visibility = 'hidden';
 			document.getElementById('fullScreenButton').style.visibility= 'visible';
 
-			Module.ccall('mainf', null, null);
 		};
+    */
 
 		fetch('main.wasm')
 			.then((response) => response.arrayBuffer())
@@ -68,9 +68,10 @@
 
 				const script = document.createElement('script');
 				script.src = 'main.js';
-				script.onload = () => document.getElementById('startButton').style.visibility = 'visible';
+				//script.onload = () => document.getElementById('startButton').style.visibility = 'visible';
 				document.body.appendChild(script);
 			});
+
 	</script>
 	</body>
 </html>

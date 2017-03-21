@@ -5,7 +5,6 @@ RunningState::RunningState(CharacterLayer * parent) {
 }
 
 void RunningState::render() {
-
   try {
     // that to_string just *cannot* be efficient... Alas...
     auto frame = this->parent->data
@@ -49,15 +48,17 @@ void RunningState::render() {
   );
 }
 
-void RunningState::animate() {
-    int total_frames = this->parent->data
-      .at("animations")
-      .at("running")
-      .at("total_frames").get<int>();
-    frame_index = (frame_index + 1) % total_frames;
+void RunningState::moveAnimationFrame() {
+  int total_frames = this->parent->data
+    .at("animations")
+    .at("running")
+    .at("total_frames").get<int>();
+  frame_index = (frame_index + 1) % total_frames;
 }
 
 BaseState* RunningState::update() {
+  this->moveAnimationFrame();
+
   switch (this->parent->orientation)
   {
     case Orientation::LEFT:

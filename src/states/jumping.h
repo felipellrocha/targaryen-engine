@@ -19,7 +19,6 @@ class JumpingState : public BaseState {
     JumpingState(CharacterLayer * parent);
 
     void render() override;
-    void animate() override;
     BaseState* update() override;
     BaseState* input(SDL_Event event) override;
 

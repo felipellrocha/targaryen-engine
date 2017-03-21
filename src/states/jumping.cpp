@@ -48,9 +48,6 @@ void JumpingState::render() {
   );
 }
 
-void JumpingState::animate() {
-}
-
 BaseState* JumpingState::update() {
   this->parent->y -= 2;
 

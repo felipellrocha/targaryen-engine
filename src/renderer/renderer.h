@@ -15,6 +15,7 @@
 #include "layers/imagelayer.h"
 #include "layers/tilelayer.h"
 #include "layers/characterlayer.h"
+#include "layers/itemslayer.h"
 
 using json = nlohmann::json;
 using namespace std;

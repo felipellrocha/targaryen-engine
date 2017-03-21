@@ -2,10 +2,22 @@
 
 IdlingState::IdlingState(CharacterLayer * parent) {
   this->parent = parent;
+
+  this->setPosition();
+
+  // uint is necessary here simply to disambiguate
+  // the constructor call
+  this->parent->aabb = AABB(
+    (uint)this->parent->x,
+    (uint)this->parent->y,
+    0,
+    this->parent->x + this->w,
+    this->parent->y + this->h,
+    0
+  );
 }
 
-void IdlingState::render() {
-
+void IdlingState::setPosition() {
   try {
     // that to_string just *cannot* be efficient... Alas...
     auto frame = this->parent->data
@@ -19,6 +31,11 @@ void IdlingState::render() {
     this->w = frame.at(2).get<int>();
     this->h = frame.at(3).get<int>();
   } catch (const out_of_range &err) { }
+}
+
+void IdlingState::render() {
+
+  this->setPosition();
 
   SDL_Rect src = {
     this->x,
@@ -49,16 +66,12 @@ void IdlingState::render() {
   );
 }
 
-void IdlingState::animate() {
+BaseState* IdlingState::update() {
   int total_frames = this->parent->data
     .at("animations")
     .at("idling")
     .at("total_frames").get<int>();
   frame_index = (frame_index + 1) % total_frames;
-}
-
-BaseState* IdlingState::update() {
-  //this->parent->y += 1;
 
   return NULL;
 }
