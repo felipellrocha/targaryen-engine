@@ -3,9 +3,10 @@
 
 #include <stdexcept>
 #include <string>
+#include <memory>
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
-#include "json/json.hpp"
+#include <SDL2_image/SDL_image.h>
+#include "json/json.h"
 #include "exceptions.h"
 #include "renderer/node.h"
 #include "renderer/orientation.h"
@@ -13,13 +14,14 @@
 #include "states/basestate.h"
 #include "states/idling.h"
 
-#include "physics/IAABB.h"
 #include "physics/AABB.h"
+#include "physics/IAABB.h"
 
 using json = nlohmann::json;
+
 using namespace std;
 
-class CharacterLayer : public Node, public IAABB {
+class CharacterLayer : public enable_shared_from_this<CharacterLayer>, public Node, public IAABB {
   public:
     BaseState * state = NULL;
     json data;

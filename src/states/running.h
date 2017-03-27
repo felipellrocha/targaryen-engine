@@ -8,6 +8,8 @@
 #include "layers/characterlayer.h"
 #include "renderer/orientation.h"
 
+using namespace std;
+
 class CharacterLayer;
 
 class RunningState : public BaseState {

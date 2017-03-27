@@ -1,5 +1,8 @@
-#include <SDL2/SDL.h>
+#ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>
+#endif
+
+#include <SDL2/SDL.h>
 #include <iostream>
 
 #include "timer/timer.h"
@@ -13,15 +16,16 @@ LTimer fpsTimer;
 LTimer capTimer;
 int countedFrames = 0;
 
-void loop(Renderer r) {
+void loop(Renderer &renderer) {
   capTimer.start();
 
   float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
   if (avgFPS > 2000000) avgFPS = 0;
 
-  r.input();
-  r.update();
-  r.render();
+  renderer.input();
+  renderer.physics();
+  renderer.update();
+  renderer.render();
 
   countedFrames++;
 
@@ -30,12 +34,31 @@ void loop(Renderer r) {
     SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
 }
 
+#ifdef __EMSCRIPTEN__
 extern "C" int mainf() {
   fpsTimer.start();
+
   Renderer *game = new Renderer("assets/pirates.json");
 
-  emscripten_set_main_loop_arg((em_arg_callback_func)loop, game, -1, 1);
+  //emscripten_set_main_loop_arg((em_arg_callback_func)loop, game, -1, 1);
+
+  delete game;
 
   SDL_Quit();
   return 0;
 }
+#else
+
+int main() {
+  fpsTimer.start();
+
+  Renderer game = Renderer("assets/pirates.json");
+
+  while (game.isRunning()) {
+    loop(game);
+  }
+
+  SDL_Quit();
+  return 0;
+}
+#endif

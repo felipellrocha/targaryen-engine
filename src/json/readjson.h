@@ -6,7 +6,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "json.hpp"
+#include "json.h"
 
 using namespace std;
 using json = nlohmann::json;

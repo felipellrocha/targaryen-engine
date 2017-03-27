@@ -4,17 +4,6 @@ IdlingState::IdlingState(CharacterLayer * parent) {
   this->parent = parent;
 
   this->setPosition();
-
-  // uint is necessary here simply to disambiguate
-  // the constructor call
-  this->parent->aabb = AABB(
-    (uint)this->parent->x,
-    (uint)this->parent->y,
-    0,
-    this->parent->x + this->w,
-    this->parent->y + this->h,
-    0
-  );
 }
 
 void IdlingState::setPosition() {
@@ -67,6 +56,17 @@ void IdlingState::render() {
 }
 
 BaseState* IdlingState::update() {
+  // uint is necessary here simply to disambiguate
+  // the constructor call
+  this->parent->aabb = AABB(
+    (uint)this->parent->x,
+    (uint)this->parent->y,
+    0,
+    this->parent->x + this->w,
+    this->parent->y + this->h,
+    0
+  );
+
   int total_frames = this->parent->data
     .at("animations")
     .at("idling")
@@ -80,8 +80,6 @@ BaseState* IdlingState::input(SDL_Event event) {
   if (event.type == SDL_KEYDOWN) {
     switch (event.key.keysym.sym)
     {
-      case SDLK_UP:
-        return new JumpingState(this->parent);
       case SDLK_LEFT:
         this->parent->orientation = Orientation::LEFT;
         return new RunningState(this->parent);

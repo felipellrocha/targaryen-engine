@@ -2,6 +2,7 @@
 #define BASESTATE_H
 
 #include <SDL2/SDL.h>
+#include "physics/AABBTree.h"
 
 class BaseState {
   public:

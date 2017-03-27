@@ -49,6 +49,16 @@ ItemLayer::ItemLayer(SDL_Renderer *renderer, json data, int index, int tileType,
     .at("columns")
     .get<int>()) * this->h;
 
+  // uint is necessary here simply to disambiguate
+  // the constructor call
+  this->aabb = AABB(
+    (uint)this->location_x,
+    (uint)this->location_y,
+    0,
+    this->location_x + this->w,
+    this->location_y + this->h,
+    0
+  );
 }
 
 void ItemLayer::render() {

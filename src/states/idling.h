@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include "basestate.h"
 #include "running.h"
-#include "jumping.h"
 #include "layers/characterlayer.h"
 #include "renderer/orientation.h"
 

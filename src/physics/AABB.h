@@ -31,9 +31,7 @@ public:
 		return maxX > other.minX &&
 			minX < other.maxX &&
 			maxY > other.minY &&
-			minY < other.maxY &&
-			maxZ > other.minZ &&
-			minZ < other.maxZ;
+			minY < other.maxY;
 	}
 
 	bool contains(const AABB& other) const
@@ -41,9 +39,7 @@ public:
 		return other.minX >= minX &&
 			other.maxX <= maxX &&
 			other.minY >= minY &&
-			other.maxY <= maxY &&
-			other.minZ >= minZ &&
-			other.maxZ <= maxZ;
+			other.maxY <= maxY;
 	}
 
 	AABB merge(const AABB& other) const

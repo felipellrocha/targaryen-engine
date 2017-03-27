@@ -95,6 +95,7 @@ std::forward_list<std::shared_ptr<IAABB>> AABBTree::queryOverlaps(const std::sha
 		if (nodeIndex == AABB_NULL_NODE) continue;
 
 		const AABBNode& node = _nodes[nodeIndex];
+
 		if (node.aabb.overlaps(testAabb))
 		{
 			if (node.isLeaf() && node.object != object)

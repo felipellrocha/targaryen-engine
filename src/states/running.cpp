@@ -69,6 +69,17 @@ BaseState* RunningState::update() {
       break;
   }
 
+  // uint is necessary here simply to disambiguate
+  // the constructor call
+  this->parent->aabb = AABB(
+    (uint)this->parent->x,
+    (uint)this->parent->y,
+    0,
+    this->parent->x + this->w,
+    this->parent->y + this->h,
+    0
+  );
+
   return NULL;
 }
 

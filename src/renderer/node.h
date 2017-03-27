@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include <SDL2/SDL.h>
+#include "physics/AABBTree.h"
 
 class Node {
   public:

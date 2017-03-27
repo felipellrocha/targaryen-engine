@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
-#include "json/json.hpp"
+#include <SDL2_image/SDL_image.h>
+#include "json/json.h"
 #include "exceptions.h"
 #include "renderer/node.h"
 

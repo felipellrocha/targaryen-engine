@@ -1,16 +1,23 @@
 #include "itemslayer.h"
 
-ItemsLayer::ItemsLayer(SDL_Renderer *renderer, json data, int layer) {
+ItemsLayer::ItemsLayer(SDL_Renderer *renderer, vector<shared_ptr<IAABB>> *world, json data, int layer) {
 
   this->renderer = renderer;
 
   auto tiles = data.at("layers").at(layer).at("data").get<vector<int>>();
   for (uint i = 0; i < tiles.size(); i++) {
-    Node * n = nullptr;
 
     if (tiles[i] > 0) {
-      n = new ItemLayer(renderer, data, i, tiles[i], layer);
-      this->nodes.push_back(n);
+      shared_ptr<ItemLayer> node = make_shared<ItemLayer>(
+        renderer,
+        data,
+        i,
+        tiles[i],
+        layer
+      );
+
+      this->nodes.push_back(node);
+      world->push_back(node);
     }
   }
 }

@@ -4,3 +4,5 @@ build/*
 game
 .DS_Store
 obj/*
+obj_native/*
+env

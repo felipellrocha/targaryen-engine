@@ -2,25 +2,26 @@
 #define ITEMSLAYER_H
 
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
+#include <SDL2_image/SDL_image.h>
 #include <string>
 #include <vector>
-#include "json/json.hpp"
+#include "json/json.h"
 #include "exceptions.h"
 #include "renderer/node.h"
 #include "layers/itemlayer.h"
 
+#include "physics/AABBTree.h"
+
 using json = nlohmann::json;
 using namespace std;
 
-class ItemsLayer : public Node {
+class ItemsLayer : public Node  {
 
   protected:
-    vector<Node *> nodes;
-
+    vector<shared_ptr<Node>> nodes;
 
   public:
-    ItemsLayer(SDL_Renderer *renderer, json data, int layer);
+    ItemsLayer(SDL_Renderer *renderer, vector<shared_ptr<IAABB>> *world, json data, int layer);
     void render() override;
     void update() override;
     void input(SDL_Event event) override;
