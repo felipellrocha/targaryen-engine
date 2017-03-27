@@ -52,6 +52,7 @@ public:
 	void insertObject(const std::shared_ptr<IAABB>& object);
 	void removeObject(const std::shared_ptr<IAABB>& object);
 	void updateObject(const std::shared_ptr<IAABB>& object);
+  std::vector<AABBNode> getAllNodes();
 	std::forward_list<std::shared_ptr<IAABB>> queryOverlaps(const std::shared_ptr<IAABB>& object) const;
 };
 

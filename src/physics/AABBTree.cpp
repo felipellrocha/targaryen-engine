@@ -80,6 +80,11 @@ void AABBTree::updateObject(const std::shared_ptr<IAABB>& object)
 	updateLeaf(nodeIndex, object->getAABB());
 }
 
+std::vector<AABBNode> AABBTree::getAllNodes()
+{
+  return _nodes;
+}
+
 std::forward_list<std::shared_ptr<IAABB>> AABBTree::queryOverlaps(const std::shared_ptr<IAABB>& object) const
 {
 	std::forward_list<std::shared_ptr<IAABB>> overlaps;

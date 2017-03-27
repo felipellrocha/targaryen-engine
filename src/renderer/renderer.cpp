@@ -99,8 +99,10 @@ void Renderer::render() {
   for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->render();
 
 #ifdef DRAW_AABB
-  for (uint i = 0; i < world.size(); i++) {
-    auto node = world[i]->getAABB();
+  //for (uint i = 0; i < world.size(); i++) {
+  auto treeNodes = tree.getAllNodes();
+  for (uint i = 0; i < treeNodes.size(); i++) {
+    auto node = treeNodes[i].aabb;
 
     SDL_RenderDrawLine(this->ren, node.minX, node.minY, node.maxX, node.minY);
     SDL_RenderDrawLine(this->ren, node.minX, node.maxY, node.maxX, node.maxY);
