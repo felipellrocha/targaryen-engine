@@ -103,6 +103,8 @@ Renderer::Renderer(string levelFile) {
   this->nodes.push_back(character);
   this->world.push_back(character);
 
+  tree = AABBTree(world.size());
+
   for (uint i = 0; i < world.size(); i++) tree.insertObject(world[i]);
 };
 

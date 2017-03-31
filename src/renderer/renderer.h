@@ -17,7 +17,6 @@
 #include "layers/imagelayer.h"
 #include "layers/tilelayer.h"
 #include "layers/characterlayer.h"
-#include "layers/itemslayer.h"
 #include "layers/staticcollisionlayer.h"
 
 #include "physics/AABBTree.h"
@@ -34,7 +33,7 @@ class Renderer {
 
     vector<shared_ptr<Node>> nodes;
     vector<shared_ptr<IAABB>> world;
-    AABBTree tree = AABBTree(100);
+    AABBTree tree = AABBTree(1);
 
   public:
     bool running;

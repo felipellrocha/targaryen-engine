@@ -23,7 +23,7 @@ class IdlingState : public BaseState {
   public:
     IdlingState(CharacterLayer * parent);
 
-    void setPosition();
+    void moveAnimationFrame();
     void render() override;
     BaseState* update() override;
     BaseState* input(SDL_Event event) override;

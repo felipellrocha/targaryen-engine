@@ -3,10 +3,10 @@
 IdlingState::IdlingState(CharacterLayer * parent) {
   this->parent = parent;
 
-  this->setPosition();
+  this->moveAnimationFrame();
 }
 
-void IdlingState::setPosition() {
+void IdlingState::moveAnimationFrame() {
   try {
     // that to_string just *cannot* be efficient... Alas...
     auto frame = this->parent->data
@@ -60,7 +60,7 @@ void IdlingState::render() {
 }
 
 BaseState* IdlingState::update() {
-  this->setPosition();
+  this->moveAnimationFrame();
 
   // uint is necessary here simply to disambiguate
   // the constructor call

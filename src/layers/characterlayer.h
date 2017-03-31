@@ -27,7 +27,7 @@ class CharacterLayer : public enable_shared_from_this<CharacterLayer>, public No
     json data;
 
     int x = 160;
-    int y = 230;
+    int y = 280;
 
     AABB aabb;
 

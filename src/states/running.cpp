@@ -63,8 +63,12 @@ BaseState* RunningState::update() {
   this->moveAnimationFrame();
 
   for (uint i = 0; i < this->parent->collisions.size(); i++) {
-    if (auto collision = dynamic_pointer_cast<ItemLayer>(this->parent->collisions[i])) return NULL;
-    if (auto collision = dynamic_pointer_cast<StaticCollisionLayer>(this->parent->collisions[i])) return NULL;
+    if (auto collision = dynamic_pointer_cast<StaticCollisionLayer>(this->parent->collisions[i])) {
+      return NULL;
+    }
+    if (auto collision = dynamic_pointer_cast<ItemLayer>(this->parent->collisions[i])) {
+      return NULL;
+    }
   }
 
   switch (this->parent->orientation)
