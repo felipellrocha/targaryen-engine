@@ -1,17 +1,17 @@
-#include "running.h"
+#include "jumping.h"
 
-RunningState::RunningState(CharacterLayer * parent) {
+JumpingState::JumpingState(CharacterLayer * parent) {
   this->parent = parent;
 }
 
-void RunningState::render() {
+void JumpingState::render() {
   try {
     // that to_string just *cannot* be efficient... Alas...
     auto frame = this->parent->data
       .at("animations")
-      .at("running")
+      .at("attack")
       .at("keyframes")
-      .at(to_string(frame_index));
+      .at("8");
 
     this->x = frame.at(0).get<int>();
     this->y = frame.at(1).get<int>();
@@ -48,22 +48,15 @@ void RunningState::render() {
   );
 }
 
-void RunningState::moveAnimationFrame() {
-  int total_frames = this->parent->data
-    .at("animations")
-    .at("running")
-    .at("total_frames").get<int>();
-  frame_index = (frame_index + 1) % total_frames;
-}
-
-BaseState* RunningState::update() {
-
-  this->moveAnimationFrame();
-
+BaseState* JumpingState::update() {
+  
+/*
   for (uint i = 0; i < this->parent->collisions.size(); i++) {
-    if (auto collision = dynamic_pointer_cast<ItemLayer>(this->parent->collisions[i])) return NULL;
-    if (auto collision = dynamic_pointer_cast<StaticCollisionLayer>(this->parent->collisions[i])) return NULL;
+    if (auto collision = dynamic_pointer_cast<ItemLayer>(this->parent->collisions[i])) {
+      return NULL;
+    }
   }
+*/
 
   switch (this->parent->orientation)
   {
@@ -89,7 +82,7 @@ BaseState* RunningState::update() {
   return NULL;
 }
 
-BaseState* RunningState::input(SDL_Event event) {
+BaseState* JumpingState::input(SDL_Event event) {
   if (event.type == SDL_KEYUP) {
     switch (event.key.keysym.sym)
     {

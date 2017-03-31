@@ -2,7 +2,7 @@
 #define TILELAYER_H
 
 #include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include "sdl2image.h"
 #include <string>
 #include <vector>
 #include "json/json.h"

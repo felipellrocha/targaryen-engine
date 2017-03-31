@@ -14,7 +14,7 @@ Renderer::Renderer(string levelFile) {
   this->win = SDL_CreateWindow(
     "Game",
     0, 0,
-    1200, 480,
+    600, 480,
     SDL_WINDOW_SHOWN
   );
   if (this->win == nullptr) {
@@ -53,6 +53,17 @@ Renderer::Renderer(string levelFile) {
     if (type == "imagelayer") {
       shared_ptr<ImageLayer> layer = make_shared<ImageLayer>(this->ren, level_data, i);
       this->nodes.push_back(layer);
+    }
+    if (type == "objectgroup") {
+      auto objects = level_data.at("layers").at(i).at("objects");
+
+      for (uint i = 0; i < objects.size(); i++) {
+        auto object = objects.at(i);
+
+        shared_ptr<StaticCollisionLayer> layer = make_shared<StaticCollisionLayer>(this->ren, object);
+        this->nodes.push_back(layer);
+        this->world.push_back(layer);
+      }
     }
     if (type == "tilelayer") {
       type = element
@@ -122,11 +133,13 @@ void Renderer::physics() {
   for (uint i = 0; i < world.size(); i++) tree.updateObject(world[i]);
 
   for (uint i = 0; i < world.size(); i++) {
-    auto sprite = world[i];
-    auto aabbCollisions = tree.queryOverlaps(sprite);
+    auto aabb = world[i];
+    auto node = dynamic_pointer_cast<Node>(aabb);
+    auto aabbCollisions = tree.queryOverlaps(aabb);
+    node->collisions.clear();
 
-    for_each(aabbCollisions.begin(), aabbCollisions.end(), [sprite](const shared_ptr<IAABB>& collidesWith) {
-      cout << "Collision!!!" << endl;
+    for_each(aabbCollisions.begin(), aabbCollisions.end(), [node](const shared_ptr<IAABB>& collidesWith) {
+      node->collisions.push_back(dynamic_pointer_cast<Node>(collidesWith));
     });
   };
 }

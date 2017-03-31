@@ -2,7 +2,7 @@
 #define ITEMSLAYER_H
 
 #include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include "sdl2image.h"
 #include <string>
 #include <vector>
 #include "json/json.h"
@@ -15,7 +15,7 @@
 using json = nlohmann::json;
 using namespace std;
 
-class ItemsLayer : public Node  {
+class ItemsLayer : public Node {
 
   protected:
     vector<shared_ptr<Node>> nodes;

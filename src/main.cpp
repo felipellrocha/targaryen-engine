@@ -40,7 +40,7 @@ extern "C" int mainf() {
 
   Renderer *game = new Renderer("assets/pirates.json");
 
-  //emscripten_set_main_loop_arg((em_arg_callback_func)loop, game, -1, 1);
+  emscripten_set_main_loop_arg((em_arg_callback_func)loop, game, -1, 1);
 
   delete game;
 

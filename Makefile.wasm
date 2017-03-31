@@ -15,6 +15,7 @@ CXX_FLAGS = \
 	-Wextra \
 	-Wshadow \
 	-pedantic \
+	-D DRAW_AABB \
 	-O2 \
 	-s USE_SDL=2 \
 	-s USE_SDL_IMAGE=2 \

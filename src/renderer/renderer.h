@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <vector>
 #include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include "sdl2image.h"
 #include <string>
 #include <memory>
 #include <utility>
@@ -18,6 +18,7 @@
 #include "layers/tilelayer.h"
 #include "layers/characterlayer.h"
 #include "layers/itemslayer.h"
+#include "layers/staticcollisionlayer.h"
 
 #include "physics/AABBTree.h"
 #include "physics/IAABB.h"
