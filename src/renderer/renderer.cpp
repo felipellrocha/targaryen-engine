@@ -72,13 +72,21 @@ Renderer::Renderer(string levelFile) {
         .get<string>();
 
       if (type == "itemsLayer") {
-        shared_ptr<ItemsLayer> layer = make_shared<ItemsLayer>(
-          this->ren,
-          &this->world,
-          level_data,
-          i
-        );
-        this->nodes.push_back(layer);
+        auto tiles = level_data.at("layers").at(i).at("data").get<vector<int>>();
+        for (uint j = 0; j < tiles.size(); j++) {
+          if (tiles[j] > 0) {
+            shared_ptr<ItemLayer> node = make_shared<ItemLayer>(
+              this->ren,
+              level_data,
+              j,
+              tiles[j],
+              i
+            );
+
+            this->nodes.push_back(node);
+            this->world.push_back(node);
+          }
+        }
       }
       else {
         shared_ptr<TileLayer> layer = make_shared<TileLayer>(this->ren, level_data, i);
@@ -110,10 +118,11 @@ void Renderer::render() {
   for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->render();
 
 #ifdef DRAW_AABB
-  //for (uint i = 0; i < world.size(); i++) {
-  auto treeNodes = tree.getAllNodes();
-  for (uint i = 0; i < treeNodes.size(); i++) {
-    auto node = treeNodes[i].aabb;
+  for (uint i = 0; i < world.size(); i++) {
+    auto node = world[i]->getAABB();
+  //auto treeNodes = tree.getAllNodes();
+  //for (uint i = 0; i < treeNodes.size(); i++) {
+  //  auto node = treeNodes[i].aabb;
 
     SDL_RenderDrawLine(this->ren, node.minX, node.minY, node.maxX, node.minY);
     SDL_RenderDrawLine(this->ren, node.minX, node.maxY, node.maxX, node.maxY);
@@ -135,8 +144,10 @@ void Renderer::physics() {
   for (uint i = 0; i < world.size(); i++) {
     auto aabb = world[i];
     auto node = dynamic_pointer_cast<Node>(aabb);
-    auto aabbCollisions = tree.queryOverlaps(aabb);
+
     node->collisions.clear();
+
+    auto aabbCollisions = tree.queryOverlaps(aabb);
 
     for_each(aabbCollisions.begin(), aabbCollisions.end(), [node](const shared_ptr<IAABB>& collidesWith) {
       node->collisions.push_back(dynamic_pointer_cast<Node>(collidesWith));

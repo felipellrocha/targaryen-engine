@@ -16,7 +16,7 @@ class CharacterLayer;
 
 class RunningState : public BaseState {
   private:
-    int frame_index = -1;
+    int frame_index = 0;
     int x, y, h, w = 0;
 
     CharacterLayer * parent;

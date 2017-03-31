@@ -2,23 +2,11 @@
 
 RunningState::RunningState(CharacterLayer * parent) {
   this->parent = parent;
+
+  this->moveAnimationFrame();
 }
 
 void RunningState::render() {
-  try {
-    // that to_string just *cannot* be efficient... Alas...
-    auto frame = this->parent->data
-      .at("animations")
-      .at("running")
-      .at("keyframes")
-      .at(to_string(frame_index));
-
-    this->x = frame.at(0).get<int>();
-    this->y = frame.at(1).get<int>();
-    this->w = frame.at(2).get<int>();
-    this->h = frame.at(3).get<int>();
-  } catch (const out_of_range &err) { }
-
   SDL_Rect src = {
     this->x,
     this->y,
@@ -49,6 +37,20 @@ void RunningState::render() {
 }
 
 void RunningState::moveAnimationFrame() {
+  try {
+    // that to_string just *cannot* be efficient... Alas...
+    auto frame = this->parent->data
+      .at("animations")
+      .at("running")
+      .at("keyframes")
+      .at(to_string(frame_index));
+
+    this->x = frame.at(0).get<int>();
+    this->y = frame.at(1).get<int>();
+    this->w = frame.at(2).get<int>();
+    this->h = frame.at(3).get<int>();
+  } catch (const out_of_range &err) { }
+
   int total_frames = this->parent->data
     .at("animations")
     .at("running")

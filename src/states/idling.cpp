@@ -20,11 +20,15 @@ void IdlingState::setPosition() {
     this->w = frame.at(2).get<int>();
     this->h = frame.at(3).get<int>();
   } catch (const out_of_range &err) { }
+
+  int total_frames = this->parent->data
+    .at("animations")
+    .at("idling")
+    .at("total_frames").get<int>();
+  frame_index = (frame_index + 1) % total_frames;
 }
 
 void IdlingState::render() {
-
-  this->setPosition();
 
   SDL_Rect src = {
     this->x,
@@ -56,6 +60,8 @@ void IdlingState::render() {
 }
 
 BaseState* IdlingState::update() {
+  this->setPosition();
+
   // uint is necessary here simply to disambiguate
   // the constructor call
   this->parent->aabb = AABB(
@@ -66,12 +72,6 @@ BaseState* IdlingState::update() {
     this->parent->y + this->h,
     0
   );
-
-  int total_frames = this->parent->data
-    .at("animations")
-    .at("idling")
-    .at("total_frames").get<int>();
-  frame_index = (frame_index + 1) % total_frames;
 
   return NULL;
 }
