@@ -10,15 +10,15 @@ class FourTile : public Tile {
     FourTile(int setIndex, int tileIndex, int locationIndex)
       : Tile(setIndex, tileIndex, locationIndex) {}
 
-    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h) {
+    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h, int x, int y) {
       offset northwestOffset = this->northWestOffset();
       offset northeastOffset = this->northEastOffset();
       offset southeastOffset = this->southEastOffset();
       offset southwestOffset = this->southWestOffset();
-      this->renderPart(tileset, grid, renderer, w, h, offset(0, 0), northwestOffset);
-      this->renderPart(tileset, grid, renderer, w, h, offset(1, 0), northeastOffset);
-      this->renderPart(tileset, grid, renderer, w, h, offset(1, 1), southeastOffset);
-      this->renderPart(tileset, grid, renderer, w, h, offset(0, 1), southwestOffset);
+      this->renderPart(tileset, grid, renderer, w, h, offset(0, 0), northwestOffset, x, y);
+      this->renderPart(tileset, grid, renderer, w, h, offset(1, 0), northeastOffset, x, y);
+      this->renderPart(tileset, grid, renderer, w, h, offset(1, 1), southeastOffset, x, y);
+      this->renderPart(tileset, grid, renderer, w, h, offset(0, 1), southwestOffset, x, y);
     }
 
     void renderPart(
@@ -28,7 +28,9 @@ class FourTile : public Tile {
       int w,
       int h,
       offset mainOffset,
-      offset tileOffset
+      offset tileOffset,
+      int x,
+      int y
     ) {
 
       int width = w / 2;
@@ -42,8 +44,8 @@ class FourTile : public Tile {
       };
 
       SDL_Rect dst = {
-        (grid->getX(locationIndex) * w) + (width * mainOffset.x),
-        (grid->getY(locationIndex) * h) + (height * mainOffset.y),
+        (grid->getX(locationIndex) * w) + (width * mainOffset.x) + x,
+        (grid->getY(locationIndex) * h) + (height * mainOffset.y) + y,
         width,
         height
       };

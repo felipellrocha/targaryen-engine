@@ -30,6 +30,7 @@
 #include "game/components.h"
 #include "game/systems/render.h"
 #include "game/systems/input.h"
+#include "game/systems/camera.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -47,13 +48,16 @@ class Renderer {
     SDL_Renderer *ren = nullptr;
 
     bool running;
+    int compass = 0;
+    Grid grid;
+
+    int windowWidth = 1280;
+    int windowHeight = 680;
 
     Renderer(string levelFile);
     ~Renderer();
 
-    void render();
     void physics();
-    void update();
 
     bool isRunning() { return running; };
     void quit() { running = false; };

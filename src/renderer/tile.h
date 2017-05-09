@@ -16,7 +16,7 @@ class Tile {
     Tile(int setIndex, int tileIndex, int locationIndex)
       : setIndex(setIndex), tileIndex(tileIndex), locationIndex(locationIndex) {}
 
-    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h) {
+    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h, int x, int y) {
       SDL_Rect src = {
         (tileset->getX(this->tileIndex)) * w,
         (tileset->getY(this->tileIndex)) * h,
@@ -25,8 +25,8 @@ class Tile {
       };
 
       SDL_Rect dst = {
-        (grid->getX(locationIndex)) * w,
-        (grid->getY(locationIndex)) * h,
+        (grid->getX(locationIndex)) * w + x,
+        (grid->getY(locationIndex)) * h + y,
         w,
         h
       };

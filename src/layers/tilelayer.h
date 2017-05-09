@@ -17,9 +17,12 @@
 using json = nlohmann::json;
 using namespace std;
 
-class TileLayer : public Node {
+class TileLayer {
 
   protected:
+    SDL_Renderer *renderer;
+    vector<Tileset *> tilesets;
+
     int tile_w;
     int tile_h;
 
@@ -29,9 +32,7 @@ class TileLayer : public Node {
 
   public:
     TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json data, int layer);
-    void render() override;
-    void update() override;
-    void input(SDL_Event event) override;
+    void render(int x, int y);
 
     void renderSimpleTile(int index, Tileset *tileset, Tile *tile);
     int findSurroundings(Tile *t1, Grid *grid);

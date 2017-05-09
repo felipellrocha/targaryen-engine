@@ -23,9 +23,18 @@ class EntityManager {
     int lowestUnassignedEid = 0;
     vector<EID> entities;
     map<EID, map<CID, Component *>> components;
-    EID generateEid();
+    EID camera;
 
+    EID generateEid();
     Entity* createEntity();
+
+    EID getCamera() {
+      return this->camera;
+    }
+
+    void saveCamera(Entity *camera) {
+      this->camera = camera->eid;
+    }
 
     template<class ComponentClass> void addComponent(Entity *entity, Component *component) {
       this->components[entity->eid][ComponentClass::cid] = component;

@@ -8,10 +8,13 @@ using namespace std;
 
 class Grid {
   public:
-    int rows;
-    int columns;
+    int rows = 0;
+    int columns = 0;
+    int tile_w = 0;
+    int tile_h = 0;
 
     Grid(int rows, int columns) : rows(rows), columns(columns) {}
+    Grid() : Grid(0, 0) { };
 
     bool isInside(int x, int y) {
       return x >= 0 && x < this->columns && y >= 0 && y < this->rows;

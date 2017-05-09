@@ -33,7 +33,7 @@ TileLayer::TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json da
   }
 }
 
-void TileLayer::render() {
+void TileLayer::render(int x, int y) {
   for (int i = 0; i < this->tiles.size(); i++) {
     Tile *t = this->tiles[i];
 
@@ -45,16 +45,16 @@ void TileLayer::render() {
       string terrain = tileset->terrains[t->tileIndex];
       if (terrain == "4-tile") {
         FourTile *tile = static_cast<FourTile *>(t);
-        tile->render(tileset, this->grid, this->renderer, this->tile_w, this->tile_h);
+        tile->render(tileset, this->grid, this->renderer, this->tile_w, this->tile_h, -x, -y);
       }
       else {
         SixTile *tile = static_cast<SixTile *>(t);
-        tile->render(tileset, this->grid, this->renderer, this->tile_w, this->tile_h);
+        tile->render(tileset, this->grid, this->renderer, this->tile_w, this->tile_h, -x, -y);
       }
     }
     else {
       Tile *tile = t;
-      tile->render(tileset, this->grid, this->renderer, this->tile_w, this->tile_h);
+      tile->render(tileset, this->grid, this->renderer, this->tile_w, this->tile_h, -x, -y);
     }
   }
 }
@@ -133,10 +133,4 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   }
 
   return surrounding;
-}
-
-void TileLayer::input(SDL_Event event) {
-}
-
-void TileLayer::update() {
 }
