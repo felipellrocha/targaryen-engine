@@ -72,7 +72,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x, y - 1)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::NORTH;
+      surrounding += Compass::NORTH;
     }
   }
 
@@ -80,7 +80,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x + 1, y - 1)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::NORTHEAST;
+      surrounding += Compass::NORTHEAST;
     }
   }
 
@@ -88,7 +88,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x + 1, y)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::EAST;
+      surrounding += Compass::EAST;
     }
   }
 
@@ -96,7 +96,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x + 1, y + 1)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::SOUTHEAST;
+      surrounding += Compass::SOUTHEAST;
     }
   }
 
@@ -104,7 +104,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x, y + 1)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::SOUTH;
+      surrounding += Compass::SOUTH;
     }
   }
 
@@ -112,7 +112,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x - 1, y + 1)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::SOUTHWEST;
+      surrounding += Compass::SOUTHWEST;
     }
   }
 
@@ -120,7 +120,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x - 1, y)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::WEST;
+      surrounding += Compass::WEST;
     }
   }
 
@@ -128,7 +128,7 @@ int TileLayer::findSurroundings(Tile *t1, Grid *grid) {
   if (grid->isInside(x - 1, y - 1)) {
     t2 = this->tiles[index];
     if (t1->setIndex == t2->setIndex && t1->tileIndex == t2->tileIndex) {
-      surrounding += TileSurrounding::NORTHWEST;
+      surrounding += Compass::NORTHWEST;
     }
   }
 

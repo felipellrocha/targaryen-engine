@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include "sdl2image.h"
 #include <string>
-#include "renderer/surrounding.h"
+#include "renderer/compass.h"
 
 class Tile {
   public:

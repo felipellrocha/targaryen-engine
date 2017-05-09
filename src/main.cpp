@@ -3,15 +3,13 @@
 #endif
 
 #include <SDL2/SDL.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #include <iostream>
 
 #include "timer/timer.h"
 #include "renderer/renderer.h"
 #include "exceptions.h"
-#include "renderer/surrounding.h"
 #include "entity/entity.h"
-#include "game/components.h"
-#include "game/systems.h"
 
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
@@ -19,8 +17,32 @@ const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 LTimer fpsTimer;
 LTimer capTimer;
 int countedFrames = 0;
+TTF_Font * Sans;
+SDL_Surface * surfaceMessage;
+SDL_Texture * Message;
 
-void loop(Renderer &renderer, RenderSystem &rs) {
+void drawFPS(float fps, Renderer &renderer) {
+	stringstream ss;
+	ss << fixed << setprecision(2) << fps;
+
+	string fpsString = ss.str();
+
+  Sans = TTF_OpenFont("/Library/Fonts/Verdana.ttf", 14);
+
+  SDL_Color White = {255, 255, 255};
+	surfaceMessage = TTF_RenderText_Blended(Sans, fpsString.c_str(), White);
+
+	Message = SDL_CreateTextureFromSurface(renderer.ren, surfaceMessage);
+
+	SDL_Rect rect; //create a rect
+  SDL_QueryTexture(Message, NULL, NULL, &rect.w, &rect.h );
+	rect.x = 2;
+	rect.y = 2;
+
+	SDL_RenderCopy(renderer.ren, Message, NULL, &rect);
+}
+
+void loop(Renderer &renderer) {
   capTimer.start();
 
   float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
@@ -28,12 +50,14 @@ void loop(Renderer &renderer, RenderSystem &rs) {
 
   SDL_RenderClear(renderer.ren);
 
-  renderer.input();
-  renderer.physics();
-  renderer.update();
-  renderer.render();
+  //renderer.input();
+  //renderer.physics();
+  //renderer.update();
+  //renderer.render();
 
-  rs.update((double)countedFrames / fpsTimer.getTicks());
+  renderer.loop((double)countedFrames / fpsTimer.getTicks());
+
+  drawFPS(avgFPS, renderer);
 
   SDL_RenderPresent(renderer.ren);
 
@@ -64,26 +88,8 @@ int main() {
 
   Renderer game = Renderer("assets/game.targ");
 
-  EntityManager manager = EntityManager();
-
-  Entity* camera = manager.createEntity();
-  manager.addComponent<CameraComponent>(camera, new CameraComponent(0, 0));
-
-  Entity* player = manager.createEntity();
-  manager.addComponent<HealthComponent>(player, new HealthComponent(5, 5));
-  manager.addComponent<PositionComponent>(player, new PositionComponent(48 * 2, 48 * 2));
-  manager.addComponent<PositionComponent>(player, new PositionComponent(48 * 2, 48 * 2));
-  manager.addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, "character-1.png", game.ren));
-
-  Entity* player2 = manager.createEntity();
-  manager.addComponent<HealthComponent>(player2, new HealthComponent(5, 5));
-  manager.addComponent<PositionComponent>(player2, new PositionComponent(0, 0));
-  manager.addComponent<SpriteComponent>(player2, new SpriteComponent(0, 0, 48, 48, "character-2.png", game.ren));
-
-  RenderSystem renderSystem = RenderSystem(manager, game.ren);
-
   while (game.isRunning()) {
-    loop(game, renderSystem);
+    loop(game);
   }
 
   SDL_Quit();

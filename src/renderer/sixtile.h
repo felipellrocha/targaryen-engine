@@ -2,7 +2,7 @@
 #define SIXTILE_H
 
 #include <SDL2/SDL.h>
-#include "renderer/surrounding.h"
+#include "renderer/compass.h"
 #include "renderer/offset.h"
 
 class SixTile : public Tile {
@@ -52,68 +52,68 @@ class SixTile : public Tile {
     }
 
     offset southWestOffset() {
-      if (TileSurrounding::SOUTH & this->surrounding
-        && TileSurrounding::WEST & this->surrounding
-        && TileSurrounding::SOUTHWEST & this->surrounding)
+      if (Compass::SOUTH & this->surrounding
+        && Compass::WEST & this->surrounding
+        && Compass::SOUTHWEST & this->surrounding)
         return offset(1, 4);
-      if (TileSurrounding::SOUTH & this->surrounding
-        && TileSurrounding::WEST & this->surrounding)
+      if (Compass::SOUTH & this->surrounding
+        && Compass::WEST & this->surrounding)
         return offset(2, 1);
 
-      if (TileSurrounding::SOUTH & this->surrounding)
+      if (Compass::SOUTH & this->surrounding)
         return offset(0, 4);
-      if (TileSurrounding::WEST & this->surrounding)
+      if (Compass::WEST & this->surrounding)
         return offset(1, 5);
 
       return offset(0, 5);
     }
 
     offset southEastOffset() {
-      if (TileSurrounding::SOUTH & this->surrounding
-        && TileSurrounding::EAST & this->surrounding
-        && TileSurrounding::SOUTHEAST & this->surrounding)
+      if (Compass::SOUTH & this->surrounding
+        && Compass::EAST & this->surrounding
+        && Compass::SOUTHEAST & this->surrounding)
         return offset(2, 4);
-      if (TileSurrounding::SOUTH & this->surrounding
-        && TileSurrounding::EAST & this->surrounding)
+      if (Compass::SOUTH & this->surrounding
+        && Compass::EAST & this->surrounding)
         return offset(3, 1);
 
-      if (TileSurrounding::SOUTH & this->surrounding)
+      if (Compass::SOUTH & this->surrounding)
         return offset(3, 4);
-      if (TileSurrounding::EAST & this->surrounding)
+      if (Compass::EAST & this->surrounding)
         return offset(2, 5);
 
       return offset(3, 5);
     }
 
     offset northEastOffset() {
-      if (TileSurrounding::NORTH & this->surrounding
-        && TileSurrounding::EAST & this->surrounding
-        && TileSurrounding::NORTHEAST & this->surrounding)
+      if (Compass::NORTH & this->surrounding
+        && Compass::EAST & this->surrounding
+        && Compass::NORTHEAST & this->surrounding)
         return offset(2, 3);
-      if (TileSurrounding::NORTH & this->surrounding
-        && TileSurrounding::EAST & this->surrounding)
+      if (Compass::NORTH & this->surrounding
+        && Compass::EAST & this->surrounding)
         return offset(3, 0);
 
-      if (TileSurrounding::NORTH & this->surrounding)
+      if (Compass::NORTH & this->surrounding)
         return offset(3, 3);
-      if (TileSurrounding::EAST & this->surrounding)
+      if (Compass::EAST & this->surrounding)
         return offset(2, 2);
 
       return offset(3, 2);
     }
 
     offset northWestOffset() {
-      if (TileSurrounding::NORTH & this->surrounding
-        && TileSurrounding::WEST & this->surrounding
-        && TileSurrounding::NORTHWEST & this->surrounding)
+      if (Compass::NORTH & this->surrounding
+        && Compass::WEST & this->surrounding
+        && Compass::NORTHWEST & this->surrounding)
         return offset(1, 3);
-      if (TileSurrounding::NORTH & this->surrounding
-        && TileSurrounding::WEST & this->surrounding)
+      if (Compass::NORTH & this->surrounding
+        && Compass::WEST & this->surrounding)
         return offset(2, 0);
 
-      if (TileSurrounding::NORTH & this->surrounding)
+      if (Compass::NORTH & this->surrounding)
         return offset(0, 3);
-      if (TileSurrounding::WEST & this->surrounding)
+      if (Compass::WEST & this->surrounding)
         return offset(1, 2);
 
       return offset(0, 2);

@@ -12,7 +12,7 @@
 #include "renderer/tile.h"
 #include "renderer/sixtile.h"
 #include "renderer/fourtile.h"
-#include "renderer/surrounding.h"
+#include "renderer/compass.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -22,9 +22,6 @@ class TileLayer : public Node {
   protected:
     int tile_w;
     int tile_h;
-
-    int tile_count_w;
-    int tile_count_h;
 
     Grid *grid;
 

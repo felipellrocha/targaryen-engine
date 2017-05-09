@@ -1,7 +1,5 @@
 #include "entity.h"
 
-CID Component::cid = 0;
-
 EID EntityManager::generateEid() {
   return lowestUnassignedEid++;
 }

@@ -1,5 +1,12 @@
 #include "renderer.h"
 
+void Renderer::registerSystem(System *system) {
+  this->systems.push_back(system);
+}
+
+void Renderer::loop(float dt) {
+  for (int i = 0; i < this->systems.size(); i++) this->systems[i]->update(dt);
+}
 
 Renderer::Renderer(string levelFile) {
   this->running = true;
@@ -42,7 +49,58 @@ Renderer::Renderer(string levelFile) {
     throw renderer_error();
   }
 
+  //Initialize SDL_ttf
+  if(TTF_Init() == -1) {
+    printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+    SDL_Quit();
+    throw renderer_error();
+  }
+
+
   json level_data = readFile(levelFile.c_str());
+
+  EntityManager manager = EntityManager();
+
+  Entity* camera = manager.createEntity();
+  manager.addComponent<CameraComponent>(camera, new CameraComponent(0, 0));
+
+  // TODO: Move this out of here
+  string source = "assets/character-1.png";
+  SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
+  cout << ": Loading texture: " << source << endl;
+
+  if (texture == nullptr){
+    cout << "LoadTexture Error: " << SDL_GetError() << endl;
+    IMG_Quit();
+    SDL_Quit();
+    throw;
+  }
+  // TODO: Move this out of here
+  Entity* player = manager.createEntity();
+  manager.addComponent<HealthComponent>(player, new HealthComponent(5, 5));
+  manager.addComponent<MovementComponent>(player, new MovementComponent(2, 2));
+  manager.addComponent<PositionComponent>(player, new PositionComponent(48 * 2, 48 * 2));
+  manager.addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
+
+  // TODO: Move this out of here
+  source = "assets/character-2.png";
+  texture = IMG_LoadTexture(this->ren, source.c_str());
+  cout << ": Loading texture: " << source << endl;
+
+  if (texture == nullptr){
+    cout << "LoadTexture Error: " << SDL_GetError() << endl;
+    IMG_Quit();
+    SDL_Quit();
+    throw;
+  }
+  Entity* player2 = manager.createEntity();
+  manager.addComponent<HealthComponent>(player2, new HealthComponent(5, 5));
+  manager.addComponent<PositionComponent>(player2, new PositionComponent(48, 0));
+  manager.addComponent<SpriteComponent>(player2, new SpriteComponent(0, 0, 48, 48, texture));
+
+  this->registerSystem(new InputSystem(manager, this));
+  this->registerSystem(new RenderSystem(manager, this));
+
 
   auto tileset_data = level_data.at("tilesets");
   for (uint i = 0; i < tileset_data.size(); i++) {
@@ -71,6 +129,7 @@ Renderer::Renderer(string levelFile) {
       throw renderer_error();
     }
 
+    Entity* tileLayer = manager.createEntity();
     Tileset *t = new Tileset(rows, columns, type, texture, terrains);
 
     this->tilesets.push_back(t);
@@ -118,14 +177,6 @@ Renderer::Renderer(string levelFile) {
           this->world.push_back(node);
         }
       }
-  */
-
-  /*
-  // Same as this
-  json character_data = readFile("assets/jean.json");
-
-  shared_ptr<CharacterLayer> character = make_shared<CharacterLayer>(this->ren, character_data);
-
   this->nodes.push_back(character);
   this->world.push_back(character);
 
@@ -133,6 +184,7 @@ Renderer::Renderer(string levelFile) {
 
   for (uint i = 0; i < world.size(); i++) tree.insertObject(world[i]);
   */
+
 };
 
 Renderer::~Renderer() {
@@ -180,26 +232,3 @@ void Renderer::physics() {
     });
   };
 }
-
-void Renderer::input() {
-  SDL_Event event;
-  while (SDL_PollEvent(&event)) {
-    if (event.type == SDL_QUIT) {
-      this->quit();
-    }
-
-    switch(event.type){
-      case SDL_KEYDOWN:
-				for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->input(event);
-        break;
-
-      case SDL_KEYUP:
-				for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->input(event);
-        break;
-
-      default:
-        break;
-    }
-  }
-}
-
