@@ -14,6 +14,7 @@
 #include "json/readjson.h"
 
 #include "node.h"
+#include "tileset.h"
 #include "layers/imagelayer.h"
 #include "layers/tilelayer.h"
 #include "layers/characterlayer.h"
@@ -28,14 +29,15 @@ using namespace std;
 class Renderer {
 
   protected:
-    SDL_Window *win = nullptr;
-    SDL_Renderer *ren = nullptr;
-
+    vector<Tileset *> tilesets;
     vector<shared_ptr<Node>> nodes;
     vector<shared_ptr<IAABB>> world;
     AABBTree tree = AABBTree(1);
 
   public:
+    SDL_Window *win = nullptr;
+    SDL_Renderer *ren = nullptr;
+
     bool running;
 
     Renderer(string levelFile);

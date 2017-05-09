@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <memory>
 #include "physics/AABBTree.h"
+#include "renderer/tileset.h"
 
 using namespace std;
 
@@ -11,6 +12,8 @@ class Node {
   public:
     SDL_Texture *texture = nullptr;
     SDL_Renderer *renderer = nullptr;
+
+    vector<Tileset *> tilesets;
 
     vector<shared_ptr<Node>> collisions;
 

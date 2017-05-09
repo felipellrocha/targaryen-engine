@@ -14,7 +14,7 @@ Renderer::Renderer(string levelFile) {
   this->win = SDL_CreateWindow(
     "Game",
     0, 0,
-    600, 480,
+    1200, 680,
     SDL_WINDOW_SHOWN
   );
   if (this->win == nullptr) {
@@ -44,12 +44,48 @@ Renderer::Renderer(string levelFile) {
 
   json level_data = readFile(levelFile.c_str());
 
+  auto tileset_data = level_data.at("tilesets");
+  for (uint i = 0; i < tileset_data.size(); i++) {
+    auto tileset = tileset_data.at(i);
+
+    int rows = tileset.at("rows").get<int>();
+    int columns = tileset.at("columns").get<int>();
+    string type = tileset.at("type").get<string>();
+    string src = "assets/" + tileset.at("src").get<string>();
+    auto tr = tileset.at("terrains");
+    map<int, string> terrains;
+
+    for (auto& element : json::iterator_wrapper(tr)) {
+      int key = stoi(element.key());
+      string value = element.value().at("type").get<string>();
+      terrains[key] = value;
+    }
+
+    cout << ": Loading texture: " << src << ", " << type << endl;
+
+    SDL_Texture *texture = IMG_LoadTexture(this->ren, src.c_str());
+    if (texture == nullptr){
+      std::cout << "LoadTexture Error: " << SDL_GetError() << std::endl;
+      IMG_Quit();
+      SDL_Quit();
+      throw renderer_error();
+    }
+
+    Tileset *t = new Tileset(rows, columns, type, texture, terrains);
+
+    this->tilesets.push_back(t);
+  }
+
   for (uint i = 0; i < level_data.at("layers").size(); i++) {
     auto element = level_data.at("layers").at(i);
-    string type = element
-      .at("type")
-      .get<string>();
+    string type = element.at("type").get<string>();
 
+    if (type == "tile") {
+      shared_ptr<TileLayer> layer = make_shared<TileLayer>(this->ren, this->tilesets, level_data, i);
+      this->nodes.push_back(layer);
+    }
+  }
+  /*
     if (type == "imagelayer") {
       shared_ptr<ImageLayer> layer = make_shared<ImageLayer>(this->ren, level_data, i);
       this->nodes.push_back(layer);
@@ -65,36 +101,26 @@ Renderer::Renderer(string levelFile) {
         this->world.push_back(layer);
       }
     }
-    if (type == "tilelayer") {
-      type = element
-        .at("properties")
-        .at("layerType")
-        .get<string>();
+    }
+    if (type == "itemsLayer") {
+      auto tiles = level_data.at("layers").at(i).at("data").get<vector<int>>();
+      for (uint j = 0; j < tiles.size(); j++) {
+        if (tiles[j] > 0) {
+          shared_ptr<ItemLayer> node = make_shared<ItemLayer>(
+            this->ren,
+            level_data,
+            j,
+            tiles[j],
+            i
+          );
 
-      if (type == "itemsLayer") {
-        auto tiles = level_data.at("layers").at(i).at("data").get<vector<int>>();
-        for (uint j = 0; j < tiles.size(); j++) {
-          if (tiles[j] > 0) {
-            shared_ptr<ItemLayer> node = make_shared<ItemLayer>(
-              this->ren,
-              level_data,
-              j,
-              tiles[j],
-              i
-            );
-
-            this->nodes.push_back(node);
-            this->world.push_back(node);
-          }
+          this->nodes.push_back(node);
+          this->world.push_back(node);
         }
       }
-      else {
-        shared_ptr<TileLayer> layer = make_shared<TileLayer>(this->ren, level_data, i);
-        this->nodes.push_back(layer);
-      }
-    }
-  }
+  */
 
+  /*
   // Same as this
   json character_data = readFile("assets/jean.json");
 
@@ -106,6 +132,7 @@ Renderer::Renderer(string levelFile) {
   tree = AABBTree(world.size());
 
   for (uint i = 0; i < world.size(); i++) tree.insertObject(world[i]);
+  */
 };
 
 Renderer::~Renderer() {
@@ -114,11 +141,9 @@ Renderer::~Renderer() {
 }
 
 void Renderer::render() {
-
-  SDL_RenderClear(this->ren);
-
   for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->render();
-
+}
+/*
 #ifdef DRAW_AABB
   for (uint i = 0; i < world.size(); i++) {
     auto node = world[i]->getAABB();
@@ -133,8 +158,7 @@ void Renderer::render() {
   }
 #endif
 
-  SDL_RenderPresent(this->ren);
-}
+*/
 
 void Renderer::update() {
   for (uint i = 0; i < this->nodes.size(); i++) this->nodes[i]->update();
