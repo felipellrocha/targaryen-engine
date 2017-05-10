@@ -8,7 +8,6 @@
 #include <array>
 #include "json/json.h"
 #include "exceptions.h"
-#include "renderer/node.h"
 #include "renderer/tile.h"
 #include "renderer/sixtile.h"
 #include "renderer/fourtile.h"

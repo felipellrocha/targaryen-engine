@@ -244,22 +244,6 @@ void Renderer::loop(float dt) {
   for (int i = 0; i < this->systems.size(); i++) this->systems[i]->update(dt);
 }
 
-void Renderer::physics() {
-  for (uint i = 0; i < world.size(); i++) tree.updateObject(world[i]);
-
-  for (uint i = 0; i < world.size(); i++) {
-    auto aabb = world[i];
-    auto node = dynamic_pointer_cast<Node>(aabb);
-
-    node->collisions.clear();
-
-    auto aabbCollisions = tree.queryOverlaps(aabb);
-
-    for_each(aabbCollisions.begin(), aabbCollisions.end(), [node](const shared_ptr<IAABB>& collidesWith) {
-      node->collisions.push_back(dynamic_pointer_cast<Node>(collidesWith));
-    });
-  };
-}
 Renderer::~Renderer() {
   SDL_DestroyRenderer(this->ren);
   SDL_DestroyWindow(this->win);

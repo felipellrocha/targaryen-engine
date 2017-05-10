@@ -5,6 +5,7 @@
 #include "sdl2image.h"
 #include <string>
 #include "renderer/compass.h"
+#include "renderer/tileset.h"
 
 class Tile {
   public:

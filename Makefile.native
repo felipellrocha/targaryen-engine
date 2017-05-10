@@ -12,7 +12,7 @@ CXX_FLAGS = \
 	-std=c++11 \
 	-std=c++14 \
 	-Wall \
-	-D DRAW_AABB \
+	-D DRAW_COLLISION \
 	-D NATIVE \
 	-pedantic \
 	-g

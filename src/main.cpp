@@ -50,11 +50,6 @@ void loop(Renderer &renderer) {
 
   SDL_RenderClear(renderer.ren);
 
-  //renderer.input();
-  //renderer.physics();
-  //renderer.update();
-  //renderer.render();
-
   renderer.loop((double)countedFrames / fpsTimer.getTicks());
 
   drawFPS(avgFPS, renderer);
