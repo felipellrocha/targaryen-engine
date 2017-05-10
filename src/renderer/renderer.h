@@ -31,6 +31,7 @@
 #include "game/systems/render.h"
 #include "game/systems/input.h"
 #include "game/systems/camera.h"
+#include "game/systems/collision.h"
 
 using json = nlohmann::json;
 using namespace std;

@@ -53,11 +53,8 @@ Renderer::Renderer(string levelFile) {
 
   this->grid.columns = level_data.at("grid").at("columns").get<int>();
   this->grid.rows = level_data.at("grid").at("rows").get<int>();
-  cout << "1" << endl;
   this->grid.tile_w = level_data.at("tile").at("width").get<int>();
-  cout << "2" << endl;
   this->grid.tile_h = level_data.at("tile").at("height").get<int>();
-  cout << "3" << endl;
 
   EntityManager manager = EntityManager();
 
@@ -102,8 +99,63 @@ Renderer::Renderer(string levelFile) {
   for (uint i = 0; i < level_data.at("layers").size(); i++) {
     auto element = level_data.at("layers").at(i);
     string type = element.at("type").get<string>();
+    // ugh. awful hack. will fix this shortly...
+    string name = element.at("name").get<string>();
 
-    if (type == "tile") {
+    //if (type == "tile") {
+    if (name == "action") {
+      // TODO: this all needs to be defined within the editor later
+      auto data = element.at("data");
+      for (int j = 0; j < data.size(); j++) {
+        auto node = data.at(j);
+        int setIndex = node.at(0).get<int>();
+        int tileIndex = node.at(1).get<int>();
+
+        if (setIndex < 0) continue;
+
+        // collision tile
+        if (tileIndex == 0) {
+          int x = this->grid.tile_w * this->grid.getX(j);
+          int y = this->grid.tile_h * this->grid.getY(j);
+          int w = this->grid.tile_w;
+          int h = this->grid.tile_h;
+          Entity* wall = manager.createEntity();
+          manager.addComponent<CollisionComponent>(wall, new CollisionComponent(true));
+          manager.addComponent<PositionComponent>(wall, new PositionComponent(x, y));
+          manager.addComponent<DimensionComponent>(wall, new DimensionComponent(w, h));
+        }
+        // character tile
+        if (tileIndex == 1) {
+          // TODO: Move this out of here
+          string source = "assets/character-1.png";
+          SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
+          cout << ": Loading texture: " << source << endl;
+
+          if (texture == nullptr){
+            cout << "LoadTexture Error: " << SDL_GetError() << endl;
+            IMG_Quit();
+            SDL_Quit();
+            throw;
+          }
+          // TODO: Move this out of here
+          int x = this->grid.tile_w * this->grid.getX(j);
+          int y = this->grid.tile_h * this->grid.getY(j);
+          int w = this->grid.tile_w;
+          int h = this->grid.tile_h;
+          Entity* player = manager.createEntity();
+          manager.addComponent<CollisionComponent>(player, new CollisionComponent());
+          manager.addComponent<HealthComponent>(player, new HealthComponent(5, 5));
+          manager.addComponent<MovementComponent>(player, new MovementComponent(4, 4));
+          manager.addComponent<PositionComponent>(player, new PositionComponent(x, y));
+          manager.addComponent<DimensionComponent>(player, new DimensionComponent(w, h));
+          manager.addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
+          manager.addComponent<RenderComponent>(player, new RenderComponent());
+
+          manager.addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
+        }
+      }
+    }
+    else {
       Entity* tile = manager.createEntity();
       auto layer = TileLayer(this->ren, this->tilesets, level_data, i);
       manager.addComponent<GridComponent>(tile, new GridComponent(layer));
@@ -111,70 +163,14 @@ Renderer::Renderer(string levelFile) {
     }
   }
   /*
-    if (type == "imagelayer") {
-      shared_ptr<ImageLayer> layer = make_shared<ImageLayer>(this->ren, level_data, i);
-      this->nodes.push_back(layer);
-    }
-    if (type == "objectgroup") {
-      auto objects = level_data.at("layers").at(i).at("objects");
-
-      for (uint i = 0; i < objects.size(); i++) {
-        auto object = objects.at(i);
-
-        shared_ptr<StaticCollisionLayer> layer = make_shared<StaticCollisionLayer>(this->ren, object);
-        this->nodes.push_back(layer);
-        this->world.push_back(layer);
-      }
-    }
-    }
-    if (type == "itemsLayer") {
-      auto tiles = level_data.at("layers").at(i).at("data").get<vector<int>>();
-      for (uint j = 0; j < tiles.size(); j++) {
-        if (tiles[j] > 0) {
-          shared_ptr<ItemLayer> node = make_shared<ItemLayer>(
-            this->ren,
-            level_data,
-            j,
-            tiles[j],
-            i
-          );
-
-          this->nodes.push_back(node);
-          this->world.push_back(node);
-        }
-      }
-  this->nodes.push_back(character);
-  this->world.push_back(character);
-
   tree = AABBTree(world.size());
 
   for (uint i = 0; i < world.size(); i++) tree.insertObject(world[i]);
   */
 
   // TODO: Move this out of here
-  string source = "assets/character-1.png";
+  string source = "assets/character-2.png";
   SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
-  cout << ": Loading texture: " << source << endl;
-
-  if (texture == nullptr){
-    cout << "LoadTexture Error: " << SDL_GetError() << endl;
-    IMG_Quit();
-    SDL_Quit();
-    throw;
-  }
-  // TODO: Move this out of here
-  Entity* player = manager.createEntity();
-  manager.addComponent<HealthComponent>(player, new HealthComponent(5, 5));
-  manager.addComponent<MovementComponent>(player, new MovementComponent(4, 4));
-  manager.addComponent<PositionComponent>(player, new PositionComponent(48 * 2, 48 * 2));
-  manager.addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
-  manager.addComponent<RenderComponent>(player, new RenderComponent());
-
-  manager.addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
-
-  // TODO: Move this out of here
-  source = "assets/character-2.png";
-  texture = IMG_LoadTexture(this->ren, source.c_str());
   cout << ": Loading texture: " << source << endl;
 
   if (texture == nullptr){
@@ -192,6 +188,7 @@ Renderer::Renderer(string levelFile) {
   this->registerSystem(new InputSystem(manager, this));
   this->registerSystem(new CameraSystem(manager, this));
   this->registerSystem(new RenderSystem(manager, this));
+  this->registerSystem(new CollisionSystem(manager, this));
 
 };
 
