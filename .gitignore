@@ -2,6 +2,7 @@ game@exe/
 build/*
 !build/index.html
 game
+!game/
 .DS_Store
 obj/*
 obj_native/*
