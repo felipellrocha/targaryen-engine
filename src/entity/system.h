@@ -8,10 +8,10 @@
 class Renderer;
 class System {
   public:
-    EntityManager manager;
+    EntityManager *manager;
     Renderer *game;
 
-    System(EntityManager _manager, Renderer *_game)
+    System(EntityManager *_manager, Renderer *_game)
       : manager(_manager), game(_game) {};
     virtual void update(float dt) =0;
 };

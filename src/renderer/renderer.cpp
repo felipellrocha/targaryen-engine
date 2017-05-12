@@ -58,12 +58,12 @@ Renderer::Renderer(string levelFile) {
   this->grid.tile_w = level_data.at("tile").at("width").get<int>();
   this->grid.tile_h = level_data.at("tile").at("height").get<int>();
 
-  EntityManager manager = EntityManager();
+  EntityManager *manager = new EntityManager();
 
-  Entity* camera = manager.createEntity();
-  manager.addComponent<DimensionComponent>(camera, new DimensionComponent(this->windowWidth, this->windowHeight));
-  manager.addComponent<PositionComponent>(camera, new PositionComponent(0, 0));
-  manager.saveCamera(camera);
+  Entity* camera = manager->createEntity();
+  manager->addComponent<DimensionComponent>(camera, new DimensionComponent(this->windowWidth, this->windowHeight));
+  manager->addComponent<PositionComponent>(camera, new PositionComponent(0, 0));
+  manager->saveCamera(camera);
 
 
   auto tileset_data = level_data.at("tilesets");
@@ -121,10 +121,10 @@ Renderer::Renderer(string levelFile) {
           int y = this->grid.tile_h * this->grid.getY(j);
           int w = this->grid.tile_w;
           int h = this->grid.tile_h;
-          Entity* wall = manager.createEntity();
-          manager.addComponent<CollisionComponent>(wall, new CollisionComponent(true));
-          manager.addComponent<PositionComponent>(wall, new PositionComponent(x, y));
-          manager.addComponent<DimensionComponent>(wall, new DimensionComponent(w, h));
+          Entity* wall = manager->createEntity();
+          manager->addComponent<CollisionComponent>(wall, new CollisionComponent(true));
+          manager->addComponent<PositionComponent>(wall, new PositionComponent(x, y));
+          manager->addComponent<DimensionComponent>(wall, new DimensionComponent(w, h));
         }
         // character tile
         if (tileIndex == 1) {
@@ -144,24 +144,24 @@ Renderer::Renderer(string levelFile) {
           int y = this->grid.tile_h * this->grid.getY(j);
           int w = this->grid.tile_w;
           int h = this->grid.tile_h;
-          Entity* player = manager.createEntity();
-          manager.addComponent<CollisionComponent>(player, new CollisionComponent());
-          manager.addComponent<HealthComponent>(player, new HealthComponent(5, 5));
-          manager.addComponent<MovementComponent>(player, new MovementComponent(4, 4));
-          manager.addComponent<PositionComponent>(player, new PositionComponent(x, y));
-          manager.addComponent<DimensionComponent>(player, new DimensionComponent(w, h));
-          manager.addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
-          manager.addComponent<RenderComponent>(player, new RenderComponent());
+          Entity* player = manager->createEntity();
+          manager->addComponent<CollisionComponent>(player, new CollisionComponent());
+          manager->addComponent<HealthComponent>(player, new HealthComponent(5, 5));
+          manager->addComponent<MovementComponent>(player, new MovementComponent(4, 4));
+          manager->addComponent<PositionComponent>(player, new PositionComponent(x, y));
+          manager->addComponent<DimensionComponent>(player, new DimensionComponent(w, h));
+          manager->addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
+          manager->addComponent<RenderComponent>(player, new RenderComponent());
 
-          manager.addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
+          manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
         }
       }
     }
     else {
-      Entity* tile = manager.createEntity();
+      Entity* tile = manager->createEntity();
       auto layer = TileLayer(this->ren, this->tilesets, level_data, i);
-      manager.addComponent<GridComponent>(tile, new GridComponent(layer));
-      manager.addComponent<RenderComponent>(tile, new RenderComponent());
+      manager->addComponent<GridComponent>(tile, new GridComponent(layer));
+      manager->addComponent<RenderComponent>(tile, new RenderComponent());
     }
   }
   /*
@@ -181,13 +181,28 @@ Renderer::Renderer(string levelFile) {
     SDL_Quit();
     throw;
   }
-  Entity* player2 = manager.createEntity();
-  manager.addComponent<HealthComponent>(player2, new HealthComponent(5, 5));
-  manager.addComponent<PositionComponent>(player2, new PositionComponent(48, 0));
-  manager.addComponent<SpriteComponent>(player2, new SpriteComponent(0, 0, 48, 48, texture));
-  manager.addComponent<RenderComponent>(player2, new RenderComponent());
+  Entity* player2 = manager->createEntity();
+  manager->addComponent<HealthComponent>(player2, new HealthComponent(5, 5));
+  manager->addComponent<PositionComponent>(player2, new PositionComponent(48, 0));
+  manager->addComponent<SpriteComponent>(player2, new SpriteComponent(0, 0, 48, 48, texture));
+  manager->addComponent<RenderComponent>(player2, new RenderComponent());
+
+  // TODO: Move this out of here
+  source = "assets/flame.png";
+  texture = IMG_LoadTexture(this->ren, source.c_str());
+  cout << ": Loading texture: " << source << endl;
+
+  if (texture == nullptr){
+    cout << "LoadTexture Error: " << SDL_GetError() << endl;
+    IMG_Quit();
+    SDL_Quit();
+    throw;
+  }
+  // TODO: Move this out of here
+  this->textures["flame"] = texture;
 
   this->registerSystem(new InputSystem(manager, this));
+  this->registerSystem(new ProjectileSystem(manager, this));
   this->registerSystem(new CameraSystem(manager, this));
   this->registerSystem(new RenderSystem(manager, this));
   this->registerSystem(new CollisionSystem(manager, this));
@@ -222,6 +237,9 @@ void Renderer::loop(float dt) {
         case SDLK_LEFT:
           if (!(Compass::WEST & compass)) compass += Compass::WEST;
         break;
+        case SDLK_SPACE:
+          if (!(Actions::MAIN & actions)) actions += Actions::MAIN;
+        break;
       }
     }
     if (event.type == SDL_KEYUP) {
@@ -238,6 +256,9 @@ void Renderer::loop(float dt) {
         break;
         case SDLK_LEFT:
           if (Compass::WEST & compass) compass -= Compass::WEST;
+        break;
+        case SDLK_SPACE:
+          if (Actions::MAIN & actions) actions -= Actions::MAIN;
         break;
       }
     }

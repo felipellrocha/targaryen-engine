@@ -18,7 +18,7 @@ class CameraSystem : public System {
   public:
     void update(float dt);
 
-    CameraSystem(EntityManager _manager, Renderer *_game) :
+    CameraSystem(EntityManager *_manager, Renderer *_game) :
       System(_manager, _game) { };
 };
 

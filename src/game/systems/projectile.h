@@ -1,5 +1,5 @@
-#ifndef SYSTEMINPUT_H
-#define SYSTEMINPUT_H
+#ifndef SYSTEMPROJECTILE_H
+#define SYSTEMPROJECTILE_H
 
 #include <SDL2/SDL.h>
 
@@ -11,11 +11,13 @@
 #include "entity/entity.h"
 #include "entity/system.h"
 
-class InputSystem : public System {
+class ProjectileSystem : public System {
   public:
+    float timing = 2.f;
+
     void update(float dt);
 
-    InputSystem(EntityManager *_manager, Renderer *_game) :
+    ProjectileSystem(EntityManager *_manager, Renderer *_game) :
       System(_manager, _game) { };
 };
 

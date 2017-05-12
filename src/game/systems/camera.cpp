@@ -1,14 +1,14 @@
 #include "camera.h"
 
 void CameraSystem::update(float dt) {
-  vector<EID> entities = manager.getAllEntitiesWithComponent<CenteredCameraComponent>(); 
+  vector<EID> entities = manager->getAllEntitiesWithComponent<CenteredCameraComponent>(); 
   for (int i = 0; i < entities.size(); i++) {
     EID entity = entities[i];
-    auto camera = manager.getComponent<CenteredCameraComponent>(entity);
-    auto position = manager.getComponent<PositionComponent>(entity);
-    auto dimension = manager.getComponent<DimensionComponent>(entity);
+    auto camera = manager->getComponent<CenteredCameraComponent>(entity);
+    auto position = manager->getComponent<PositionComponent>(entity);
+    auto dimension = manager->getComponent<DimensionComponent>(entity);
 
-    auto center = manager.getComponent<PositionComponent>(camera->entity);
+    auto center = manager->getComponent<PositionComponent>(camera->entity);
 
     position->x = max(center->x - dimension->w / 2, 0);
     position->y = max(center->y - dimension->h / 2, 0);

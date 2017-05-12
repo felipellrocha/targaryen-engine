@@ -16,7 +16,7 @@ class CollisionSystem : public System {
   public:
     void update(float dt);
 
-    CollisionSystem(EntityManager _manager, Renderer *_game) :
+    CollisionSystem(EntityManager *_manager, Renderer *_game) :
       System(_manager, _game) { };
 };
 

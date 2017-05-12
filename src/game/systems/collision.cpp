@@ -4,24 +4,23 @@ bool overlap(int a0, int a1, int b0, int b1) {
   return a1 >= b0 && b1 >= a0;
 }
 void CollisionSystem::update(float dt) {
-  vector<EID> entities = manager.getAllEntitiesWithComponent<CollisionComponent>(); 
+  vector<EID> entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
   for (int i = 0; i < entities.size(); i++) {
     EID e1 = entities[i];
-    auto c1 = manager.getComponent<CollisionComponent>(e1);
-    auto p1 = manager.getComponent<PositionComponent>(e1);
-    auto d1 = manager.getComponent<DimensionComponent>(e1);
-    auto m1 = manager.getComponent<MovementComponent>(e1);
+    auto c1 = manager->getComponent<CollisionComponent>(e1);
+    auto p1 = manager->getComponent<PositionComponent>(e1);
+    auto d1 = manager->getComponent<DimensionComponent>(e1);
 
     if (c1->isStatic) continue;
 
 #ifdef DRAW_COLLISION
-    auto camera = manager.getComponent<PositionComponent>(manager.getCamera());
+    auto camera = manager->getComponent<PositionComponent>(manager->getCamera());
 		// Create a rectangle
 		SDL_Rect r;
 		r.x = p1->x - camera->x;
 		r.y = p1->y - camera->y;
-		r.w = 48;
-		r.h = 48;
+    r.w = d1->w;
+    r.h = d1->h;
 		 
 		SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
 		 
@@ -33,8 +32,8 @@ void CollisionSystem::update(float dt) {
 
 			if (e1 == e2) continue;
 
-      auto p2 = manager.getComponent<PositionComponent>(e2);
-      auto d2 = manager.getComponent<DimensionComponent>(e2);
+      auto p2 = manager->getComponent<PositionComponent>(e2);
+      auto d2 = manager->getComponent<DimensionComponent>(e2);
 
 #ifdef DRAW_COLLISION
 			// Create a rectangle
@@ -64,8 +63,8 @@ void CollisionSystem::update(float dt) {
 			SDL_Rect r;
 			r.x = p2->x - camera->x;
 			r.y = p2->y - camera->y;
-			r.w = 48;
-			r.h = 48;
+			r.w = d2->w;
+			r.h = d2->h;
 			 
 			SDL_SetRenderDrawColor( game->ren, 255, 255, 0, 0 );
 			 

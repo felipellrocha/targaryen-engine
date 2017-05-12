@@ -16,7 +16,7 @@ class RenderSystem : public System {
 
     void update(float dt);
 
-    RenderSystem(EntityManager _manager, Renderer *_game) :
+    RenderSystem(EntityManager *_manager, Renderer *_game) :
       System(_manager, _game) { };
 };
 

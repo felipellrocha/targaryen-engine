@@ -112,8 +112,10 @@ struct ProjectileComponent : public Component {
   static CID cid;
 
   int direction = 0;
+  int vec = 0;
 
-  ProjectileComponent(int _direction) : direction(_direction) { };
-}
+  ProjectileComponent(int _direction, int _vec)
+    : direction(_direction), vec(_vec) { };
+};
 
 #endif

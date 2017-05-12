@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include <vector>
+#include <map>
 #include <SDL2/SDL.h>
 #include "sdl2image.h"
 #include <string>
@@ -24,6 +25,7 @@
 #include "game/systems/input.h"
 #include "game/systems/camera.h"
 #include "game/systems/collision.h"
+#include "game/systems/projectile.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -38,10 +40,14 @@ class Renderer {
 
     bool running = true;
     int compass = 0;
+    int actions = 0;
+
     Grid grid;
 
     int windowWidth = 1280;
-    int windowHeight = 680;
+    int windowHeight = 600;
+
+    map<string, SDL_Texture*> textures;
 
     bool isRunning() { return running; };
     void quit() { running = false; };
