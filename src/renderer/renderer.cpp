@@ -41,12 +41,14 @@ Renderer::Renderer(string levelFile) {
     throw renderer_error();
   }
 
+#ifdef DRAW_FPS
   //Initialize SDL_ttf
   if(TTF_Init() == -1) {
     printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
     SDL_Quit();
     throw renderer_error();
   }
+#endif
 
 
   json level_data = readFile(levelFile.c_str());

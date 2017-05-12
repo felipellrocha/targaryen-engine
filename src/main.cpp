@@ -3,8 +3,11 @@
 #endif
 
 #include <SDL2/SDL.h>
-#include <SDL2_ttf/SDL_ttf.h>
 #include <iostream>
+
+#ifdef DRAW_FPS
+#include <SDL2_ttf/SDL_ttf.h>
+#endif
 
 #include "timer/timer.h"
 #include "renderer/renderer.h"
@@ -17,6 +20,8 @@ const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 LTimer fpsTimer;
 LTimer capTimer;
 int countedFrames = 0;
+
+#ifdef DRAW_FPS
 TTF_Font * Sans;
 SDL_Surface * surfaceMessage;
 SDL_Texture * Message;
@@ -41,6 +46,7 @@ void drawFPS(float fps, Renderer &renderer) {
 
 	SDL_RenderCopy(renderer.ren, Message, NULL, &rect);
 }
+#endif
 
 void loop(Renderer &renderer) {
   capTimer.start();
@@ -52,7 +58,9 @@ void loop(Renderer &renderer) {
 
   renderer.loop((double)countedFrames / fpsTimer.getTicks());
 
+#ifdef DRAW_FPS
   drawFPS(avgFPS, renderer);
+#endif
 
   SDL_RenderPresent(renderer.ren);
 

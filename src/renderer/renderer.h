@@ -1,10 +1,13 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#ifdef DRAW_FPS
+#include <SDL2_ttf/SDL_ttf.h>
+#endif
+
 #include <cstdlib>
 #include <vector>
 #include <SDL2/SDL.h>
-#include <SDL2_ttf/SDL_ttf.h>
 #include "sdl2image.h"
 #include <string>
 #include <memory>
