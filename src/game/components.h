@@ -29,7 +29,12 @@ struct PositionComponent : public Component {
   int nextX;
   int nextY;
 
-  PositionComponent(int _x, int _y) : x(_x), y(_y), nextX(_x), nextY(_y) {}
+  int direction = 0;
+
+  PositionComponent(int _x, int _y)
+    : x(_x), y(_y), nextX(_x), nextY(_y) { }
+  PositionComponent(int _x, int _y, int _direction)
+    : x(_x), y(_y), nextX(_x), nextY(_y), direction(_direction) { }
 };
 
 struct DimensionComponent : public Component {
@@ -111,11 +116,10 @@ struct CollisionComponent : public Component {
 struct ProjectileComponent : public Component {
   static CID cid;
 
-  int direction = 0;
   int vec = 0;
 
-  ProjectileComponent(int _direction, int _vec)
-    : direction(_direction), vec(_vec) { };
+  ProjectileComponent(int _vec)
+    : vec(_vec) { };
 };
 
 #endif

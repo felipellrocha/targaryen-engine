@@ -13,24 +13,12 @@ void CollisionSystem::update(float dt) {
 
     if (c1->isStatic) continue;
 
-#ifdef DRAW_COLLISION
     auto camera = manager->getComponent<PositionComponent>(manager->getCamera());
-		// Create a rectangle
-		SDL_Rect r;
-		r.x = p1->x - camera->x;
-		r.y = p1->y - camera->y;
-    r.w = d1->w;
-    r.h = d1->h;
-		 
-		SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
-		 
-		SDL_RenderDrawRect( game->ren, &r );
-#endif
 
     for (int j = 0; j < entities.size(); j++) {
       EID e2 = entities[j];
 
-			if (e1 == e2) continue;
+			//if (e1 == e2) continue;
 
       auto p2 = manager->getComponent<PositionComponent>(e2);
       auto d2 = manager->getComponent<DimensionComponent>(e2);
@@ -40,8 +28,8 @@ void CollisionSystem::update(float dt) {
 			SDL_Rect r;
 			r.x = p2->x - camera->x;
 			r.y = p2->y - camera->y;
-			r.w = 48;
-			r.h = 48;
+			r.w = d2->w;
+			r.h = d2->h;
 			 
 			SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
 			 
@@ -72,12 +60,12 @@ void CollisionSystem::update(float dt) {
 #endif
         if (v_distance > h_distance) {
           int offset = abs(v_distance - (d1->h / 2) - (d2->h / 2));
-          int direction = (Compass::NORTH & this->game->compass) ? 1 : -1;
+          int direction = (Compass::NORTH & p1->direction) ? 1 : -1;
           p1->nextY += direction * offset;
         }
         else if (h_distance > v_distance) {
           int offset = abs(h_distance - (d1->w / 2) - (d2->w / 2));
-          int direction = (Compass::EAST & this->game->compass) ? -1 : 1;
+          int direction = (Compass::EAST & p1->direction) ? -1 : 1;
           p1->nextX += direction * offset;
 
         }

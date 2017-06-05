@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-Renderer::Renderer(string levelFile) {
+Renderer::Renderer(string gamePackage) {
   this->running = true;
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -51,12 +51,20 @@ Renderer::Renderer(string levelFile) {
 #endif
 
 
-  json level_data = readFile(levelFile.c_str());
+  string gameFile = gamePackage + "/app.json";
+  cout << gameFile << endl;
+  json game_data = readFile(gameFile.c_str());
 
-  this->grid.columns = level_data.at("grid").at("columns").get<int>();
-  this->grid.rows = level_data.at("grid").at("rows").get<int>();
-  this->grid.tile_w = level_data.at("tile").at("width").get<int>();
-  this->grid.tile_h = level_data.at("tile").at("height").get<int>();
+  int mapIndex = game_data.at("initialMap").get<int>();
+  auto currentMap = game_data.at("maps").at(mapIndex);
+  string mapFile = gamePackage + "/maps/" + currentMap.at("id").get<string>() + ".json";
+
+  json map_data = readFile(mapFile.c_str());
+
+  this->grid.columns = map_data.at("grid").at("columns").get<int>();
+  this->grid.rows = map_data.at("grid").at("rows").get<int>();
+  this->grid.tile_w = game_data.at("tile").at("width").get<int>();
+  this->grid.tile_h = game_data.at("tile").at("height").get<int>();
 
   EntityManager *manager = new EntityManager();
 
@@ -65,8 +73,7 @@ Renderer::Renderer(string levelFile) {
   manager->addComponent<PositionComponent>(camera, new PositionComponent(0, 0));
   manager->saveCamera(camera);
 
-
-  auto tileset_data = level_data.at("tilesets");
+  auto tileset_data = game_data.at("tilesets");
   for (uint i = 0; i < tileset_data.size(); i++) {
     auto tileset = tileset_data.at(i);
 
@@ -98,13 +105,14 @@ Renderer::Renderer(string levelFile) {
     this->tilesets.push_back(t);
   }
 
-  for (uint i = 0; i < level_data.at("layers").size(); i++) {
-    auto element = level_data.at("layers").at(i);
+  for (uint i = 0; i < map_data.at("layers").size(); i++) {
+    auto element = map_data.at("layers").at(i);
     string type = element.at("type").get<string>();
     // ugh. awful hack. will fix this shortly...
     string name = element.at("name").get<string>();
 
     //if (type == "tile") {
+    /*
     if (name == "action") {
       // TODO: this all needs to be defined within the editor later
       auto data = element.at("data");
@@ -145,24 +153,27 @@ Renderer::Renderer(string levelFile) {
           int w = this->grid.tile_w;
           int h = this->grid.tile_h;
           Entity* player = manager->createEntity();
-          manager->addComponent<CollisionComponent>(player, new CollisionComponent());
           manager->addComponent<HealthComponent>(player, new HealthComponent(5, 5));
-          manager->addComponent<MovementComponent>(player, new MovementComponent(4, 4));
           manager->addComponent<PositionComponent>(player, new PositionComponent(x, y));
-          manager->addComponent<DimensionComponent>(player, new DimensionComponent(w, h));
           manager->addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
           manager->addComponent<RenderComponent>(player, new RenderComponent());
+          manager->addComponent<CollisionComponent>(player, new CollisionComponent());
+          manager->addComponent<MovementComponent>(player, new MovementComponent(4, 4));
+          manager->addComponent<DimensionComponent>(player, new DimensionComponent(w, h));
 
           manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
         }
       }
     }
     else {
+    */
       Entity* tile = manager->createEntity();
-      auto layer = TileLayer(this->ren, this->tilesets, level_data, i);
+      auto layer = TileLayer(this->ren, this->tilesets, game_data, map_data, i);
       manager->addComponent<GridComponent>(tile, new GridComponent(layer));
       manager->addComponent<RenderComponent>(tile, new RenderComponent());
+  /*
     }
+    */
   }
   /*
   tree = AABBTree(world.size());
@@ -181,12 +192,18 @@ Renderer::Renderer(string levelFile) {
     SDL_Quit();
     throw;
   }
-  Entity* player2 = manager->createEntity();
-  manager->addComponent<HealthComponent>(player2, new HealthComponent(5, 5));
-  manager->addComponent<PositionComponent>(player2, new PositionComponent(48, 0));
-  manager->addComponent<SpriteComponent>(player2, new SpriteComponent(0, 0, 48, 48, texture));
-  manager->addComponent<RenderComponent>(player2, new RenderComponent());
+  Entity* player = manager->createEntity();
+  manager->addComponent<HealthComponent>(player, new HealthComponent(5, 5));
+  manager->addComponent<PositionComponent>(player, new PositionComponent(48 * 2, 48 * 4));
+  manager->addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
+  manager->addComponent<RenderComponent>(player, new RenderComponent());
+  manager->addComponent<CollisionComponent>(player, new CollisionComponent());
+  manager->addComponent<MovementComponent>(player, new MovementComponent(4, 4));
+  manager->addComponent<DimensionComponent>(player, new DimensionComponent(48, 48));
 
+  manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
+
+  /*
   // TODO: Move this out of here
   source = "assets/flame.png";
   texture = IMG_LoadTexture(this->ren, source.c_str());
@@ -200,6 +217,7 @@ Renderer::Renderer(string levelFile) {
   }
   // TODO: Move this out of here
   this->textures["flame"] = texture;
+  */
 
   this->registerSystem(new InputSystem(manager, this));
   this->registerSystem(new ProjectileSystem(manager, this));

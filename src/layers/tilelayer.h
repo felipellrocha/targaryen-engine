@@ -30,7 +30,7 @@ class TileLayer {
     vector<Tile *> tiles;
 
   public:
-    TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json data, int layer);
+    TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer);
     void render(int x, int y);
 
     void renderSimpleTile(int index, Tileset *tileset, Tile *tile);

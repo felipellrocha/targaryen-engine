@@ -9,10 +9,10 @@
 #include <vector>
 #include <map>
 #include <SDL2/SDL.h>
-#include "sdl2image.h"
 #include <string>
 #include <memory>
 #include <utility>
+#include "sdl2image.h"
 #include "exceptions.h"
 #include "json/json.h"
 #include "json/readjson.h"

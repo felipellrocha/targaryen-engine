@@ -1,19 +1,19 @@
 #include "tilelayer.h"
 #include <typeinfo>
 
-TileLayer::TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json data, int layer) {
+TileLayer::TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer) {
 
   this->renderer = renderer;
   this->tilesets = tilesets;
 
-  this->tile_w = data.at("tile").at("width").get<int>();
-  this->tile_h = data.at("tile").at("height").get<int>();
+  this->tile_w = game_data.at("tile").at("width").get<int>();
+  this->tile_h = game_data.at("tile").at("height").get<int>();
 
-  int columns = data.at("grid").at("columns").get<int>();
-  int rows = data.at("grid").at("rows").get<int>();
+  int columns = map_data.at("grid").at("columns").get<int>();
+  int rows = map_data.at("grid").at("rows").get<int>();
   this->grid = new Grid(rows, columns);
 
-  auto tiles = data.at("layers").at(layer).at("data");
+  auto tiles = map_data.at("layers").at(layer).at("data");
   for (int locationIndex = 0; locationIndex < tiles.size(); locationIndex++) {
     auto t = tiles.at(locationIndex);
     int setIndex = t.at(0).get<int>();

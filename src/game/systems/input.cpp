@@ -7,10 +7,20 @@ void InputSystem::update(float dt) {
     auto movement = manager->getComponent<MovementComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
 
-    if (Compass::NORTH & this->game->compass) position->nextY -= movement->vecY; 
-    if (Compass::EAST & this->game->compass) position->nextX += movement->vecX; 
-    if (Compass::SOUTH & this->game->compass) position->nextY += movement->vecY; 
-    if (Compass::WEST & this->game->compass) position->nextX -= movement->vecX;
+    position->direction = this->game->compass;
+
+    if (Compass::NORTH & this->game->compass) {
+      position->nextY -= movement->vecY; 
+    }
+    if (Compass::EAST & this->game->compass) {
+      position->nextX += movement->vecX; 
+    }
+    if (Compass::SOUTH & this->game->compass) {
+      position->nextY += movement->vecY; 
+    }
+    if (Compass::WEST & this->game->compass) {
+      position->nextX -= movement->vecX;
+    }
   }
 };
 

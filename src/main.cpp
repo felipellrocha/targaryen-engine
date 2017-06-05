@@ -75,7 +75,7 @@ void loop(Renderer &renderer) {
 extern "C" int mainf() {
   fpsTimer.start();
 
-  Renderer *game = new Renderer("assets/game.targ");
+  Renderer *game = new Renderer("assets/rpg.targ");
 
   emscripten_set_main_loop_arg((em_arg_callback_func)loop, game, -1, 1);
 
@@ -89,7 +89,7 @@ extern "C" int mainf() {
 int main() {
   fpsTimer.start();
 
-  Renderer game = Renderer("assets/game.targ");
+  Renderer game = Renderer("assets/rpg.targ");
 
   while (game.isRunning()) {
     loop(game);
