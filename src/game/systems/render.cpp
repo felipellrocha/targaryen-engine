@@ -4,6 +4,7 @@ void RenderSystem::update(float dt) {
   auto entities = manager->getAllEntitiesWithComponent<RenderComponent>(); 
   for (int i = 0; i < entities.size(); i++) {
     EID entity = entities[i];
+
     auto sprite = manager->getComponent<SpriteComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto grid = manager->getComponent<GridComponent>(entity);
@@ -28,7 +29,5 @@ void RenderSystem::update(float dt) {
     else {
       grid->layer.render(camera->x, camera->y);
     }
-
   }
-
 };

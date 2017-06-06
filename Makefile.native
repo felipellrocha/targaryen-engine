@@ -13,8 +13,8 @@ CXX_FLAGS = \
 	-std=c++14 \
 	-Wall \
 	-D NATIVE \
-	-D DRAW_COLLISION \
 	-pedantic \
+	-D DRAW_COLLISION \
 	-g
 	#-Wextra \
 	#-Wshadow \

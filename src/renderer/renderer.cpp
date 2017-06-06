@@ -111,75 +111,54 @@ Renderer::Renderer(string gamePackage) {
     // ugh. awful hack. will fix this shortly...
     string name = element.at("name").get<string>();
 
-    //if (type == "tile") {
-    /*
+    cout << "Loading layer: " << name << endl;
+
     if (name == "action") {
-      // TODO: this all needs to be defined within the editor later
       auto data = element.at("data");
       for (int j = 0; j < data.size(); j++) {
         auto node = data.at(j);
         int setIndex = node.at(0).get<int>();
-        int tileIndex = node.at(1).get<int>();
 
-        if (setIndex < 0) continue;
+        // only continue if it's an entity
+        if (setIndex == -2) {
+          string entityId = node.at(1).get<string>();
+          auto entity_definition = game_data.at("entities").at(entityId);
+          auto components = entity_definition.at("components");
 
-        // collision tile
-        if (tileIndex == 0) {
+          string name = entity_definition.at("name");
+
           int x = this->grid.tile_w * this->grid.getX(j);
           int y = this->grid.tile_h * this->grid.getY(j);
           int w = this->grid.tile_w;
           int h = this->grid.tile_h;
-          Entity* wall = manager->createEntity();
-          manager->addComponent<CollisionComponent>(wall, new CollisionComponent(true));
-          manager->addComponent<PositionComponent>(wall, new PositionComponent(x, y));
-          manager->addComponent<DimensionComponent>(wall, new DimensionComponent(w, h));
-        }
-        // character tile
-        if (tileIndex == 1) {
-          // TODO: Move this out of here
-          string source = "assets/character-1.png";
-          SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
-          cout << ": Loading texture: " << source << endl;
 
-          if (texture == nullptr){
-            cout << "LoadTexture Error: " << SDL_GetError() << endl;
-            IMG_Quit();
-            SDL_Quit();
-            throw;
+          Entity* entity = manager->createEntity();
+          for (uint k = 0; k < components.size(); k++) {
+            auto component = components.at(k);
+            string name = component.at("name").get<string>();
+            cout << name << endl;
+
+            if (name == " CollisionComponent ") {
+              bool isStatic = (component.at("members").at(0).at("value").get<string>() == "true") ? true : false;
+              manager->addComponent<CollisionComponent>(entity, new CollisionComponent(isStatic));
+            }
+            if (name == " PositionComponent ") {
+              manager->addComponent<PositionComponent>(entity, new PositionComponent(x, y));
+            }
+            if (name == " DimensionComponent ") {
+              manager->addComponent<DimensionComponent>(entity, new DimensionComponent(w, h));
+            }
           }
-          // TODO: Move this out of here
-          int x = this->grid.tile_w * this->grid.getX(j);
-          int y = this->grid.tile_h * this->grid.getY(j);
-          int w = this->grid.tile_w;
-          int h = this->grid.tile_h;
-          Entity* player = manager->createEntity();
-          manager->addComponent<HealthComponent>(player, new HealthComponent(5, 5));
-          manager->addComponent<PositionComponent>(player, new PositionComponent(x, y));
-          manager->addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
-          manager->addComponent<RenderComponent>(player, new RenderComponent());
-          manager->addComponent<CollisionComponent>(player, new CollisionComponent());
-          manager->addComponent<MovementComponent>(player, new MovementComponent(4, 4));
-          manager->addComponent<DimensionComponent>(player, new DimensionComponent(w, h));
-
-          manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
         }
       }
     }
     else {
-    */
       Entity* tile = manager->createEntity();
       auto layer = TileLayer(this->ren, this->tilesets, game_data, map_data, i);
       manager->addComponent<GridComponent>(tile, new GridComponent(layer));
       manager->addComponent<RenderComponent>(tile, new RenderComponent());
-  /*
     }
-    */
   }
-  /*
-  tree = AABBTree(world.size());
-
-  for (uint i = 0; i < world.size(); i++) tree.insertObject(world[i]);
-  */
 
   // TODO: Move this out of here
   string source = "assets/character-2.png";
@@ -220,10 +199,10 @@ Renderer::Renderer(string gamePackage) {
   */
 
   this->registerSystem(new InputSystem(manager, this));
+  this->registerSystem(new CollisionSystem(manager, this));
   this->registerSystem(new ProjectileSystem(manager, this));
   this->registerSystem(new CameraSystem(manager, this));
   this->registerSystem(new RenderSystem(manager, this));
-  this->registerSystem(new CollisionSystem(manager, this));
 
 };
 

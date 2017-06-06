@@ -106,6 +106,7 @@ struct CollisionComponent : public Component {
   // Static colliders are things like walls, and such, that are never moving
   // keeping track of them allows us to run a small optimization until we need
   // some more heavy duty things to check for collision
+
   bool isStatic = false;
   bool isColliding = false;
 

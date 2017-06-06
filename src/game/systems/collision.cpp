@@ -18,23 +18,14 @@ void CollisionSystem::update(float dt) {
     for (int j = 0; j < entities.size(); j++) {
       EID e2 = entities[j];
 
-			//if (e1 == e2) continue;
-
       auto p2 = manager->getComponent<PositionComponent>(e2);
       auto d2 = manager->getComponent<DimensionComponent>(e2);
 
-#ifdef DRAW_COLLISION
-			// Create a rectangle
-			SDL_Rect r;
-			r.x = p2->x - camera->x;
-			r.y = p2->y - camera->y;
-			r.w = d2->w;
-			r.h = d2->h;
-			 
-			SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
-			 
-			SDL_RenderDrawRect( game->ren, &r );
-#endif
+			if (e1 == e2) {
+        p1->y = p1->nextY;
+        p1->x = p1->nextX;
+        continue;
+      }
 
       bool colliding = 
         overlap(p1->nextX, p1->nextX + d1->w, p2->nextX, p2->nextX + d2->w) &&
@@ -89,10 +80,7 @@ void CollisionSystem::update(float dt) {
 #endif
     }
   }
+#ifdef DRAW_COLLISION
+			SDL_SetRenderDrawColor( game->ren, 0, 0, 0, 0 );
+#endif
 };
-
-/*
-float sweep(p1, d1, v1, p2, d2, v2, float normalx, float normaly) {
-  
-}
-*/
