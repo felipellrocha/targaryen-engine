@@ -5,9 +5,18 @@ INC_DIR := src
 SRC_DIR := src
 OBJ_DIR := obj_native
 
+C := gcc
 CXX := g++
 LINKER := g++
 INC_DIRS := -I$(INC_DIR)
+C_FLAGS = \
+	-Wall \
+	-D NATIVE \
+	-pedantic \
+	-D DRAW_COLLISION \
+	-D DRAW_FPS \
+	-g
+
 CXX_FLAGS = \
 	-std=c++11 \
 	-std=c++14 \
@@ -15,24 +24,29 @@ CXX_FLAGS = \
 	-D NATIVE \
 	-pedantic \
 	-D DRAW_COLLISION \
+	-D DRAW_FPS \
 	-g
 	#-Wextra \
 	#-Wshadow \
+
+COMPILING_FLAGS = -pthread
 
 EXEC_FLAGS = 
 #LIBS := -lSDL2 -lSDL2_image
 #LIBS := -lSDL2 -lSDL2_image
 LIBS := -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/SDL2_image.framework/Headers -I /Library/Frameworks/SDL2_ttf.framework/Headers -framework SDL2 -framework SDL2_image -framework SDL2_ttf
 
-SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp')
-OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
-DEPFILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(SRC_FILES))
+SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp' -o -name '*.c')
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,   $(OBJ_DIR)/%.o, $(OBJ_FILES))
+DEPFILES := $(patsubst  $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.d, $(SRC_FILES))
+DEPFILES := $(patsubst  $(SRC_DIR)/%.c,   $(OBJ_DIR)/%.d, $(DEPFILES))
 
 $(OUT_FILE): $(OBJ_FILES)
 	$(LINKER) $(CXX_FLAGS) $(EXEC_FLAGS) $^ $(LIBS) -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)/* $(OUT_FILE)
+	rm -rf $(OBJ_DIR) $(OUT_FILE)
 
 list:
 	@echo "$(SRC_FILES)"
@@ -42,9 +56,13 @@ depends:
 	rm -rf $(OBJ_DIR)/*.d
 	$(MAKE) $(DEPFILES)
 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(C) $(C_FLAGS) $(COMPILING_FLAGS) $(INC_DIRS) -c $< -o $@
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
-	$(CXX) $(CXX_FLAGS) $(INC_DIRS) -c $< -o $@
+	$(CXX) $(CXX_FLAGS) $(COMPILING_FLAGS) $(INC_DIRS) -c $< -o $@
 
 $(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

@@ -1,1 +1,927 @@
-{"name":"RPG","tile":{"width":48,"height":48},"tilesets":[{"src":"fsm_Town01_A1.png","name":"fsm_Town01_A1.png","rows":12,"columns":16,"type":"aware","terrains":{"0":{"type":"6-tile"},"6":{"type":"6-tile"},"8":{"type":"6-tile"},"48":{"type":"6-tile"},"54":{"type":"6-tile"},"56":{"type":"6-tile"},"96":{"type":"6-tile"},"102":{"type":"6-tile"},"104":{"type":"6-tile"},"144":{"type":"6-tile"},"146":{"type":"6-tile"},"148":{"type":"6-tile"}}},{"src":"fsm_Town01_A2.png","name":"fsm_Town01_A2.png","rows":12,"columns":16,"type":"aware","terrains":{"0":{"type":"6-tile"},"2":{"type":"6-tile"},"4":{"type":"6-tile"},"6":{"type":"6-tile"},"8":{"type":"6-tile"},"10":{"type":"6-tile"},"12":{"type":"6-tile"},"14":{"type":"6-tile"},"48":{"type":"6-tile"},"50":{"type":"6-tile"},"52":{"type":"6-tile"},"54":{"type":"6-tile"},"56":{"type":"6-tile"},"58":{"type":"6-tile"},"60":{"type":"6-tile"},"62":{"type":"6-tile"},"96":{"type":"6-tile"},"98":{"type":"6-tile"},"100":{"type":"6-tile"},"102":{"type":"6-tile"},"104":{"type":"6-tile"},"106":{"type":"6-tile"},"108":{"type":"6-tile"},"110":{"type":"6-tile"},"144":{"type":"6-tile"},"146":{"type":"6-tile"},"148":{"type":"6-tile"},"150":{"type":"6-tile"},"152":{"type":"6-tile"},"154":{"type":"6-tile"},"156":{"type":"6-tile"},"158":{"type":"6-tile"}}},{"src":"fsm_Town01_A3.png","name":"fsm_Town01_A3.png","rows":8,"columns":16,"type":"aware","terrains":{"0":{"type":"4-tile"},"2":{"type":"4-tile"},"4":{"type":"4-tile"},"6":{"type":"4-tile"},"8":{"type":"4-tile"},"10":{"type":"4-tile"},"12":{"type":"4-tile"},"14":{"type":"4-tile"},"32":{"type":"4-tile"},"34":{"type":"4-tile"},"36":{"type":"4-tile"},"38":{"type":"4-tile"},"40":{"type":"4-tile"},"42":{"type":"4-tile"},"44":{"type":"4-tile"},"46":{"type":"4-tile"},"64":{"type":"4-tile"},"66":{"type":"4-tile"},"68":{"type":"4-tile"},"70":{"type":"4-tile"},"72":{"type":"4-tile"},"74":{"type":"4-tile"},"76":{"type":"4-tile"},"78":{"type":"4-tile"},"96":{"type":"4-tile"},"98":{"type":"4-tile"},"100":{"type":"4-tile"},"102":{"type":"4-tile"},"104":{"type":"4-tile"},"106":{"type":"4-tile"},"108":{"type":"4-tile"},"110":{"type":"4-tile"}}},{"src":"fsm_Town01_A4.png","name":"fsm_Town01_A4.png","rows":15,"columns":16,"type":"aware","terrains":{"0":{"type":"6-tile"},"2":{"type":"6-tile"},"4":{"type":"6-tile"},"6":{"type":"6-tile"},"8":{"type":"6-tile"},"10":{"type":"6-tile"},"12":{"type":"6-tile"},"14":{"type":"6-tile"},"48":{"type":"4-tile"},"50":{"type":"4-tile"},"52":{"type":"4-tile"},"54":{"type":"4-tile"},"56":{"type":"4-tile"},"58":{"type":"4-tile"},"60":{"type":"4-tile"},"62":{"type":"4-tile"}}},{"src":"fsm_Town01_A5.png","name":"fsm_Town01_A5.png","rows":16,"columns":8,"type":"tile","terrains":{}},{"src":"fsm_Town01_B.png","name":"fsm_Town01_B.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Town01_C.png","name":"fsm_Town01_C.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Town01_D.png","name":"fsm_Town01_D.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Town01_E.png","name":"fsm_Town01_E.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"!$fsm_Gate03a.png","name":"!$fsm_Gate03a.png","rows":8,"columns":9,"type":"tile","terrains":{}},{"src":"!fsm_Door04.png","name":"!fsm_Door04.png","rows":16,"columns":12,"type":"tile","terrains":{}},{"src":"actions.png","name":"actions.png","rows":1,"columns":3,"type":"tile","terrains":{}},{"src":"fsm_Inside01_A1.png","name":"fsm_Inside01_A1.png","rows":12,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Inside01_A2.png","name":"fsm_Inside01_A2.png","rows":12,"columns":16,"type":"aware","terrains":{"0":{"type":"6-tile"},"2":{"type":"6-tile"},"4":{"type":"6-tile"},"6":{"type":"6-tile"},"8":{"type":"6-tile"},"10":{"type":"6-tile"},"12":{"type":"6-tile"},"14":{"type":"6-tile"},"48":{"type":"6-tile"},"50":{"type":"6-tile"},"52":{"type":"6-tile"},"54":{"type":"6-tile"},"56":{"type":"6-tile"},"58":{"type":"6-tile"},"60":{"type":"6-tile"},"62":{"type":"6-tile"},"96":{"type":"6-tile"},"98":{"type":"6-tile"},"100":{"type":"6-tile"},"102":{"type":"6-tile"},"104":{"type":"6-tile"},"106":{"type":"6-tile"},"108":{"type":"6-tile"},"110":{"type":"6-tile"},"144":{"type":"6-tile"},"146":{"type":"6-tile"},"148":{"type":"6-tile"},"150":{"type":"6-tile"},"152":{"type":"6-tile"},"154":{"type":"6-tile"},"156":{"type":"6-tile"},"158":{"type":"6-tile"}}},{"src":"fsm_Inside01_A4.png","name":"fsm_Inside01_A4.png","rows":15,"columns":16,"type":"aware","terrains":{"0":{"type":"6-tile"},"2":{"type":"6-tile"},"4":{"type":"6-tile"},"6":{"type":"6-tile"},"8":{"type":"6-tile"},"10":{"type":"6-tile"},"12":{"type":"6-tile"},"14":{"type":"6-tile"},"48":{"type":"4-tile"},"50":{"type":"4-tile"},"52":{"type":"4-tile"},"54":{"type":"4-tile"},"56":{"type":"4-tile"},"58":{"type":"4-tile"},"60":{"type":"4-tile"},"62":{"type":"4-tile"},"80":{"type":"6-tile"},"82":{"type":"6-tile"},"84":{"type":"6-tile"},"86":{"type":"6-tile"},"88":{"type":"6-tile"},"90":{"type":"6-tile"},"92":{"type":"6-tile"},"94":{"type":"6-tile"},"128":{"type":"4-tile"},"130":{"type":"4-tile"},"132":{"type":"4-tile"},"134":{"type":"4-tile"},"136":{"type":"4-tile"},"138":{"type":"4-tile"},"140":{"type":"4-tile"},"142":{"type":"4-tile"},"208":{"type":"4-tile"},"210":{"type":"4-tile"},"212":{"type":"4-tile"},"214":{"type":"4-tile"},"216":{"type":"4-tile"},"218":{"type":"4-tile"},"220":{"type":"4-tile"},"222":{"type":"4-tile"}}},{"src":"fsm_Inside01_A5.png","name":"fsm_Inside01_A5.png","rows":16,"columns":8,"type":"tile","terrains":{}},{"src":"fsm_Inside01_B.png","name":"fsm_Inside01_B.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Inside01_C.png","name":"fsm_Inside01_C.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Inside01_D.png","name":"fsm_Inside01_D.png","rows":16,"columns":16,"type":"tile","terrains":{}},{"src":"fsm_Inside01_E.png","name":"fsm_Inside01_E.png","rows":16,"columns":16,"type":"tile","terrains":{}}],"sheets":[],"maps":[{"id":"initial","name":"church"},{"id":"78ee3cef-caf3-47dc-be30-5283544270fe","name":"room"}],"animations":{},"entities":{"c915321d-6d7a-451e-945d-ebd69c1011f6":{"name":"player","avatar":null,"components":[]},"2ee3e26d-8692-47eb-8ed3-0ca4d2771086":{"name":"wall","avatar":null,"components":[{"name":" PositionComponent ","members":[{"type":"int","pointer":false,"value":null,"name":"x"},{"type":"int","pointer":false,"value":null,"name":"y"},{"type":"int","pointer":false,"value":null,"name":"nextX"},{"type":"int","pointer":false,"value":null,"name":"nextY"},{"type":"int","pointer":false,"value":"0","name":"direction"}]},{"name":" DimensionComponent ","members":[{"type":"int","pointer":false,"value":"48","name":"w"},{"type":"int","pointer":false,"value":"48","name":"h"}]},{"name":" CollisionComponent ","members":[{"type":"bool","pointer":false,"value":"true","name":"isColliding"}]}]}},"initialMap":1,"terrains":[]}
+{
+  "name": "Etengarden",
+  "tile": {
+    "width": 48,
+    "height": 48
+  },
+  "tilesets": [
+    {
+      "src": "fsm_Town01_A1.png",
+      "name": "fsm_Town01_A1.png",
+      "rows": 12,
+      "columns": 16,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "6-tile"
+        },
+        "6": {
+          "type": "6-tile"
+        },
+        "8": {
+          "type": "6-tile"
+        },
+        "48": {
+          "type": "6-tile"
+        },
+        "54": {
+          "type": "6-tile"
+        },
+        "56": {
+          "type": "6-tile"
+        },
+        "96": {
+          "type": "6-tile"
+        },
+        "102": {
+          "type": "6-tile"
+        },
+        "104": {
+          "type": "6-tile"
+        },
+        "144": {
+          "type": "6-tile"
+        },
+        "146": {
+          "type": "6-tile"
+        },
+        "148": {
+          "type": "6-tile"
+        }
+      }
+    },
+    {
+      "src": "fsm_Town01_A2.png",
+      "name": "fsm_Town01_A2.png",
+      "rows": 12,
+      "columns": 16,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "6-tile"
+        },
+        "2": {
+          "type": "6-tile"
+        },
+        "4": {
+          "type": "6-tile"
+        },
+        "6": {
+          "type": "6-tile"
+        },
+        "8": {
+          "type": "6-tile"
+        },
+        "10": {
+          "type": "6-tile"
+        },
+        "12": {
+          "type": "6-tile"
+        },
+        "14": {
+          "type": "6-tile"
+        },
+        "48": {
+          "type": "6-tile"
+        },
+        "50": {
+          "type": "6-tile"
+        },
+        "52": {
+          "type": "6-tile"
+        },
+        "54": {
+          "type": "6-tile"
+        },
+        "56": {
+          "type": "6-tile"
+        },
+        "58": {
+          "type": "6-tile"
+        },
+        "60": {
+          "type": "6-tile"
+        },
+        "62": {
+          "type": "6-tile"
+        },
+        "96": {
+          "type": "6-tile"
+        },
+        "98": {
+          "type": "6-tile"
+        },
+        "100": {
+          "type": "6-tile"
+        },
+        "102": {
+          "type": "6-tile"
+        },
+        "104": {
+          "type": "6-tile"
+        },
+        "106": {
+          "type": "6-tile"
+        },
+        "108": {
+          "type": "6-tile"
+        },
+        "110": {
+          "type": "6-tile"
+        },
+        "144": {
+          "type": "6-tile"
+        },
+        "146": {
+          "type": "6-tile"
+        },
+        "148": {
+          "type": "6-tile"
+        },
+        "150": {
+          "type": "6-tile"
+        },
+        "152": {
+          "type": "6-tile"
+        },
+        "154": {
+          "type": "6-tile"
+        },
+        "156": {
+          "type": "6-tile"
+        },
+        "158": {
+          "type": "6-tile"
+        }
+      }
+    },
+    {
+      "src": "fsm_Town01_A3.png",
+      "name": "fsm_Town01_A3.png",
+      "rows": 8,
+      "columns": 16,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "4-tile"
+        },
+        "2": {
+          "type": "4-tile"
+        },
+        "4": {
+          "type": "4-tile"
+        },
+        "6": {
+          "type": "4-tile"
+        },
+        "8": {
+          "type": "4-tile"
+        },
+        "10": {
+          "type": "4-tile"
+        },
+        "12": {
+          "type": "4-tile"
+        },
+        "14": {
+          "type": "4-tile"
+        },
+        "32": {
+          "type": "4-tile"
+        },
+        "34": {
+          "type": "4-tile"
+        },
+        "36": {
+          "type": "4-tile"
+        },
+        "38": {
+          "type": "4-tile"
+        },
+        "40": {
+          "type": "4-tile"
+        },
+        "42": {
+          "type": "4-tile"
+        },
+        "44": {
+          "type": "4-tile"
+        },
+        "46": {
+          "type": "4-tile"
+        },
+        "64": {
+          "type": "4-tile"
+        },
+        "66": {
+          "type": "4-tile"
+        },
+        "68": {
+          "type": "4-tile"
+        },
+        "70": {
+          "type": "4-tile"
+        },
+        "72": {
+          "type": "4-tile"
+        },
+        "74": {
+          "type": "4-tile"
+        },
+        "76": {
+          "type": "4-tile"
+        },
+        "78": {
+          "type": "4-tile"
+        },
+        "96": {
+          "type": "4-tile"
+        },
+        "98": {
+          "type": "4-tile"
+        },
+        "100": {
+          "type": "4-tile"
+        },
+        "102": {
+          "type": "4-tile"
+        },
+        "104": {
+          "type": "4-tile"
+        },
+        "106": {
+          "type": "4-tile"
+        },
+        "108": {
+          "type": "4-tile"
+        },
+        "110": {
+          "type": "4-tile"
+        }
+      }
+    },
+    {
+      "src": "fsm_Town01_A4.png",
+      "name": "fsm_Town01_A4.png",
+      "rows": 15,
+      "columns": 16,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "6-tile"
+        },
+        "2": {
+          "type": "6-tile"
+        },
+        "4": {
+          "type": "6-tile"
+        },
+        "6": {
+          "type": "6-tile"
+        },
+        "8": {
+          "type": "6-tile"
+        },
+        "10": {
+          "type": "6-tile"
+        },
+        "12": {
+          "type": "6-tile"
+        },
+        "14": {
+          "type": "6-tile"
+        },
+        "48": {
+          "type": "4-tile"
+        },
+        "50": {
+          "type": "4-tile"
+        },
+        "52": {
+          "type": "4-tile"
+        },
+        "54": {
+          "type": "4-tile"
+        },
+        "56": {
+          "type": "4-tile"
+        },
+        "58": {
+          "type": "4-tile"
+        },
+        "60": {
+          "type": "4-tile"
+        },
+        "62": {
+          "type": "4-tile"
+        }
+      }
+    },
+    {
+      "src": "fsm_Town01_A5.png",
+      "name": "fsm_Town01_A5.png",
+      "rows": 16,
+      "columns": 8,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Town01_B.png",
+      "name": "fsm_Town01_B.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Town01_C.png",
+      "name": "fsm_Town01_C.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Town01_D.png",
+      "name": "fsm_Town01_D.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Town01_E.png",
+      "name": "fsm_Town01_E.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "!$fsm_Gate03a.png",
+      "name": "!$fsm_Gate03a.png",
+      "rows": 8,
+      "columns": 9,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "!fsm_Door04.png",
+      "name": "!fsm_Door04.png",
+      "rows": 16,
+      "columns": 12,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "actions.png",
+      "name": "actions.png",
+      "rows": 1,
+      "columns": 3,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Inside01_A1.png",
+      "name": "fsm_Inside01_A1.png",
+      "rows": 12,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Inside01_A2.png",
+      "name": "fsm_Inside01_A2.png",
+      "rows": 12,
+      "columns": 16,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "6-tile"
+        },
+        "2": {
+          "type": "6-tile"
+        },
+        "4": {
+          "type": "6-tile"
+        },
+        "6": {
+          "type": "6-tile"
+        },
+        "8": {
+          "type": "6-tile"
+        },
+        "10": {
+          "type": "6-tile"
+        },
+        "12": {
+          "type": "6-tile"
+        },
+        "14": {
+          "type": "6-tile"
+        },
+        "48": {
+          "type": "6-tile"
+        },
+        "50": {
+          "type": "6-tile"
+        },
+        "52": {
+          "type": "6-tile"
+        },
+        "54": {
+          "type": "6-tile"
+        },
+        "56": {
+          "type": "6-tile"
+        },
+        "58": {
+          "type": "6-tile"
+        },
+        "60": {
+          "type": "6-tile"
+        },
+        "62": {
+          "type": "6-tile"
+        },
+        "96": {
+          "type": "6-tile"
+        },
+        "98": {
+          "type": "6-tile"
+        },
+        "100": {
+          "type": "6-tile"
+        },
+        "102": {
+          "type": "6-tile"
+        },
+        "104": {
+          "type": "6-tile"
+        },
+        "106": {
+          "type": "6-tile"
+        },
+        "108": {
+          "type": "6-tile"
+        },
+        "110": {
+          "type": "6-tile"
+        },
+        "144": {
+          "type": "6-tile"
+        },
+        "146": {
+          "type": "6-tile"
+        },
+        "148": {
+          "type": "6-tile"
+        },
+        "150": {
+          "type": "6-tile"
+        },
+        "152": {
+          "type": "6-tile"
+        },
+        "154": {
+          "type": "6-tile"
+        },
+        "156": {
+          "type": "6-tile"
+        },
+        "158": {
+          "type": "6-tile"
+        }
+      }
+    },
+    {
+      "src": "fsm_Inside01_A4.png",
+      "name": "fsm_Inside01_A4.png",
+      "rows": 15,
+      "columns": 16,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "6-tile"
+        },
+        "2": {
+          "type": "6-tile"
+        },
+        "4": {
+          "type": "6-tile"
+        },
+        "6": {
+          "type": "6-tile"
+        },
+        "8": {
+          "type": "6-tile"
+        },
+        "10": {
+          "type": "6-tile"
+        },
+        "12": {
+          "type": "6-tile"
+        },
+        "14": {
+          "type": "6-tile"
+        },
+        "48": {
+          "type": "4-tile"
+        },
+        "50": {
+          "type": "4-tile"
+        },
+        "52": {
+          "type": "4-tile"
+        },
+        "54": {
+          "type": "4-tile"
+        },
+        "56": {
+          "type": "4-tile"
+        },
+        "58": {
+          "type": "4-tile"
+        },
+        "60": {
+          "type": "4-tile"
+        },
+        "62": {
+          "type": "4-tile"
+        },
+        "80": {
+          "type": "6-tile"
+        },
+        "82": {
+          "type": "6-tile"
+        },
+        "84": {
+          "type": "6-tile"
+        },
+        "86": {
+          "type": "6-tile"
+        },
+        "88": {
+          "type": "6-tile"
+        },
+        "90": {
+          "type": "6-tile"
+        },
+        "92": {
+          "type": "6-tile"
+        },
+        "94": {
+          "type": "6-tile"
+        },
+        "128": {
+          "type": "4-tile"
+        },
+        "130": {
+          "type": "4-tile"
+        },
+        "132": {
+          "type": "4-tile"
+        },
+        "134": {
+          "type": "4-tile"
+        },
+        "136": {
+          "type": "4-tile"
+        },
+        "138": {
+          "type": "4-tile"
+        },
+        "140": {
+          "type": "4-tile"
+        },
+        "142": {
+          "type": "4-tile"
+        },
+        "208": {
+          "type": "4-tile"
+        },
+        "210": {
+          "type": "4-tile"
+        },
+        "212": {
+          "type": "4-tile"
+        },
+        "214": {
+          "type": "4-tile"
+        },
+        "216": {
+          "type": "4-tile"
+        },
+        "218": {
+          "type": "4-tile"
+        },
+        "220": {
+          "type": "4-tile"
+        },
+        "222": {
+          "type": "4-tile"
+        }
+      }
+    },
+    {
+      "src": "fsm_Inside01_A5.png",
+      "name": "fsm_Inside01_A5.png",
+      "rows": 16,
+      "columns": 8,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Inside01_B.png",
+      "name": "fsm_Inside01_B.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Inside01_C.png",
+      "name": "fsm_Inside01_C.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Inside01_D.png",
+      "name": "fsm_Inside01_D.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "fsm_Inside01_E.png",
+      "name": "fsm_Inside01_E.png",
+      "rows": 16,
+      "columns": 16,
+      "type": "tile",
+      "terrains": {}
+    }
+  ],
+  "sheets": [],
+  "maps": [
+    {
+      "id": "initial",
+      "name": "church"
+    },
+    {
+      "id": "78ee3cef-caf3-47dc-be30-5283544270fe",
+      "name": "room"
+    }
+  ],
+  "animations": {},
+  "entities": {
+    "56ca70f0-5652-433c-9f86-241bbf41e688": {
+      "name": "player",
+      "avatar": null,
+      "components": [
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "HealthComponent",
+          "members": {
+            "hearts": {
+              "type": "int",
+              "pointer": false,
+              "value": "5",
+              "name": "hearts"
+            },
+            "max": {
+              "type": "int",
+              "pointer": false,
+              "value": "5",
+              "name": "max"
+            }
+          }
+        },
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            },
+            "src": {
+              "type": "string",
+              "pointer": false,
+              "value": "assets/character-2.png",
+              "name": "src"
+            },
+            "texture": {
+              "type": "SDL_Texture",
+              "pointer": true,
+              "value": null,
+              "name": "texture"
+            }
+          }
+        },
+        {
+          "name": "InputComponent",
+          "members": {}
+        },
+        {
+          "name": "MovementComponent",
+          "members": {
+            "vecX": {
+              "type": "int",
+              "pointer": false,
+              "value": "4",
+              "name": "vecX"
+            },
+            "vecY": {
+              "type": "int",
+              "pointer": false,
+              "value": "4",
+              "name": "vecY"
+            }
+          }
+        },
+        {
+          "name": "RenderComponent",
+          "members": {}
+        },
+        {
+          "name": "CenteredCameraComponent",
+          "members": {
+            "entity": {
+              "type": "EID",
+              "pointer": false,
+              "value": null,
+              "name": "entity"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            }
+          }
+        }
+      ]
+    },
+    "ddb8a383-c6c2-4003-b42c-408b9808d29c": {
+      "name": "wall",
+      "avatar": null,
+      "components": [
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "initialMap": 0,
+  "terrains": []
+}

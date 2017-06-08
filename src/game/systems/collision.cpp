@@ -1,8 +1,5 @@
-#include "camera.h"
+#include "collision.h"
 
-bool overlap(int a0, int a1, int b0, int b1) {
-  return a1 >= b0 && b1 >= a0;
-}
 void CollisionSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
   for (int i = 0; i < entities.size(); i++) {
@@ -13,13 +10,12 @@ void CollisionSystem::update(float dt) {
 
     if (c1->isStatic) continue;
 
-    auto camera = manager->getComponent<PositionComponent>(manager->getCamera());
-
     for (int j = 0; j < entities.size(); j++) {
       EID e2 = entities[j];
 
       auto p2 = manager->getComponent<PositionComponent>(e2);
       auto d2 = manager->getComponent<DimensionComponent>(e2);
+
 
 			if (e1 == e2) {
         p1->y = p1->nextY;
@@ -37,18 +33,6 @@ void CollisionSystem::update(float dt) {
       // resolve movements
       if (colliding) {
 
-#ifdef DRAW_COLLISION
-			// Create a rectangle
-			SDL_Rect r;
-			r.x = p2->x - camera->x;
-			r.y = p2->y - camera->y;
-			r.w = d2->w;
-			r.h = d2->h;
-			 
-			SDL_SetRenderDrawColor( game->ren, 255, 255, 0, 0 );
-			 
-			SDL_RenderDrawRect( game->ren, &r );
-#endif
         if (v_distance > h_distance) {
           int offset = abs(v_distance - (d1->h / 2) - (d2->h / 2));
           int direction = (Compass::NORTH & p1->direction) ? 1 : -1;
@@ -67,6 +51,7 @@ void CollisionSystem::update(float dt) {
 
       c1->isColliding = colliding;
 
+/*
 #ifdef DRAW_COLLISION
 			if (colliding) {
         SDL_RenderDrawLine(
@@ -78,9 +63,7 @@ void CollisionSystem::update(float dt) {
         );
 	    }
 #endif
+*/
     }
   }
-#ifdef DRAW_COLLISION
-			SDL_SetRenderDrawColor( game->ren, 0, 0, 0, 0 );
-#endif
 };

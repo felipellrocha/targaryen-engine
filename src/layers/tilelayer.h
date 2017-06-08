@@ -12,13 +12,14 @@
 #include "renderer/sixtile.h"
 #include "renderer/fourtile.h"
 #include "renderer/compass.h"
+#include "utils.h"
 
 using json = nlohmann::json;
 using namespace std;
 
 class TileLayer {
 
-  protected:
+  public:
     SDL_Renderer *renderer;
     vector<Tileset *> tilesets;
 
@@ -29,9 +30,8 @@ class TileLayer {
 
     vector<Tile *> tiles;
 
-  public:
     TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer);
-    void render(int x, int y);
+    void render(int x, int y, int w, int h);
 
     void renderSimpleTile(int index, Tileset *tileset, Tile *tile);
     int findSurroundings(Tile *t1, Grid *grid);

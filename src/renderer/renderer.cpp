@@ -59,6 +59,8 @@ Renderer::Renderer(string gamePackage) {
   auto currentMap = game_data.at("maps").at(mapIndex);
   string mapFile = gamePackage + "/maps/" + currentMap.at("id").get<string>() + ".json";
 
+  cout << "Loading file: " << mapFile << endl;
+
   json map_data = readFile(mapFile.c_str());
 
   this->grid.columns = map_data.at("grid").at("columns").get<int>();
@@ -127,6 +129,8 @@ Renderer::Renderer(string gamePackage) {
 
           string name = entity_definition.at("name");
 
+          cout << name << endl;
+
           int x = this->grid.tile_w * this->grid.getX(j);
           int y = this->grid.tile_h * this->grid.getY(j);
           int w = this->grid.tile_w;
@@ -136,17 +140,49 @@ Renderer::Renderer(string gamePackage) {
           for (uint k = 0; k < components.size(); k++) {
             auto component = components.at(k);
             string name = component.at("name").get<string>();
-            cout << name << endl;
 
-            if (name == " CollisionComponent ") {
-              bool isStatic = (component.at("members").at(0).at("value").get<string>() == "true") ? true : false;
+            if (name == "CollisionComponent") {
+              cout << name << endl;
+              bool isStatic = component.at("members").at("isStatic").at("value").get<bool>();
               manager->addComponent<CollisionComponent>(entity, new CollisionComponent(isStatic));
             }
-            if (name == " PositionComponent ") {
+            if (name == "PositionComponent") {
+              cout << name << endl;
               manager->addComponent<PositionComponent>(entity, new PositionComponent(x, y));
             }
-            if (name == " DimensionComponent ") {
+            if (name == "DimensionComponent") {
+              cout << name << endl;
               manager->addComponent<DimensionComponent>(entity, new DimensionComponent(w, h));
+            }
+            if (name == "HealthComponent") {
+              cout << name << endl;
+              int hearts = stoi(component.at("members").at("hearts").at("value").get<string>());
+              int max = stoi(component.at("members").at("max").at("value").get<string>());
+              manager->addComponent<HealthComponent>(entity, new HealthComponent(hearts, max));
+            }
+            if (name == "SpriteComponent") {
+              cout << name << endl;
+              string source = component.at("members").at("src").at("value").get<string>();
+              SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
+              cout << ": Loading texture: " << source << endl;
+              manager->addComponent<SpriteComponent>(entity, new SpriteComponent(0, 0, w, h, texture));
+            }
+            if (name == "InputComponent") {
+              cout << name << endl;
+              manager->addComponent<InputComponent>(entity, new InputComponent());
+            }
+            if (name == "RenderComponent") {
+              cout << name << endl;
+              manager->addComponent<RenderComponent>(entity, new RenderComponent());
+            }
+            if (name == "MovementComponent") {
+              cout << name << endl;
+              int vecX = stoi(component.at("members").at("vecX").at("value").get<string>());
+              int vecY = stoi(component.at("members").at("vecY").at("value").get<string>());
+              manager->addComponent<MovementComponent>(entity, new MovementComponent(vecX, vecY));
+            }
+            if (name == "CenteredCameraComponent") {
+              manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(entity->eid));
             }
           }
         }
@@ -159,44 +195,6 @@ Renderer::Renderer(string gamePackage) {
       manager->addComponent<RenderComponent>(tile, new RenderComponent());
     }
   }
-
-  // TODO: Move this out of here
-  string source = "assets/character-2.png";
-  SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
-  cout << ": Loading texture: " << source << endl;
-
-  if (texture == nullptr){
-    cout << "LoadTexture Error: " << SDL_GetError() << endl;
-    IMG_Quit();
-    SDL_Quit();
-    throw;
-  }
-  Entity* player = manager->createEntity();
-  manager->addComponent<HealthComponent>(player, new HealthComponent(5, 5));
-  manager->addComponent<PositionComponent>(player, new PositionComponent(48 * 2, 48 * 4));
-  manager->addComponent<SpriteComponent>(player, new SpriteComponent(0, 0, 48, 48, texture));
-  manager->addComponent<RenderComponent>(player, new RenderComponent());
-  manager->addComponent<CollisionComponent>(player, new CollisionComponent());
-  manager->addComponent<MovementComponent>(player, new MovementComponent(4, 4));
-  manager->addComponent<DimensionComponent>(player, new DimensionComponent(48, 48));
-
-  manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(player->eid));
-
-  /*
-  // TODO: Move this out of here
-  source = "assets/flame.png";
-  texture = IMG_LoadTexture(this->ren, source.c_str());
-  cout << ": Loading texture: " << source << endl;
-
-  if (texture == nullptr){
-    cout << "LoadTexture Error: " << SDL_GetError() << endl;
-    IMG_Quit();
-    SDL_Quit();
-    throw;
-  }
-  // TODO: Move this out of here
-  this->textures["flame"] = texture;
-  */
 
   this->registerSystem(new InputSystem(manager, this));
   this->registerSystem(new CollisionSystem(manager, this));

@@ -1,10 +1,6 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#ifdef DRAW_FPS
-#include <SDL2_ttf/SDL_ttf.h>
-#endif
-
 #include <cstdlib>
 #include <vector>
 #include <map>

@@ -33,11 +33,20 @@ TileLayer::TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json ga
   }
 }
 
-void TileLayer::render(int x, int y) {
+void TileLayer::render(int x, int y, int w, int h) {
   for (int i = 0; i < this->tiles.size(); i++) {
     Tile *t = this->tiles[i];
 
     if (t->setIndex < 0) continue;
+
+    int tileX = this->grid->getX(i) * this->tile_w;
+    int tileY = this->grid->getY(i) * this->tile_h;
+
+    bool colliding = 
+      overlap(tileX, tileX + this->tile_w, x, x + w) &&
+      overlap(tileY, tileY + this->tile_h, y, y + h);
+
+    if (!colliding) continue;
 
     Tileset *tileset = tilesets[t->setIndex];
 
