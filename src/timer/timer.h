@@ -3,7 +3,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <SDL2/SDL.h>
+#include "sdl2image.h"
 
 //The application time based timer
 class LTimer

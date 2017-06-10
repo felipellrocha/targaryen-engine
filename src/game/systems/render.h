@@ -1,9 +1,7 @@
 #ifndef SYSTEMRENDER_H
 #define SYSTEMRENDER_H
 
-#include <SDL2/SDL.h>
 #include "sdl2image.h"
-
 #include "renderer/renderer.h"
 #include "game/components.h"
 

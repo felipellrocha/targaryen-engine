@@ -1,7 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SDL2/SDL.h>
 #include "sdl2image.h"
 #include <string>
 #include <iostream>
@@ -121,6 +120,18 @@ struct ProjectileComponent : public Component {
 
   ProjectileComponent(int _vec)
     : vec(_vec) { };
+};
+
+struct WalkComponent : public Component {
+  static CID cid;
+
+  int direction;
+  int frame;
+  bool animating = true;
+
+  WalkComponent(int _direction, int _frame) : direction(_direction), frame(_frame) { };
+  WalkComponent(int _direction) : WalkComponent(_direction, 0) { };
+  WalkComponent() : WalkComponent(0, 0) { };
 };
 
 #endif

@@ -11,3 +11,4 @@ CID RenderComponent::cid = 8;
 CID CenteredCameraComponent::cid = 9;
 CID CollisionComponent::cid = 10;
 CID ProjectileComponent::cid = 11;
+CID WalkComponent::cid = 12;

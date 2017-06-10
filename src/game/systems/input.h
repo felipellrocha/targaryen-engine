@@ -1,8 +1,7 @@
 #ifndef SYSTEMINPUT_H
 #define SYSTEMINPUT_H
 
-#include <SDL2/SDL.h>
-
+#include "sdl2image.h"
 #include "game/components.h"
 
 #include "renderer/compass.h"

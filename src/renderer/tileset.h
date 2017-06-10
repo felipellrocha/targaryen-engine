@@ -1,7 +1,6 @@
 #ifndef TILESET_H
 #define TILESET_H
 
-#include <SDL2/SDL.h>
 #include "sdl2image.h"
 
 using namespace std;

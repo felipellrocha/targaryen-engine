@@ -22,9 +22,16 @@
 #include "game/systems/camera.h"
 #include "game/systems/collision.h"
 #include "game/systems/projectile.h"
+#include "game/systems/walk.h"
 
 using json = nlohmann::json;
 using namespace std;
+
+struct Animation {
+    string id;
+    int numberOfFrames;
+    map<int, SDL_Rect> keyframes;
+};
 
 class Renderer {
   public:
@@ -34,15 +41,17 @@ class Renderer {
     SDL_Window *win = nullptr;
     SDL_Renderer *ren = nullptr;
 
+    int windowWidth = 1100;
+    int windowHeight = 600;
+
     bool running = true;
     int compass = 0;
     int actions = 0;
 
+    json entities;
+    map<string, Animation> animations;
+
     Grid grid;
-
-    int windowWidth = 1280;
-    int windowHeight = 600;
-
     map<string, SDL_Texture*> textures;
 
     bool isRunning() { return running; };

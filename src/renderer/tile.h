@@ -1,7 +1,6 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <SDL2/SDL.h>
 #include "sdl2image.h"
 #include <string>
 #include "renderer/compass.h"

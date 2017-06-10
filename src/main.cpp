@@ -2,7 +2,7 @@
 #include <emscripten/emscripten.h>
 #endif
 
-#include <SDL2/SDL.h>
+#include "sdl2image.h"
 #include <iostream>
 
 #include "timer/timer.h"
@@ -28,9 +28,8 @@ void drawFPS(float fps, Renderer &renderer) {
 
 	string fpsString = ss.str();
 
-  Sans = TTF_OpenFont("/Library/Fonts/Verdana.ttf", 14);
-
   SDL_Color White = {255, 255, 255};
+  Sans = TTF_OpenFont("/Library/Fonts/Verdana.ttf", 14);
 	surfaceMessage = TTF_RenderText_Blended(Sans, fpsString.c_str(), White);
 
 	Message = SDL_CreateTextureFromSurface(renderer.ren, surfaceMessage);
@@ -48,14 +47,14 @@ void loop(Renderer &renderer) {
   capTimer.start();
 
   float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
-  if (avgFPS > 2000000) avgFPS = 0;
+  if (avgFPS > 2000000) avgFPS = 1;
 
   SDL_RenderClear(renderer.ren);
 
   renderer.loop((double)countedFrames / fpsTimer.getTicks());
 
 #ifdef DRAW_FPS
-  drawFPS(avgFPS, renderer);
+  drawFPS((double)capTimer.getTicks(), renderer);
 #endif
 
   SDL_RenderPresent(renderer.ren);

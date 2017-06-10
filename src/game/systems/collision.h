@@ -1,7 +1,7 @@
 #ifndef SYSTEMCOLLISION_H
 #define SYSTEMCOLLISION_H
 
-#include <SDL2/SDL.h>
+#include "sdl2image.h"
 #include <cstdlib>
 
 #include "game/components.h"

@@ -59,6 +59,9 @@ Renderer::Renderer(string gamePackage) {
   auto currentMap = game_data.at("maps").at(mapIndex);
   string mapFile = gamePackage + "/maps/" + currentMap.at("id").get<string>() + ".json";
 
+  entities = game_data.at("entities");
+  //animations = game_data.at("animations");
+
   cout << "Loading file: " << mapFile << endl;
 
   json map_data = readFile(mapFile.c_str());
@@ -71,8 +74,8 @@ Renderer::Renderer(string gamePackage) {
   EntityManager *manager = new EntityManager();
 
   Entity* camera = manager->createEntity();
-  manager->addComponent<DimensionComponent>(camera, new DimensionComponent(this->windowWidth, this->windowHeight));
-  manager->addComponent<PositionComponent>(camera, new PositionComponent(0, 0));
+  manager->addComponent<DimensionComponent>(camera, this->windowWidth, this->windowHeight);
+  manager->addComponent<PositionComponent>(camera, 0, 0);
   manager->saveCamera(camera);
 
   auto tileset_data = game_data.at("tilesets");
@@ -107,6 +110,37 @@ Renderer::Renderer(string gamePackage) {
     this->tilesets.push_back(t);
   }
 
+  auto anims = game_data.at("animations");
+  for (auto &i : json::iterator_wrapper(anims)) {
+    string key = i.key();
+    auto animation = i.value();
+
+    cout << animation << endl;
+
+    Animation anim = Animation();
+
+    anim.id = animation.at("id").get<string>();
+    anim.numberOfFrames = animation.at("numberOfFrames").get<int>();
+
+    auto keyframes = animation.at("keyframes");
+    for (auto &j : json::iterator_wrapper(keyframes)) {
+      int key = stoi(j.key());
+      json value = j.value();
+
+      cout << value << endl;
+
+      SDL_Rect r;
+      r.x = value.at("x").get<int>();
+      r.y = value.at("y").get<int>();
+      r.w = value.at("w").get<int>();
+      r.h = value.at("h").get<int>();
+
+      anim.keyframes[key] = r;
+    }
+
+    this->animations[key] = anim;
+  }
+
   for (uint i = 0; i < map_data.at("layers").size(); i++) {
     auto element = map_data.at("layers").at(i);
     string type = element.at("type").get<string>();
@@ -127,62 +161,54 @@ Renderer::Renderer(string gamePackage) {
           auto entity_definition = game_data.at("entities").at(entityId);
           auto components = entity_definition.at("components");
 
-          string name = entity_definition.at("name");
-
-          cout << name << endl;
-
           int x = this->grid.tile_w * this->grid.getX(j);
           int y = this->grid.tile_h * this->grid.getY(j);
           int w = this->grid.tile_w;
           int h = this->grid.tile_h;
 
           Entity* entity = manager->createEntity();
+
           for (uint k = 0; k < components.size(); k++) {
             auto component = components.at(k);
             string name = component.at("name").get<string>();
 
             if (name == "CollisionComponent") {
-              cout << name << endl;
               bool isStatic = component.at("members").at("isStatic").at("value").get<bool>();
-              manager->addComponent<CollisionComponent>(entity, new CollisionComponent(isStatic));
+              manager->addComponent<CollisionComponent>(entity, isStatic);
             }
-            if (name == "PositionComponent") {
-              cout << name << endl;
-              manager->addComponent<PositionComponent>(entity, new PositionComponent(x, y));
+            else if (name == "PositionComponent") {
+              manager->addComponent<PositionComponent>(entity, x, y);
             }
-            if (name == "DimensionComponent") {
-              cout << name << endl;
-              manager->addComponent<DimensionComponent>(entity, new DimensionComponent(w, h));
+            else if (name == "DimensionComponent") {
+              manager->addComponent<DimensionComponent>(entity, w, h);
             }
-            if (name == "HealthComponent") {
-              cout << name << endl;
+            else if (name == "HealthComponent") {
               int hearts = stoi(component.at("members").at("hearts").at("value").get<string>());
               int max = stoi(component.at("members").at("max").at("value").get<string>());
-              manager->addComponent<HealthComponent>(entity, new HealthComponent(hearts, max));
+              manager->addComponent<HealthComponent>(entity, hearts, max);
             }
-            if (name == "SpriteComponent") {
-              cout << name << endl;
+            else if (name == "SpriteComponent") {
               string source = component.at("members").at("src").at("value").get<string>();
               SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
               cout << ": Loading texture: " << source << endl;
-              manager->addComponent<SpriteComponent>(entity, new SpriteComponent(0, 0, w, h, texture));
+              manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
             }
-            if (name == "InputComponent") {
-              cout << name << endl;
-              manager->addComponent<InputComponent>(entity, new InputComponent());
+            else if (name == "InputComponent") {
+              manager->addComponent<InputComponent>(entity);
             }
-            if (name == "RenderComponent") {
-              cout << name << endl;
-              manager->addComponent<RenderComponent>(entity, new RenderComponent());
+            else if (name == "RenderComponent") {
+              manager->addComponent<RenderComponent>(entity);
             }
-            if (name == "MovementComponent") {
-              cout << name << endl;
+            else if (name == "MovementComponent") {
               int vecX = stoi(component.at("members").at("vecX").at("value").get<string>());
               int vecY = stoi(component.at("members").at("vecY").at("value").get<string>());
-              manager->addComponent<MovementComponent>(entity, new MovementComponent(vecX, vecY));
+              manager->addComponent<MovementComponent>(entity, vecX, vecY);
             }
-            if (name == "CenteredCameraComponent") {
-              manager->addComponent<CenteredCameraComponent>(camera, new CenteredCameraComponent(entity->eid));
+            else if (name == "WalkComponent") {
+              manager->addComponent<WalkComponent>(entity);
+            }
+            else if (name == "CenteredCameraComponent") {
+              manager->addComponent<CenteredCameraComponent>(camera, entity->eid);
             }
           }
         }
@@ -191,12 +217,13 @@ Renderer::Renderer(string gamePackage) {
     else {
       Entity* tile = manager->createEntity();
       auto layer = TileLayer(this->ren, this->tilesets, game_data, map_data, i);
-      manager->addComponent<GridComponent>(tile, new GridComponent(layer));
-      manager->addComponent<RenderComponent>(tile, new RenderComponent());
+      manager->addComponent<GridComponent>(tile, layer);
+      manager->addComponent<RenderComponent>(tile);
     }
   }
 
   this->registerSystem(new InputSystem(manager, this));
+  this->registerSystem(new WalkSystem(manager, this));
   this->registerSystem(new CollisionSystem(manager, this));
   this->registerSystem(new ProjectileSystem(manager, this));
   this->registerSystem(new CameraSystem(manager, this));

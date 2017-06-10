@@ -1,7 +1,6 @@
 #ifndef TILELAYER_H
 #define TILELAYER_H
 
-#include <SDL2/SDL.h>
 #include "sdl2image.h"
 #include <string>
 #include <vector>

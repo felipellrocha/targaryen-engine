@@ -1,7 +1,7 @@
 #ifndef SIXTILE_H
 #define SIXTILE_H
 
-#include <SDL2/SDL.h>
+#include "sdl2image.h"
 #include "renderer/compass.h"
 #include "renderer/offset.h"
 

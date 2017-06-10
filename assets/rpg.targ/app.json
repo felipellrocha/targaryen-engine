@@ -664,7 +664,9 @@
       "terrains": {}
     }
   ],
-  "sheets": [],
+  "sheets": [
+    "/Users/fllr/Development/game/targaryen/assets/character-1.png"
+  ],
   "maps": [
     {
       "id": "initial",
@@ -675,7 +677,136 @@
       "name": "room"
     }
   ],
-  "animations": {},
+  "animations": {
+    "walk-south": {
+      "id": "e43e58b3-83b1-48d1-b5e6-4198a466ae81",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 46,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "8": {
+          "x": 0,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "16": {
+          "x": 46,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "24": {
+          "x": 96,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "walk-east": {
+      "id": "6a24ed6d-14f0-4658-8073-4138c53e2ed4",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 48,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        },
+        "7": {
+          "x": 1,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        },
+        "15": {
+          "x": 48,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        },
+        "23": {
+          "x": 97,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "walk-west": {
+      "id": "225dad1c-fe5f-44b2-8cb9-4543b89d680d",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 47,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        },
+        "7": {
+          "x": 0,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        },
+        "15": {
+          "x": 47,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        },
+        "23": {
+          "x": 96,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "walk-north": {
+      "id": "a0acde57-87f1-4ce2-9dd6-6c34552e0a22",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 47,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        },
+        "8": {
+          "x": 0,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        },
+        "16": {
+          "x": 47,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        },
+        "24": {
+          "x": 96,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
   "entities": {
     "56ca70f0-5652-433c-9f86-241bbf41e688": {
       "name": "player",
@@ -841,6 +972,23 @@
               "pointer": false,
               "value": false,
               "name": "isColliding"
+            }
+          }
+        },
+        {
+          "name": "WalkComponent",
+          "members": {
+            "frame": {
+              "type": "int",
+              "pointer": false,
+              "value": "0",
+              "name": "frame"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
             }
           }
         }
