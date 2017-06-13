@@ -115,8 +115,6 @@ Renderer::Renderer(string gamePackage) {
     string key = i.key();
     auto animation = i.value();
 
-    cout << animation << endl;
-
     Animation anim = Animation();
 
     anim.id = animation.at("id").get<string>();
@@ -126,8 +124,6 @@ Renderer::Renderer(string gamePackage) {
     for (auto &j : json::iterator_wrapper(keyframes)) {
       int key = stoi(j.key());
       json value = j.value();
-
-      cout << value << endl;
 
       SDL_Rect r;
       r.x = value.at("x").get<int>();
@@ -174,7 +170,18 @@ Renderer::Renderer(string gamePackage) {
 
             if (name == "CollisionComponent") {
               bool isStatic = component.at("members").at("isStatic").at("value").get<bool>();
-              manager->addComponent<CollisionComponent>(entity, isStatic);
+              int x = component.at("members").at("x").at("value").get<int>();
+              int y = component.at("members").at("y").at("value").get<int>();
+              int w = component.at("members").at("w").at("value").get<int>();
+              int h = component.at("members").at("h").at("value").get<int>();
+              manager->addComponent<CollisionComponent>(
+                entity,
+                isStatic,
+                x,
+                y,
+                (w > 0) ? w : this->grid.tile_w,
+                (h > 0) ? h : this->grid.tile_h
+              );
             }
             else if (name == "PositionComponent") {
               manager->addComponent<PositionComponent>(entity, x, y);
@@ -224,11 +231,10 @@ Renderer::Renderer(string gamePackage) {
 
   this->registerSystem(new InputSystem(manager, this));
   this->registerSystem(new WalkSystem(manager, this));
-  this->registerSystem(new CollisionSystem(manager, this));
   this->registerSystem(new ProjectileSystem(manager, this));
   this->registerSystem(new CameraSystem(manager, this));
   this->registerSystem(new RenderSystem(manager, this));
-
+  this->registerSystem(new CollisionSystem(manager, this));
 };
 
 void Renderer::registerSystem(System *system) {

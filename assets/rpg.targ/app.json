@@ -959,23 +959,6 @@
           }
         },
         {
-          "name": "CollisionComponent",
-          "members": {
-            "isStatic": {
-              "type": "bool",
-              "pointer": false,
-              "value": false,
-              "name": "isStatic"
-            },
-            "isColliding": {
-              "type": "bool",
-              "pointer": false,
-              "value": false,
-              "name": "isColliding"
-            }
-          }
-        },
-        {
           "name": "WalkComponent",
           "members": {
             "frame": {
@@ -989,6 +972,47 @@
               "pointer": false,
               "value": "0",
               "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            },
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 12,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 24,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 24,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 24,
+              "name": "h"
             }
           }
         }
@@ -1064,6 +1088,30 @@
               "pointer": false,
               "value": false,
               "name": "isColliding"
+            },
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
             }
           }
         }

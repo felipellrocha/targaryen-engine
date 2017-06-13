@@ -1,0 +1,250 @@
+{
+  "filename": "/Users/fllr/Development/game/targaryen/assets/rpg.targ",
+  "basepath": "/Users/fllr/Development/game/targaryen/assets",
+  "zoom": "0.5",
+  "selectedMap": 0,
+  "selectedAction": "put",
+  "selectedTerrainType": "6-tile",
+  "selectedTile": [
+    -2,
+    "ddb8a383-c6c2-4003-b42c-408b9808d29c"
+  ],
+  "selectedLayer": 3,
+  "selectedAnimation": "walk-east",
+  "selectedFrame": 23,
+  "components": [
+    {
+      "name": "HealthComponent",
+      "members": {
+        "hearts": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "hearts"
+        },
+        "max": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "max"
+        }
+      }
+    },
+    {
+      "name": "PositionComponent",
+      "members": {
+        "x": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "x"
+        },
+        "y": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "y"
+        },
+        "nextX": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "nextX"
+        },
+        "nextY": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "nextY"
+        },
+        "direction": {
+          "type": "int",
+          "pointer": false,
+          "value": "0",
+          "name": "direction"
+        }
+      }
+    },
+    {
+      "name": "DimensionComponent",
+      "members": {
+        "w": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "w"
+        },
+        "h": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "h"
+        }
+      }
+    },
+    {
+      "name": "SpriteComponent",
+      "members": {
+        "x": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "x"
+        },
+        "y": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "y"
+        },
+        "w": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "w"
+        },
+        "h": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "h"
+        },
+        "src": {
+          "type": "string",
+          "pointer": false,
+          "value": null,
+          "name": "src"
+        },
+        "texture": {
+          "type": "SDL_Texture",
+          "pointer": true,
+          "value": null,
+          "name": "texture"
+        }
+      }
+    },
+    {
+      "name": "InputComponent",
+      "members": {}
+    },
+    {
+      "name": "MovementComponent",
+      "members": {
+        "vecX": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "vecX"
+        },
+        "vecY": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "vecY"
+        }
+      }
+    },
+    {
+      "name": "GridComponent",
+      "members": {
+        "layer": {
+          "type": "TileLayer",
+          "pointer": false,
+          "value": null,
+          "name": "layer"
+        }
+      }
+    },
+    {
+      "name": "RenderComponent",
+      "members": {}
+    },
+    {
+      "name": "CenteredCameraComponent",
+      "members": {
+        "entity": {
+          "type": "EID",
+          "pointer": false,
+          "value": null,
+          "name": "entity"
+        }
+      }
+    },
+    {
+      "name": "CollisionComponent",
+      "members": {
+        "isStatic": {
+          "type": "bool",
+          "pointer": false,
+          "value": false,
+          "name": "isStatic"
+        },
+        "isColliding": {
+          "type": "bool",
+          "pointer": false,
+          "value": false,
+          "name": "isColliding"
+        },
+        "x": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "x"
+        },
+        "y": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "y"
+        },
+        "w": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "w"
+        },
+        "h": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "h"
+        }
+      }
+    },
+    {
+      "name": "ProjectileComponent",
+      "members": {
+        "vec": {
+          "type": "int",
+          "pointer": false,
+          "value": "0",
+          "name": "vec"
+        }
+      }
+    },
+    {
+      "name": "WalkComponent",
+      "members": {
+        "direction": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "direction"
+        },
+        "frame": {
+          "type": "int",
+          "pointer": false,
+          "value": null,
+          "name": "frame"
+        },
+        "animating": {
+          "type": "bool",
+          "pointer": false,
+          "value": true,
+          "name": "animating"
+        }
+      }
+    }
+  ],
+  "componentFilename": "/Users/fllr/Development/game/targaryen/src/game/components.h"
+}

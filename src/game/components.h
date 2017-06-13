@@ -108,9 +108,14 @@ struct CollisionComponent : public Component {
 
   bool isStatic = false;
   bool isColliding = false;
+  int x;
+  int y;
+  int w;
+  int h;
 
-  CollisionComponent(bool _isStatic) : isStatic(_isStatic) { };
-  CollisionComponent() : CollisionComponent(false) { };
+  CollisionComponent(bool _isStatic, int _x, int _y, int _w, int _h)
+    : isStatic(_isStatic), x(_x), y(_y), w(_w), h(_h) { };
+  CollisionComponent() : CollisionComponent(false, 0, 0, 0, 0) { };
 };
 
 struct ProjectileComponent : public Component {

@@ -28,7 +28,7 @@ CXX_FLAGS = \
 	#-Wextra \
 	#-Wshadow \
 
-COMPILING_FLAGS = -pthread
+COMPILING_FLAGS = #-pthread
 
 EXEC_FLAGS = 
 #LIBS := -lSDL2 -lSDL2_image
