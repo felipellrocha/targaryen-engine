@@ -14,16 +14,16 @@ void CollisionSystem::update(float dt) {
     int y1 = p1->nextY + c1->y;
 
 #ifdef DRAW_COLLISION
-			// Create a rectangle
-			SDL_Rect r;
-			r.x = x1 - camera->x;
-			r.y = y1 - camera->y;
-			r.w = c1->w;
-			r.h = c1->h;
-			 
-			SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
-			 
-			SDL_RenderDrawRect( game->ren, &r );
+      // Create a rectangle
+      SDL_Rect r;
+      r.x = x1 - camera->x;
+      r.y = y1 - camera->y;
+      r.w = c1->w;
+      r.h = c1->h;
+       
+      SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
+       
+      SDL_RenderDrawRect( game->ren, &r );
 #endif
 
     for (int j = 0; j < entities.size(); j++) {
@@ -32,7 +32,7 @@ void CollisionSystem::update(float dt) {
       auto c2 = manager->getComponent<CollisionComponent>(e2);
       auto p2 = manager->getComponent<PositionComponent>(e2);
 
-			if (e1 == e2) {
+      if (e1 == e2) {
         p1->y = p1->nextY;
         p1->x = p1->nextX;
         continue;
@@ -41,29 +41,28 @@ void CollisionSystem::update(float dt) {
       int x2 = p2->nextX + c2->x;
       int y2 = p2->nextY + c2->y;
 
-      bool colliding = 
-        overlap(x1, x1 + c1->w, x2, x2 + c2->w) &&
-        overlap(y1, y1 + c1->h, y2, y2 + c2->h);
+      c1->isColliding = //c1->isColliding ||
+        (overlap(x1, x1 + c1->w, x2, x2 + c2->w) &&
+        overlap(y1, y1 + c1->h, y2, y2 + c2->h));
 
       int h_distance = abs((x1 + c1->w / 2) - (x2 + c2->w / 2));
       int v_distance = abs((y1 + c1->h / 2) - (y2 + c2->h / 2));
 
 #ifdef DRAW_COLLISION
-			// Create a rectangle
-			SDL_Rect r;
-			r.x = x2 - camera->x;
-			r.y = y2 - camera->y;
-			r.w = c2->w;
-			r.h = c2->h;
-			 
-			SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
-			 
-			SDL_RenderDrawRect( game->ren, &r );
+      // Create a rectangle
+      SDL_Rect r;
+      r.x = x2 - camera->x;
+      r.y = y2 - camera->y;
+      r.w = c2->w;
+      r.h = c2->h;
+       
+      SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
+       
+      SDL_RenderDrawRect( game->ren, &r );
 #endif
 
       // resolve movements
-      if (colliding) {
-
+      if (c1->isColliding) {
         if (v_distance > h_distance) {
           int offset = abs(v_distance - (c1->h / 2) - (c2->h / 2));
           int direction = (Compass::NORTH & p1->direction) ? 1 : -1;
@@ -73,17 +72,14 @@ void CollisionSystem::update(float dt) {
           int offset = abs(h_distance - (c1->w / 2) - (c2->w / 2));
           int direction = (Compass::EAST & p1->direction) ? -1 : 1;
           p1->nextX += direction * offset;
-
         }
       }
 
       p1->y = p1->nextY;
       p1->x = p1->nextX;
 
-      c1->isColliding = colliding;
-
 #ifdef DRAW_COLLISION
-			if (colliding) {
+      if (c1->isColliding) {
         SDL_RenderDrawLine(
           game->ren,
           (x1 + c1->w) / 2 - camera->x,
@@ -91,7 +87,7 @@ void CollisionSystem::update(float dt) {
           (x2 + c2->w) / 2 - camera->x,
           (y2 + c2->h) / 2 - camera->y
         );
-	    }
+      }
 #endif
     }
   }

@@ -78,6 +78,8 @@ Renderer::Renderer(string gamePackage) {
   manager->addComponent<PositionComponent>(camera, 0, 0);
   manager->saveCamera(camera);
 
+  textures["flame"] = IMG_LoadTexture(this->ren, "assets/flame.png");
+
   auto tileset_data = game_data.at("tilesets");
   for (uint i = 0; i < tileset_data.size(); i++) {
     auto tileset = tileset_data.at(i);
@@ -140,7 +142,6 @@ Renderer::Renderer(string gamePackage) {
   for (uint i = 0; i < map_data.at("layers").size(); i++) {
     auto element = map_data.at("layers").at(i);
     string type = element.at("type").get<string>();
-    // ugh. awful hack. will fix this shortly...
     string name = element.at("name").get<string>();
 
     cout << "Loading layer: " << name << endl;
@@ -154,8 +155,9 @@ Renderer::Renderer(string gamePackage) {
         // only continue if it's an entity
         if (setIndex == -2) {
           string entityId = node.at(1).get<string>();
-          auto entity_definition = game_data.at("entities").at(entityId);
-          auto components = entity_definition.at("components");
+          json entity_definition = game_data.at("entities").at(entityId);
+          json components = entity_definition.at("components");
+          string name = entity_definition.at("name").get<string>();
 
           int x = this->grid.tile_w * this->grid.getX(j);
           int y = this->grid.tile_h * this->grid.getY(j);
@@ -163,6 +165,10 @@ Renderer::Renderer(string gamePackage) {
           int h = this->grid.tile_h;
 
           Entity* entity = manager->createEntity();
+
+          if (name == "player") {
+            manager->savePlayer(entity);
+          }
 
           for (uint k = 0; k < components.size(); k++) {
             auto component = components.at(k);
@@ -190,8 +196,8 @@ Renderer::Renderer(string gamePackage) {
               manager->addComponent<DimensionComponent>(entity, w, h);
             }
             else if (name == "HealthComponent") {
-              int hearts = stoi(component.at("members").at("hearts").at("value").get<string>());
-              int max = stoi(component.at("members").at("max").at("value").get<string>());
+              int hearts = component.at("members").at("hearts").at("value").get<int>();
+              int max = component.at("members").at("max").at("value").get<int>();
               manager->addComponent<HealthComponent>(entity, hearts, max);
             }
             else if (name == "SpriteComponent") {
@@ -207,8 +213,8 @@ Renderer::Renderer(string gamePackage) {
               manager->addComponent<RenderComponent>(entity);
             }
             else if (name == "MovementComponent") {
-              int vecX = stoi(component.at("members").at("vecX").at("value").get<string>());
-              int vecY = stoi(component.at("members").at("vecY").at("value").get<string>());
+              int vecX = component.at("members").at("vecX").at("value").get<int>();
+              int vecY = component.at("members").at("vecY").at("value").get<int>();
               manager->addComponent<MovementComponent>(entity, vecX, vecY);
             }
             else if (name == "WalkComponent") {

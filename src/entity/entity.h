@@ -25,18 +25,17 @@ const int NUM_COMPONENTS = 11;
 class EntityManager {
   public:
     int lowestUnassignedEid = 0;
-    vector<EID> entities;
-    map<EID, map<CID, Component *>> components;
-		map<CID, vector<EID>> cache;
+    map<CID, map<EID, Component *>> components;
 
     EID camera;
     EID player;
 
-    EID generateEid();
-    Entity* createEntity();
-
     EID getCamera() {
       return this->camera;
+    }
+
+    EID getPlayer() {
+      return this->player;
     }
 
     void savePlayer(Entity *player) {
@@ -47,13 +46,17 @@ class EntityManager {
       this->camera = camera->eid;
     }
 
-    template<class ComponentClass, typename... Args> void addComponent(Entity *entity, Args... args) {
-      ComponentClass *component = new ComponentClass(args...);
-      this->cache[ComponentClass::cid].push_back(entity->eid);
-      this->components[ComponentClass::cid][entity->eid] = component;
+    EID generateEid();
+    Entity* createEntity();
+    void removeEntity(EID eid);
+
+    template<class ComponentClass, typename... Args>
+    void addComponent(Entity *entity, Args... args) {
+      this->components[ComponentClass::cid][entity->eid] = new ComponentClass(args...);
     }
 
-    template<class ComponentClass> ComponentClass* getComponent(EID eid)
+    template<class ComponentClass>
+    ComponentClass* getComponent(EID eid)
     {
       return static_cast<ComponentClass *>(this->components[ComponentClass::cid][eid]);
     }
@@ -61,7 +64,14 @@ class EntityManager {
     template<class ComponentClass>
     vector<EID> getAllEntitiesWithComponent()
     {
-			return this->cache[ComponentClass::cid];
+      vector<EID> entities;
+      auto components = this->components[ComponentClass::cid];
+
+      for (auto it = components.begin(); it != components.end(); ++it) {
+        entities.push_back(it->first);
+      }
+
+      return entities;
     }
 };
 

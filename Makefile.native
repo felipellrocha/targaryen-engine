@@ -13,7 +13,6 @@ C_FLAGS = \
 	-Wall \
 	-D NATIVE \
 	-pedantic \
-	-D DRAW_COLLISION \
 	-g
 
 CXX_FLAGS = \
