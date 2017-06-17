@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAMECOMPONENTS_H
+#define GAMECOMPONENTS_H
 
 #include "sdl2image.h"
 #include <string>
@@ -8,6 +8,7 @@
 #include "entity/entity.h"
 #include "entity/component.h"
 #include "layers/tilelayer.h"
+#include "game/utils.h"
 
 struct HealthComponent : public Component {
   static CID cid;
@@ -108,19 +109,19 @@ struct CollisionComponent : public Component {
 
   bool isStatic = false;
   bool isColliding = false;
+  int resolver = 0;
   int x;
   int y;
   int w;
   int h;
 
-  CollisionComponent(bool _isStatic, bool _isColliding, int _x, int _y, int _w, int _h)
-    : isStatic(_isStatic), isColliding(_isColliding), x(_x), y(_y), w(_w), h(_h) { };
-  CollisionComponent(bool _isStatic, int _x, int _y, int _w, int _h)
-    : CollisionComponent(_isStatic, false, _x, _y, _w, _h) { };
-  CollisionComponent(int _x, int _y, int _w, int _h)
-    : CollisionComponent(false, false, _x, _y, _w, _h) { };
-  CollisionComponent()
-    : CollisionComponent(false, false, 0, 0, 0, 0) { };
+  CollisionComponent(bool _isStatic, int _resolver, int _x, int _y, int _w, int _h)
+    : isStatic(_isStatic),
+      resolver(_resolver),
+      x(_x),
+      y(_y),
+      w(_w),
+      h(_h) { };
 };
 
 struct ProjectileComponent : public Component {
@@ -137,7 +138,7 @@ struct WalkComponent : public Component {
 
   int direction = Compass::SOUTH;
   int frame;
-  bool animating = true;
+  bool animating = false;
 
   WalkComponent(int _direction, int _frame) : direction(_direction), frame(_frame) { };
   WalkComponent(int _direction) : WalkComponent(_direction, 0) { };

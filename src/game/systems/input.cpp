@@ -1,7 +1,7 @@
 #include "input.h"
 
 void InputSystem::update(float dt) {
-  vector<EID> entities = manager->getAllEntitiesWithComponent<MovementComponent>(); 
+  vector<EID> entities = manager->getAllEntitiesWithComponent<InputComponent>(); 
   for (int i = 0; i < entities.size(); i++) {
     EID entity = entities[i];
     auto movement = manager->getComponent<MovementComponent>(entity);
@@ -12,19 +12,35 @@ void InputSystem::update(float dt) {
 
     if (Compass::NORTH & this->game->compass) {
       position->nextY -= movement->vecY; 
-      if (walk) walk->direction = Compass::NORTH;
+      if (walk) {
+        walk->direction = Compass::NORTH;
+        walk->animating = true;
+      }
     }
     if (Compass::EAST & this->game->compass) {
       position->nextX += movement->vecX; 
-      if (walk) walk->direction = Compass::EAST;
+      if (walk) {
+        walk->direction = Compass::EAST;
+        walk->animating = true;
+      }
     }
     if (Compass::SOUTH & this->game->compass) {
       position->nextY += movement->vecY; 
-      if (walk) walk->direction = Compass::SOUTH;
+      if (walk) {
+        walk->direction = Compass::SOUTH;
+        walk->animating = true;
+      }
     }
     if (Compass::WEST & this->game->compass) {
       position->nextX -= movement->vecX;
-      if (walk) walk->direction = Compass::WEST;
+      if (walk) {
+        walk->direction = Compass::WEST;
+        walk->animating = true;
+      }
+    }
+
+    if (walk && this->game->compass == 0) {
+      walk->animating = false;
     }
   }
 };

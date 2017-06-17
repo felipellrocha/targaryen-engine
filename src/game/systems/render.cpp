@@ -2,8 +2,8 @@
 
 void RenderSystem::update(float dt) {
   auto entities = manager->getAllEntitiesWithComponent<RenderComponent>(); 
-  auto cameraPosition = manager->getComponent<PositionComponent>(manager->getCamera());
-  auto cameraDimension = manager->getComponent<DimensionComponent>(manager->getCamera());
+  auto cameraPosition = manager->getComponent<PositionComponent>(manager->getSpecial("camera"));
+  auto cameraDimension = manager->getComponent<DimensionComponent>(manager->getSpecial("camera"));
 
   for (int i = 0; i < entities.size(); i++) {
     EID entity = entities[i];
@@ -37,5 +37,25 @@ void RenderSystem::update(float dt) {
         cameraDimension->h
       );
     }
+
+#ifdef DRAW_COLLISION
+    auto collision = manager->getComponent<CollisionComponent>(entity);
+    if (!collision) continue;
+
+    int x = position->nextX + collision->x;
+    int y = position->nextY + collision->y;
+
+    // Create a rectangle
+    SDL_Rect r;
+    r.x = x - cameraPosition->x;
+    r.y = y - cameraPosition->y;
+    r.w = collision->w;
+    r.h = collision->h;
+     
+    SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
+     
+    SDL_RenderDrawRect( game->ren, &r );
+#endif
+
   }
 };

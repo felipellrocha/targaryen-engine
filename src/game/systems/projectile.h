@@ -3,6 +3,7 @@
 
 #include "sdl2image.h"
 #include "game/components.h"
+#include "game/utils.h"
 
 #include "renderer/compass.h"
 #include "renderer/renderer.h"

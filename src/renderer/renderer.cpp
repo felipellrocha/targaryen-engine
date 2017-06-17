@@ -76,7 +76,7 @@ Renderer::Renderer(string gamePackage) {
   Entity* camera = manager->createEntity();
   manager->addComponent<DimensionComponent>(camera, this->windowWidth, this->windowHeight);
   manager->addComponent<PositionComponent>(camera, 0, 0);
-  manager->saveCamera(camera);
+  manager->saveSpecial("camera", camera);
 
   textures["flame"] = IMG_LoadTexture(this->ren, "assets/flame.png");
 
@@ -167,7 +167,7 @@ Renderer::Renderer(string gamePackage) {
           Entity* entity = manager->createEntity();
 
           if (name == "player") {
-            manager->savePlayer(entity);
+            manager->saveSpecial("player", entity);
           }
 
           for (uint k = 0; k < components.size(); k++) {
@@ -183,6 +183,7 @@ Renderer::Renderer(string gamePackage) {
               manager->addComponent<CollisionComponent>(
                 entity,
                 isStatic,
+                0,
                 x,
                 y,
                 (w > 0) ? w : this->grid.tile_w,
@@ -238,9 +239,9 @@ Renderer::Renderer(string gamePackage) {
   this->registerSystem(new InputSystem(manager, this));
   this->registerSystem(new WalkSystem(manager, this));
   this->registerSystem(new ProjectileSystem(manager, this));
+  this->registerSystem(new CollisionSystem(manager, this));
   this->registerSystem(new CameraSystem(manager, this));
   this->registerSystem(new RenderSystem(manager, this));
-  this->registerSystem(new CollisionSystem(manager, this));
 };
 
 void Renderer::registerSystem(System *system) {
@@ -299,6 +300,7 @@ void Renderer::loop(float dt) {
   }
 
   for (int i = 0; i < this->systems.size(); i++) this->systems[i]->update(dt);
+  this->collisions.clear();
 }
 
 Renderer::~Renderer() {

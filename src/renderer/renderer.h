@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <vector>
 #include <map>
+#include <set>
 #include <SDL2/SDL.h>
 #include <string>
 #include <memory>
@@ -53,6 +54,7 @@ class Renderer {
 
     Grid grid;
     map<string, SDL_Texture*> textures;
+    set<Collision> collisions;
 
     bool isRunning() { return running; };
     void quit() { running = false; };

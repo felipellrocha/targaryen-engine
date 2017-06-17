@@ -2,7 +2,7 @@
 
 void ProjectileSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<ProjectileComponent>(); 
-  EID player = manager->getPlayer();
+  EID player = manager->getSpecial("player");
   auto walk = manager->getComponent<WalkComponent>(player);
   auto playerPosition = manager->getComponent<PositionComponent>(player);
 
@@ -13,6 +13,7 @@ void ProjectileSystem::update(float dt) {
     auto collision = manager->getComponent<CollisionComponent>(entity);
 
     if (collision->isColliding) {
+      printf("here");
       manager->removeEntity(entity);
       continue;
     }
@@ -47,6 +48,7 @@ void ProjectileSystem::update(float dt) {
       }
 
       Entity* attack = this->manager->createEntity();
+      printf("attack %d!\n", attack->eid);
 
       manager->addComponent<RenderComponent>(attack);
       manager->addComponent<ProjectileComponent>(attack, 4);
@@ -54,6 +56,7 @@ void ProjectileSystem::update(float dt) {
       manager->addComponent<CollisionComponent>(
         attack,
         false,
+        Resolver::EXPLOSION,
         12, 12, 24, 24
       );
       manager->addComponent<PositionComponent>(

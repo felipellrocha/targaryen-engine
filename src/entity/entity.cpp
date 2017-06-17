@@ -1,5 +1,17 @@
 #include "entity.h"
 
+EID EntityManager::getSpecial(string key) {
+  return this->special[key];
+}
+
+void EntityManager::saveSpecial(string key, EID entity) {
+  this->special[key] = entity;
+}
+
+void EntityManager::saveSpecial(string key, Entity *entity) {
+  this->special[key] = entity->eid;
+}
+
 EID EntityManager::generateEid() {
   return lowestUnassignedEid++;
 }
@@ -21,4 +33,3 @@ void EntityManager::removeEntity(EID eid) {
     }
   }
 }
-

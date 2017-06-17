@@ -2,7 +2,7 @@
 
 void WalkSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<WalkComponent>(); 
-  EID player = manager->getPlayer();
+  EID player = manager->getSpecial("player");
   Animation animation;
 
   for (int i = 0; i < entities.size(); i++) {
@@ -10,11 +10,6 @@ void WalkSystem::update(float dt) {
     auto sprite = manager->getComponent<SpriteComponent>(entity);
     auto walk = manager->getComponent<WalkComponent>(entity);
     auto movement = manager->getComponent<WalkComponent>(entity);
-
-    if (movement) {
-      if (this->game->compass == 0) walk->animating = false;
-      else walk->animating = true;
-    }
 
     if (Compass::NORTH & walk->direction) {
       animation = this->game->animations["walk-north"];
