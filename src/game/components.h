@@ -115,6 +115,8 @@ struct CollisionComponent : public Component {
   int w;
   int h;
 
+  map<EID, int> collisions;
+
   CollisionComponent(bool _isStatic, int _resolver, int _x, int _y, int _w, int _h)
     : isStatic(_isStatic),
       resolver(_resolver),

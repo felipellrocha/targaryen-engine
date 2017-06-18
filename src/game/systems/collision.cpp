@@ -10,6 +10,8 @@ void CollisionSystem::update(float dt) {
 
     if (c1->isStatic) continue;
 
+    c1->collisions.clear();
+
     int x1 = p1->nextX + c1->x;
     int y1 = p1->nextY + c1->y;
 
@@ -36,6 +38,8 @@ void CollisionSystem::update(float dt) {
 
       // resolve movements
       if (colliding) {
+        c1->collisions[e2] = c2->resolver;
+        
         // resolve movements
         int h_distance = abs((x1 + c1->w / 2) - (x2 + c2->w / 2));
         int v_distance = abs((y1 + c1->h / 2) - (y2 + c2->h / 2));

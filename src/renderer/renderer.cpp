@@ -300,7 +300,6 @@ void Renderer::loop(float dt) {
   }
 
   for (int i = 0; i < this->systems.size(); i++) this->systems[i]->update(dt);
-  this->collisions.clear();
 }
 
 Renderer::~Renderer() {

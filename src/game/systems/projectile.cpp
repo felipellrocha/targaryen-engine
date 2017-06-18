@@ -13,7 +13,7 @@ void ProjectileSystem::update(float dt) {
     auto collision = manager->getComponent<CollisionComponent>(entity);
 
     if (collision->isColliding) {
-      printf("here");
+
       manager->removeEntity(entity);
       continue;
     }
@@ -48,7 +48,6 @@ void ProjectileSystem::update(float dt) {
       }
 
       Entity* attack = this->manager->createEntity();
-      printf("attack %d!\n", attack->eid);
 
       manager->addComponent<RenderComponent>(attack);
       manager->addComponent<ProjectileComponent>(attack, 4);

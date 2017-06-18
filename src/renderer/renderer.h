@@ -54,7 +54,6 @@ class Renderer {
 
     Grid grid;
     map<string, SDL_Texture*> textures;
-    set<Collision> collisions;
 
     bool isRunning() { return running; };
     void quit() { running = false; };
