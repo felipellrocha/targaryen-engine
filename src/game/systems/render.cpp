@@ -13,20 +13,20 @@ void RenderSystem::update(float dt) {
     auto grid = manager->getComponent<GridComponent>(entity);
 
     if (sprite) {
-      SDL_Rect src = {
-        sprite->x,
-        sprite->y,
-        sprite->w,
-        sprite->h
+      GPU_Rect src = {
+        (float)sprite->x,
+        (float)sprite->y,
+        (float)sprite->w,
+        (float)sprite->h
       };
 
-      SDL_Rect dst = {
+			GPU_Blit(
+        sprite->texture,
+        &src,
+        game->ren,
         position->x - cameraPosition->x,
-        position->y - cameraPosition->y,
-        sprite->w,
-        sprite->h
-      };
-			SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
+        position->y - cameraPosition->y
+      );
 
     }
     else {
@@ -37,25 +37,5 @@ void RenderSystem::update(float dt) {
         cameraDimension->h
       );
     }
-
-#ifdef DRAW_COLLISION
-    auto collision = manager->getComponent<CollisionComponent>(entity);
-    if (!collision) continue;
-
-    int x = position->nextX + collision->x;
-    int y = position->nextY + collision->y;
-
-    // Create a rectangle
-    SDL_Rect r;
-    r.x = x - cameraPosition->x;
-    r.y = y - cameraPosition->y;
-    r.w = collision->w;
-    r.h = collision->h;
-     
-    SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 0 );
-     
-    SDL_RenderDrawRect( game->ren, &r );
-#endif
-
   }
 };

@@ -19,7 +19,7 @@ using namespace std;
 class TileLayer {
 
   public:
-    SDL_Renderer *renderer;
+    GPU_Target *renderer;
     vector<Tileset *> tilesets;
 
     int tile_w;
@@ -29,7 +29,7 @@ class TileLayer {
 
     vector<Tile *> tiles;
 
-    TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer);
+    TileLayer(GPU_Target *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer);
     void render(int x, int y, int w, int h);
 
     void renderSimpleTile(int index, Tileset *tileset, Tile *tile);

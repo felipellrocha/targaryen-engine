@@ -54,18 +54,6 @@ void CollisionSystem::update(float dt) {
 
       p1->y = p1->nextY;
       p1->x = p1->nextX;
-
-#ifdef DRAW_COLLISION
-      if (colliding) {
-        SDL_RenderDrawLine(
-          game->ren,
-          x1 + (c1->w / 2) - camera->x,
-          y1 + (c1->h / 2) - camera->y,
-          x2 + (c2->w / 2) - camera->x,
-          y2 + (c2->h / 2) - camera->y
-        );
-      }
-#endif
     }
   }
 };

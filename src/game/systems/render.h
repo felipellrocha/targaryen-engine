@@ -10,7 +10,7 @@
 
 class RenderSystem : public System {
   public:
-    SDL_Renderer *renderer = nullptr;
+    GPU_Target *renderer = nullptr;
 
     void update(float dt);
 

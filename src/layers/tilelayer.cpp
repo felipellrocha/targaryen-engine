@@ -1,7 +1,7 @@
 #include "tilelayer.h"
 #include <typeinfo>
 
-TileLayer::TileLayer(SDL_Renderer *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer) {
+TileLayer::TileLayer(GPU_Target *renderer, vector<Tileset *> tilesets, json game_data, json map_data, int layer) {
 
   this->renderer = renderer;
   this->tilesets = tilesets;

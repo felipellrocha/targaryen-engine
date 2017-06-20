@@ -16,22 +16,21 @@ class Tile {
     Tile(int setIndex, int tileIndex, int locationIndex)
       : setIndex(setIndex), tileIndex(tileIndex), locationIndex(locationIndex) {}
 
-    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h, int x, int y) {
-      SDL_Rect src = {
-        (tileset->getX(this->tileIndex)) * w,
-        (tileset->getY(this->tileIndex)) * h,
-        w,
-        h
+    void render(Tileset *tileset, Grid *grid, GPU_Target *renderer, int w, int h, int x, int y) {
+      GPU_Rect src = {
+        (float)(tileset->getX(this->tileIndex)) * w,
+        (float)(tileset->getY(this->tileIndex)) * h,
+        (float)w,
+        (float)h
       };
 
-      SDL_Rect dst = {
+      GPU_Blit(
+        tileset->texture,
+        &src,
+        renderer,
         (grid->getX(locationIndex)) * w + x,
-        (grid->getY(locationIndex)) * h + y,
-        w,
-        h
-      };
-
-      SDL_RenderCopy(renderer, tileset->texture, &src, &dst);
+        (grid->getY(locationIndex)) * h + y
+      );
     }
 };
 

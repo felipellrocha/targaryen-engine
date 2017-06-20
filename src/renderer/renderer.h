@@ -5,7 +5,6 @@
 #include <vector>
 #include <map>
 #include <set>
-#include <SDL2/SDL.h>
 #include <string>
 #include <memory>
 #include <utility>
@@ -40,7 +39,7 @@ class Renderer {
     vector<System *> systems;
 
     SDL_Window *win = nullptr;
-    SDL_Renderer *ren = nullptr;
+    GPU_Target *ren = nullptr;
 
     int windowWidth = 1100;
     int windowHeight = 600;
@@ -53,7 +52,7 @@ class Renderer {
     map<string, Animation> animations;
 
     Grid grid;
-    map<string, SDL_Texture*> textures;
+    map<string, GPU_Image*> textures;
     set<Collision> collisions;
 
     bool isRunning() { return running; };

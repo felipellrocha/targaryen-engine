@@ -3,53 +3,11 @@
 Renderer::Renderer(string gamePackage) {
   this->running = true;
 
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-    std::cout << "SDL: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    throw renderer_error();
-  }
-
   // creating a window
-  this->win = SDL_CreateWindow(
-    "Game",
-    0, 0,
+  this->ren = GPU_Init(
     this->windowWidth, this->windowHeight,
     SDL_WINDOW_SHOWN
   );
-  if (this->win == nullptr) {
-    std::cout << "SDL_CreateWindow error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    throw renderer_error();
-  }
-
-  // creating a renderer
-  this->ren = SDL_CreateRenderer(
-    this->win,
-    -1,
-    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-  );
-  if (this->ren == nullptr) {
-    SDL_DestroyWindow(this->win);
-    std::cout << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    throw renderer_error();
-  }
-
-  if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG){
-    std::cout << "IMG_Init Error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    throw renderer_error();
-  }
-
-#ifdef DRAW_FPS
-  //Initialize SDL_ttf
-  if(TTF_Init() == -1) {
-    printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-    SDL_Quit();
-    throw renderer_error();
-  }
-#endif
-
 
   string gameFile = gamePackage + "/app.json";
   cout << gameFile << endl;
@@ -78,7 +36,7 @@ Renderer::Renderer(string gamePackage) {
   manager->addComponent<PositionComponent>(camera, 0, 0);
   manager->saveSpecial("camera", camera);
 
-  textures["flame"] = IMG_LoadTexture(this->ren, "assets/flame.png");
+  textures["flame"] = GPU_LoadImage("assets/flame.png");
 
   auto tileset_data = game_data.at("tilesets");
   for (uint i = 0; i < tileset_data.size(); i++) {
@@ -99,7 +57,7 @@ Renderer::Renderer(string gamePackage) {
 
     cout << ": Loading texture: " << src << ", " << type << endl;
 
-    SDL_Texture *texture = IMG_LoadTexture(this->ren, src.c_str());
+    GPU_Image *texture = GPU_LoadImage(src.c_str());
     if (texture == nullptr){
       std::cout << "LoadTexture Error: " << SDL_GetError() << std::endl;
       IMG_Quit();
@@ -203,7 +161,7 @@ Renderer::Renderer(string gamePackage) {
             }
             else if (name == "SpriteComponent") {
               string source = component.at("members").at("src").at("value").get<string>();
-              SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
+              GPU_Image *texture = GPU_LoadImage(source.c_str());
               cout << ": Loading texture: " << source << endl;
               manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
             }
@@ -304,7 +262,6 @@ void Renderer::loop(float dt) {
 }
 
 Renderer::~Renderer() {
-  SDL_DestroyRenderer(this->ren);
-  SDL_DestroyWindow(this->win);
+  GPU_FreeTarget(this->ren);
 }
 

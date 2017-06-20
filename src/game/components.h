@@ -54,9 +54,9 @@ struct SpriteComponent : public Component {
   int w;
   int h;
   string src;
-  SDL_Texture *texture;
+  GPU_Image *texture;
 
-  SpriteComponent(int _x, int _y, int _w, int _h, SDL_Texture *_texture)
+  SpriteComponent(int _x, int _y, int _w, int _h, GPU_Image *_texture)
       : x(_x), y(_y), w(_w), h(_h), texture(_texture) {
   }
 };

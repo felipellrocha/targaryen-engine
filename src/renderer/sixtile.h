@@ -10,7 +10,7 @@ class SixTile : public Tile {
     SixTile(int setIndex, int tileIndex, int locationIndex)
       : Tile(setIndex, tileIndex, locationIndex) {}
 
-    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h, int x, int y) {
+    void render(Tileset *tileset, Grid *grid, GPU_Target *renderer, int w, int h, int x, int y) {
       offset northwestOffset = this->northWestOffset();
       offset northeastOffset = this->northEastOffset();
       offset southeastOffset = this->southEastOffset();
@@ -24,7 +24,7 @@ class SixTile : public Tile {
     void renderPart(
       Tileset *tileset,
       Grid *grid,
-      SDL_Renderer *renderer,
+      GPU_Target *renderer,
       int w,
       int h,
       offset mainOffset,
@@ -36,21 +36,20 @@ class SixTile : public Tile {
       int width = w / 2;
       int height = h / 2;
       
-      SDL_Rect src = {
-        (tileset->getX(this->tileIndex) * w) + (width * tileOffset.x),
-        (tileset->getY(this->tileIndex) * h) + (height * tileOffset.y),
-        width,
-        height
+      GPU_Rect src = {
+        (float)(tileset->getX(this->tileIndex) * w) + (width * tileOffset.x),
+        (float)(tileset->getY(this->tileIndex) * h) + (height * tileOffset.y),
+        (float)width,
+        (float)height
       };
 
-      SDL_Rect dst = {
+      GPU_Blit(
+        tileset->texture,
+        &src,
+        renderer,
         (grid->getX(locationIndex) * w) + (width * mainOffset.x) + x,
-        (grid->getY(locationIndex) * h) + (height * mainOffset.y) + y,
-        width,
-        height
-      };
-
-      SDL_RenderCopy(renderer, tileset->texture, &src, &dst);
+        (grid->getY(locationIndex) * h) + (height * mainOffset.y) + y
+      );
     }
 
     offset southWestOffset() {

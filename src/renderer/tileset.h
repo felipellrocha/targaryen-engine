@@ -35,13 +35,13 @@ class Grid {
 class Tileset : public Grid {
   public:
     string type;
-    SDL_Texture *texture = nullptr;
+    GPU_Image *texture = nullptr;
     map<int, string> terrains;
 
-    Tileset(int rows, int columns, string type, SDL_Texture *texture)
+    Tileset(int rows, int columns, string type, GPU_Image *texture)
       : Grid(rows, columns), type(type), texture(texture) {}
 
-    Tileset(int rows, int columns, string type, SDL_Texture *texture, map<int, string> terrains)
+    Tileset(int rows, int columns, string type, GPU_Image *texture, map<int, string> terrains)
       : Grid(rows, columns), type(type), texture(texture), terrains(terrains) {}
 };
 
