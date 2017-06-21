@@ -41,16 +41,6 @@ Renderer::Renderer(string gamePackage) {
     throw renderer_error();
   }
 
-#ifdef DRAW_FPS
-  //Initialize SDL_ttf
-  if(TTF_Init() == -1) {
-    printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-    SDL_Quit();
-    throw renderer_error();
-  }
-#endif
-
-
   string gameFile = gamePackage + "/app.json";
   cout << gameFile << endl;
   json game_data = readFile(gameFile.c_str());
@@ -140,100 +130,109 @@ Renderer::Renderer(string gamePackage) {
   }
 
   for (uint i = 0; i < map_data.at("layers").size(); i++) {
-    auto element = map_data.at("layers").at(i);
+    json element = map_data.at("layers").at(i);
+    json data = element.at("data");
+
     string type = element.at("type").get<string>();
     string name = element.at("name").get<string>();
 
     cout << "Loading layer: " << name << endl;
 
-    if (name == "action") {
-      auto data = element.at("data");
-      for (int j = 0; j < data.size(); j++) {
-        auto node = data.at(j);
-        int setIndex = node.at(0).get<int>();
+    for (int j = 0; j < data.size(); j++) {
+      json node = data.at(j);
+      int setIndex = node.at(0).get<int>();
 
-        // only continue if it's an entity
-        if (setIndex == -2) {
-          string entityId = node.at(1).get<string>();
-          json entity_definition = game_data.at("entities").at(entityId);
-          json components = entity_definition.at("components");
-          string name = entity_definition.at("name").get<string>();
+      if (setIndex >= 0) {
+        int tileIndex = node.at(1).get<int>();
+        Entity* entity = manager->createEntity();
+        int surrounding = this->grid.findSurroundings(node, j, data);
 
-          int x = this->grid.tile_w * this->grid.getX(j);
-          int y = this->grid.tile_h * this->grid.getY(j);
-          int w = this->grid.tile_w;
-          int h = this->grid.tile_h;
+        manager->addComponent<TileComponent>(entity, setIndex, tileIndex, j, surrounding);
+        manager->addComponent<RenderComponent>(entity);
+      }
+      // only continue if it's a action entity
+      if (setIndex == -2) {
+        string entityId = node.at(1).get<string>();
+        json entity_definition = game_data.at("entities").at(entityId);
+        json components = entity_definition.at("components");
+        string name = entity_definition.at("name").get<string>();
 
-          Entity* entity = manager->createEntity();
+        int x = this->grid.tile_w * this->grid.getX(j);
+        int y = this->grid.tile_h * this->grid.getY(j);
+        int w = this->grid.tile_w;
+        int h = this->grid.tile_h;
 
-          if (name == "player") {
-            manager->saveSpecial("player", entity);
+        Entity* entity = manager->createEntity();
+
+        if (name == "player") {
+          manager->saveSpecial("player", entity);
+        }
+
+        for (uint k = 0; k < components.size(); k++) {
+          auto component = components.at(k);
+          string name = component.at("name").get<string>();
+
+          if (name == "CollisionComponent") {
+            bool isStatic = component.at("members").at("isStatic").at("value").get<bool>();
+            int x = component.at("members").at("x").at("value").get<int>();
+            int y = component.at("members").at("y").at("value").get<int>();
+            int w = component.at("members").at("w").at("value").get<int>();
+            int h = component.at("members").at("h").at("value").get<int>();
+            manager->addComponent<CollisionComponent>(
+              entity,
+              isStatic,
+              0,
+              x,
+              y,
+              (w > 0) ? w : this->grid.tile_w,
+              (h > 0) ? h : this->grid.tile_h
+            );
           }
-
-          for (uint k = 0; k < components.size(); k++) {
-            auto component = components.at(k);
-            string name = component.at("name").get<string>();
-
-            if (name == "CollisionComponent") {
-              bool isStatic = component.at("members").at("isStatic").at("value").get<bool>();
-              int x = component.at("members").at("x").at("value").get<int>();
-              int y = component.at("members").at("y").at("value").get<int>();
-              int w = component.at("members").at("w").at("value").get<int>();
-              int h = component.at("members").at("h").at("value").get<int>();
-              manager->addComponent<CollisionComponent>(
-                entity,
-                isStatic,
-                0,
-                x,
-                y,
-                (w > 0) ? w : this->grid.tile_w,
-                (h > 0) ? h : this->grid.tile_h
-              );
-            }
-            else if (name == "PositionComponent") {
-              manager->addComponent<PositionComponent>(entity, x, y);
-            }
-            else if (name == "DimensionComponent") {
-              manager->addComponent<DimensionComponent>(entity, w, h);
-            }
-            else if (name == "HealthComponent") {
-              int hearts = component.at("members").at("hearts").at("value").get<int>();
-              int max = component.at("members").at("max").at("value").get<int>();
-              manager->addComponent<HealthComponent>(entity, hearts, max);
-            }
-            else if (name == "SpriteComponent") {
-              string source = component.at("members").at("src").at("value").get<string>();
-              SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
-              cout << ": Loading texture: " << source << endl;
-              manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
-            }
-            else if (name == "InputComponent") {
-              manager->addComponent<InputComponent>(entity);
-            }
-            else if (name == "RenderComponent") {
-              manager->addComponent<RenderComponent>(entity);
-            }
-            else if (name == "MovementComponent") {
-              int vecX = component.at("members").at("vecX").at("value").get<int>();
-              int vecY = component.at("members").at("vecY").at("value").get<int>();
-              manager->addComponent<MovementComponent>(entity, vecX, vecY);
-            }
-            else if (name == "WalkComponent") {
-              manager->addComponent<WalkComponent>(entity);
-            }
-            else if (name == "CenteredCameraComponent") {
-              manager->addComponent<CenteredCameraComponent>(camera, entity->eid);
-            }
+          else if (name == "PositionComponent") {
+            manager->addComponent<PositionComponent>(entity, x, y);
+          }
+          else if (name == "DimensionComponent") {
+            manager->addComponent<DimensionComponent>(entity, w, h);
+          }
+          else if (name == "HealthComponent") {
+            int hearts = component.at("members").at("hearts").at("value").get<int>();
+            int max = component.at("members").at("max").at("value").get<int>();
+            manager->addComponent<HealthComponent>(entity, hearts, max);
+          }
+          else if (name == "SpriteComponent") {
+            string source = component.at("members").at("src").at("value").get<string>();
+            SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
+            cout << ": Loading texture: " << source << endl;
+            manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
+          }
+          else if (name == "InputComponent") {
+            manager->addComponent<InputComponent>(entity);
+          }
+          else if (name == "RenderComponent") {
+            manager->addComponent<RenderComponent>(entity);
+          }
+          else if (name == "MovementComponent") {
+            int vecX = component.at("members").at("vecX").at("value").get<int>();
+            int vecY = component.at("members").at("vecY").at("value").get<int>();
+            manager->addComponent<MovementComponent>(entity, vecX, vecY);
+          }
+          else if (name == "WalkComponent") {
+            manager->addComponent<WalkComponent>(entity);
+          }
+          else if (name == "CenteredCameraComponent") {
+            manager->addComponent<CenteredCameraComponent>(camera, entity->eid);
           }
         }
       }
     }
+    /*
     else {
       Entity* tile = manager->createEntity();
       auto layer = TileLayer(this->ren, this->tilesets, game_data, map_data, i);
       manager->addComponent<GridComponent>(tile, layer);
       manager->addComponent<RenderComponent>(tile);
     }
+    */
   }
 
   this->registerSystem(new InputSystem(manager, this));

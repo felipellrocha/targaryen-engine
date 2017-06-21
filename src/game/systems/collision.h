@@ -13,8 +13,6 @@
 #include "entity/entity.h"
 #include "entity/system.h"
 
-#include "utils.h"
-
 using namespace std;
 
 class CollisionSystem : public System {

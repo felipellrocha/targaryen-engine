@@ -4,9 +4,14 @@
 #include "sdl2image.h"
 #include "renderer/renderer.h"
 #include "game/components.h"
+#include "game/utils.h"
 
 #include "entity/entity.h"
 #include "entity/system.h"
+
+#include "renderer/simpletile.h"
+#include "renderer/fourtile.h"
+#include "renderer/sixtile.h"
 
 class RenderSystem : public System {
   public:

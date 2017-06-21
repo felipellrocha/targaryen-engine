@@ -1,109 +1,102 @@
 #ifndef FOURTILE_H
 #define FOURTILE_H
 
+#include <array>
 #include "sdl2image.h"
 #include "renderer/compass.h"
 #include "renderer/offset.h"
 
-class FourTile : public Tile {
-  public:
-    FourTile(int setIndex, int tileIndex, int locationIndex)
-      : Tile(setIndex, tileIndex, locationIndex) {}
+using namespace std;
 
-    void render(Tileset *tileset, Grid *grid, SDL_Renderer *renderer, int w, int h, int x, int y) {
-      offset northwestOffset = this->northWestOffset();
-      offset northeastOffset = this->northEastOffset();
-      offset southeastOffset = this->southEastOffset();
-      offset southwestOffset = this->southWestOffset();
-      this->renderPart(tileset, grid, renderer, w, h, offset(0, 0), northwestOffset, x, y);
-      this->renderPart(tileset, grid, renderer, w, h, offset(1, 0), northeastOffset, x, y);
-      this->renderPart(tileset, grid, renderer, w, h, offset(1, 1), southeastOffset, x, y);
-      this->renderPart(tileset, grid, renderer, w, h, offset(0, 1), southwestOffset, x, y);
-    }
+struct fourTile {
+  static offset southWestOffset(int surrounding) {
+    if (Compass::SOUTH & surrounding
+      && Compass::WEST & surrounding)
+      return offset(1, 2);
 
-    void renderPart(
-      Tileset *tileset,
-      Grid *grid,
-      SDL_Renderer *renderer,
-      int w,
-      int h,
-      offset mainOffset,
-      offset tileOffset,
-      int x,
-      int y
-    ) {
+    if (Compass::SOUTH & surrounding)
+      return offset(0, 2);
+    if (Compass::WEST & surrounding)
+      return offset(1, 3);
 
-      int width = w / 2;
-      int height = h / 2;
-      
-      SDL_Rect src = {
-        (tileset->getX(this->tileIndex) * w) + (width * tileOffset.x),
-        (tileset->getY(this->tileIndex) * h) + (height * tileOffset.y),
+    return offset(0, 3);
+  }
+
+  static offset southEastOffset(int surrounding) {
+    if (Compass::SOUTH & surrounding
+      && Compass::EAST & surrounding)
+      return offset(2, 2);
+
+    if (Compass::SOUTH & surrounding)
+      return offset(3, 2);
+    if (Compass::EAST & surrounding)
+      return offset(2, 3);
+
+    return offset(3, 3);
+  }
+
+  static offset northEastOffset(int surrounding) {
+    if (Compass::NORTH & surrounding
+      && Compass::EAST & surrounding)
+      return offset(2, 1);
+
+    if (Compass::NORTH & surrounding)
+      return offset(3, 1);
+    if (Compass::EAST & surrounding)
+      return offset(2, 0);
+
+    return offset(3, 0);
+  }
+
+  static offset northWestOffset(int surrounding) {
+    if (Compass::NORTH & surrounding
+      && Compass::WEST & surrounding)
+      return offset(1, 1);
+
+    if (Compass::NORTH & surrounding)
+      return offset(0, 1);
+    if (Compass::WEST & surrounding)
+      return offset(1, 0);
+
+    return offset(0, 0);
+  }
+
+  static vector<array<SDL_Rect, 2>> calculateAll(TileComponent *tile, Tileset *tileset, Grid grid) {
+    int width = grid.tile_w / 2;
+    int height = grid.tile_h / 2;
+
+    auto calcs = calculateOffset(tile->surroundings);
+    vector<array<SDL_Rect, 2>> out(4);
+
+    for (int i = 0; i < 4; ++i) {
+      offset calc = calcs[i];
+
+      SDL_Rect src = SDL_Rect{
+        (tileset->getX(tile->tileIndex) * grid.tile_w) + (calc.x * width),
+        (tileset->getY(tile->tileIndex) * grid.tile_h) + (calc.y * height),
         width,
         height
       };
-
-      SDL_Rect dst = {
-        (grid->getX(locationIndex) * w) + (width * mainOffset.x) + x,
-        (grid->getY(locationIndex) * h) + (height * mainOffset.y) + y,
+      SDL_Rect dst = SDL_Rect{
+        (grid.getX(tile->locationIndex) * grid.tile_w) + ((i % 2) * width),
+        (grid.getY(tile->locationIndex) * grid.tile_h) + ((i / 2) * height),
         width,
         height
       };
-
-      SDL_RenderCopy(renderer, tileset->texture, &src, &dst);
+      out[i] = {{src, dst}};
     }
 
-    offset southWestOffset() {
-      if (Compass::SOUTH & this->surrounding
-        && Compass::WEST & this->surrounding)
-        return offset(1, 2);
+    return out;
+  }
 
-      if (Compass::SOUTH & this->surrounding)
-        return offset(0, 2);
-      if (Compass::WEST & this->surrounding)
-        return offset(1, 3);
-
-      return offset(0, 3);
-    }
-
-    offset southEastOffset() {
-      if (Compass::SOUTH & this->surrounding
-        && Compass::EAST & this->surrounding)
-        return offset(2, 2);
-
-      if (Compass::SOUTH & this->surrounding)
-        return offset(3, 2);
-      if (Compass::EAST & this->surrounding)
-        return offset(2, 3);
-
-      return offset(3, 3);
-    }
-
-    offset northEastOffset() {
-      if (Compass::NORTH & this->surrounding
-        && Compass::EAST & this->surrounding)
-        return offset(2, 1);
-
-      if (Compass::NORTH & this->surrounding)
-        return offset(3, 1);
-      if (Compass::EAST & this->surrounding)
-        return offset(2, 0);
-
-      return offset(3, 0);
-    }
-
-    offset northWestOffset() {
-      if (Compass::NORTH & this->surrounding
-        && Compass::WEST & this->surrounding)
-        return offset(1, 1);
-
-      if (Compass::NORTH & this->surrounding)
-        return offset(0, 1);
-      if (Compass::WEST & this->surrounding)
-        return offset(1, 0);
-
-      return offset(0, 0);
-    }
+  static array<offset, 4> calculateOffset(int surrounding) {
+    return {
+      fourTile::northWestOffset(surrounding),
+      fourTile::northEastOffset(surrounding),
+      fourTile::southWestOffset(surrounding),
+      fourTile::southEastOffset(surrounding)
+    };
+  }
 };
 
 #endif

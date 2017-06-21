@@ -5,9 +5,9 @@
 #include <string>
 #include <iostream>
 
+#include "renderer/compass.h"
 #include "entity/entity.h"
 #include "entity/component.h"
-#include "layers/tilelayer.h"
 #include "game/utils.h"
 
 struct HealthComponent : public Component {
@@ -77,13 +77,22 @@ struct MovementComponent : public Component {
     : vecX(_vecX), vecY(_vecY) { };
 };
 
-struct GridComponent : public Component {
+struct TileComponent : public Component {
   static CID cid;
 
-  TileLayer layer;
+  int setIndex;
+  int tileIndex;
+  int locationIndex;
+  int surroundings;
 
-  GridComponent(TileLayer _layer)
-    : layer(_layer) { };
+  TileComponent(int _set, int _tile, int _location, int _surroundings)
+    : setIndex(_set),
+      tileIndex(_tile),
+      locationIndex(_location),
+      surroundings(_surroundings) { };
+
+  TileComponent(int _set, int _tile, int _location)
+    : TileComponent(_set, _tile, _location, 0) { };
 };
 
 struct RenderComponent : public Component {

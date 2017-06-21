@@ -17,6 +17,7 @@
 #include "entity/entity.h"
 #include "entity/system.h"
 
+#include "renderer/tileset.h"
 #include "game/components.h"
 #include "game/systems/render.h"
 #include "game/systems/input.h"
