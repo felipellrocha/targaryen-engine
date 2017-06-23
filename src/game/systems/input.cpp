@@ -2,8 +2,7 @@
 
 void InputSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<InputComponent>(); 
-  for (int i = 0; i < entities.size(); i++) {
-    EID entity = entities[i];
+  for (EID entity : entities) {
     auto movement = manager->getComponent<MovementComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto walk = manager->getComponent<WalkComponent>(entity);

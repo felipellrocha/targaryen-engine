@@ -4,8 +4,7 @@ void WalkSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<WalkComponent>(); 
   Animation animation;
 
-  for (int i = 0; i < entities.size(); i++) {
-    EID entity = entities[i];
+  for (EID entity : entities) {
     auto sprite = manager->getComponent<SpriteComponent>(entity);
     auto walk = manager->getComponent<WalkComponent>(entity);
 

@@ -98,7 +98,10 @@ struct TileComponent : public Component {
 struct RenderComponent : public Component {
   static CID cid;
 
-  RenderComponent() { };
+  int layer;
+
+  RenderComponent(int _layer)
+  : layer(_layer) { };
 };
 
 struct CenteredCameraComponent : public Component {

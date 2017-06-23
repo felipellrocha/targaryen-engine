@@ -29,8 +29,8 @@ CXX_FLAGS = \
 	-s ALLOW_MEMORY_GROWTH=1
 EXEC_FLAGS = \
 	--preload-file assets \
-	-s EXPORTED_FUNCTIONS='["_mainf"]' \
-	--emrun
+	-s EXPORTED_FUNCTIONS='["_mainf"]'
+	#--emrun
 LIBS :=
 
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp')

@@ -41,6 +41,13 @@ Renderer::Renderer(string gamePackage) {
     throw renderer_error();
   }
 
+  //Initialize SDL_ttf
+  if(TTF_Init() == -1) {
+    printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+    SDL_Quit();
+    throw renderer_error();
+  }
+
   string gameFile = gamePackage + "/app.json";
   cout << gameFile << endl;
   json game_data = readFile(gameFile.c_str());
@@ -68,7 +75,7 @@ Renderer::Renderer(string gamePackage) {
   manager->addComponent<PositionComponent>(camera, 0, 0);
   manager->saveSpecial("camera", camera);
 
-  textures["flame"] = IMG_LoadTexture(this->ren, "assets/flame.png");
+  textures["flame"] = loadTexture(this->ren, "assets/flame.png");
 
   auto tileset_data = game_data.at("tilesets");
   for (uint i = 0; i < tileset_data.size(); i++) {
@@ -87,15 +94,7 @@ Renderer::Renderer(string gamePackage) {
       terrains[key] = value;
     }
 
-    cout << ": Loading texture: " << src << ", " << type << endl;
-
-    SDL_Texture *texture = IMG_LoadTexture(this->ren, src.c_str());
-    if (texture == nullptr){
-      std::cout << "LoadTexture Error: " << SDL_GetError() << std::endl;
-      IMG_Quit();
-      SDL_Quit();
-      throw renderer_error();
-    }
+    SDL_Texture *texture = loadTexture(this->ren, src.c_str());
 
     Tileset *t = new Tileset(rows, columns, type, texture, terrains);
 
@@ -147,8 +146,12 @@ Renderer::Renderer(string gamePackage) {
         Entity* entity = manager->createEntity();
         int surrounding = this->grid.findSurroundings(node, j, data);
 
+        int x = this->grid.getX(j) * this->grid.tile_w;
+        int y = this->grid.getY(j) * this->grid.tile_h;
+
         manager->addComponent<TileComponent>(entity, setIndex, tileIndex, j, surrounding);
-        manager->addComponent<RenderComponent>(entity);
+        manager->addComponent<PositionComponent>(entity, x, y);
+        manager->addComponent<RenderComponent>(entity, i);
       }
       // only continue if it's a action entity
       if (setIndex == -2) {
@@ -201,15 +204,14 @@ Renderer::Renderer(string gamePackage) {
           }
           else if (name == "SpriteComponent") {
             string source = component.at("members").at("src").at("value").get<string>();
-            SDL_Texture *texture = IMG_LoadTexture(this->ren, source.c_str());
-            cout << ": Loading texture: " << source << endl;
+            SDL_Texture *texture = loadTexture(this->ren, source.c_str());
             manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
           }
           else if (name == "InputComponent") {
             manager->addComponent<InputComponent>(entity);
           }
           else if (name == "RenderComponent") {
-            manager->addComponent<RenderComponent>(entity);
+            manager->addComponent<RenderComponent>(entity, i);
           }
           else if (name == "MovementComponent") {
             int vecX = component.at("members").at("vecX").at("value").get<int>();
@@ -225,14 +227,6 @@ Renderer::Renderer(string gamePackage) {
         }
       }
     }
-    /*
-    else {
-      Entity* tile = manager->createEntity();
-      auto layer = TileLayer(this->ren, this->tilesets, game_data, map_data, i);
-      manager->addComponent<GridComponent>(tile, layer);
-      manager->addComponent<RenderComponent>(tile);
-    }
-    */
   }
 
   this->registerSystem(new InputSystem(manager, this));

@@ -4,17 +4,26 @@ void ProjectileSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<ProjectileComponent>(); 
   EID player = manager->getSpecial("player");
   auto walk = manager->getComponent<WalkComponent>(player);
+  auto playerRender = manager->getComponent<RenderComponent>(player);
   auto playerPosition = manager->getComponent<PositionComponent>(player);
 
-  for (int i = 0; i < entities.size(); i++) {
-    EID entity = entities[i];
+  for (EID entity : entities) {
     auto projectile = manager->getComponent<ProjectileComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto collision = manager->getComponent<CollisionComponent>(entity);
 
     if (collision->isColliding) {
-
       manager->removeEntity(entity);
+
+      for (auto it : collision->collisions) {
+        EID coll = it.first;
+        auto health = manager->getComponent<HealthComponent>(coll);
+
+        if (health) {
+          health->hearts -= 1;
+          if (health->hearts < 0) manager->removeEntity(coll);
+        }
+      }
       continue;
     }
 
@@ -25,7 +34,7 @@ void ProjectileSystem::update(float dt) {
   }
 
   if (Actions::MAIN & this->game->actions) {
-    if (timing > 1.5f) {
+    if (timing > .25f) {
       int direction = 0;
       int xOffset = 0;
       int yOffset = 0;
@@ -49,8 +58,8 @@ void ProjectileSystem::update(float dt) {
 
       Entity* attack = this->manager->createEntity();
 
-      manager->addComponent<RenderComponent>(attack);
-      manager->addComponent<ProjectileComponent>(attack, 4);
+      manager->addComponent<RenderComponent>(attack, playerRender->layer);
+      manager->addComponent<ProjectileComponent>(attack, 8);
       manager->addComponent<DimensionComponent>(attack, 48, 48);
       manager->addComponent<CollisionComponent>(
         attack,

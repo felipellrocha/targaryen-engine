@@ -3,6 +3,9 @@
 
 #include <math.h>
 #include "entity/entity.h"
+#include <string>
+#include "sdl2image.h"
+#include "exceptions.h"
 
 enum Resolver {
   OPAQUE = 1,
@@ -35,7 +38,9 @@ struct Collision {
     }
 };
 
-bool overlap(int a0, int a1, int b0, int b1);
+bool isOverlapping(int min1, int max1, int min2, int max2);
+int calculateOverlap(int min1, int max1, int min2, int max2);
 
+SDL_Texture* loadTexture(SDL_Renderer *ren, string src);
 
 #endif

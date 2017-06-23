@@ -13,14 +13,45 @@
 #include "renderer/fourtile.h"
 #include "renderer/sixtile.h"
 
+struct RenderCacheItem {
+  int layer;
+  int y;
+  EID entity;
+
+  bool operator< (RenderCacheItem const &other) const;
+
+  RenderCacheItem(int _layer, int _y, EID _entity)
+    : layer(_layer), y(_y), entity(_entity) { };
+};
+
 class RenderSystem : public System {
   public:
     SDL_Renderer *renderer = nullptr;
 
+    SDL_Color white = {255, 255, 255};
+    SDL_Color black = {0, 0, 0};
+    TTF_Font *font;
+    TTF_Font *outline;
+
+    set<RenderCacheItem> cache;
+
+    SDL_Surface *bgSurface;
+    SDL_Surface *fgSurface;
+    SDL_Texture *message;
+
     void update(float dt);
 
     RenderSystem(EntityManager *_manager, Renderer *_game) :
-      System(_manager, _game) { };
+      System(_manager, _game) {
+        font = TTF_OpenFont("assets/fonts/Verdana.ttf", 14);
+        outline = TTF_OpenFont("assets/fonts/Verdana.ttf", 14);
+        TTF_SetFontOutline(outline, 2);
+    };
+
+    ~RenderSystem() {
+      SDL_FreeSurface(bgSurface);
+      SDL_FreeSurface(fgSurface);
+    };
 };
 
 #endif

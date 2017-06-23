@@ -19,6 +19,7 @@
 
 #include "renderer/tileset.h"
 #include "game/components.h"
+#include "game/utils.h"
 #include "game/systems/render.h"
 #include "game/systems/input.h"
 #include "game/systems/camera.h"

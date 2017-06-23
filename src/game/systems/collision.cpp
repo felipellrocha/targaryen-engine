@@ -3,8 +3,8 @@
 void CollisionSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
   auto camera = manager->getComponent<PositionComponent>(manager->getSpecial("camera"));
-  for (int i = 0; i < entities.size(); i++) {
-    EID e1 = entities[i];
+
+  for (EID e1 : entities) {
     auto c1 = manager->getComponent<CollisionComponent>(e1);
     auto p1 = manager->getComponent<PositionComponent>(e1);
 
@@ -12,12 +12,7 @@ void CollisionSystem::update(float dt) {
 
     c1->collisions.clear();
 
-    int x1 = p1->nextX + c1->x;
-    int y1 = p1->nextY + c1->y;
-
-    for (int j = 0; j < entities.size(); j++) {
-      EID e2 = entities[j];
-
+    for (EID e2 : entities) {
       auto c2 = manager->getComponent<CollisionComponent>(e2);
       auto p2 = manager->getComponent<PositionComponent>(e2);
 
@@ -27,12 +22,14 @@ void CollisionSystem::update(float dt) {
         continue;
       }
 
+      int x1 = p1->nextX + c1->x;
+      int y1 = p1->nextY + c1->y;
       int x2 = p2->nextX + c2->x;
       int y2 = p2->nextY + c2->y;
 
-      bool colliding = 
-        (overlap(x1, x1 + c1->w, x2, x2 + c2->w) &&
-        overlap(y1, y1 + c1->h, y2, y2 + c2->h));
+      bool collidingX = isOverlapping(x1, x1 + c1->w, x2, x2 + c2->w);
+      bool collidingY = isOverlapping(y1, y1 + c1->h, y2, y2 + c2->h);
+      bool colliding = collidingX && collidingY;
 
       c1->isColliding = c1->isColliding || colliding;
 
@@ -45,31 +42,19 @@ void CollisionSystem::update(float dt) {
         int v_distance = abs((y1 + c1->h / 2) - (y2 + c2->h / 2));
 
         if (v_distance > h_distance) {
-          int offset = abs(v_distance - (c1->h / 2) - (c2->h / 2));
+          int overlap = calculateOverlap(y1, y1 + c1->h,  y2, y2 + c2->h);
           int direction = (Compass::NORTH & p1->direction) ? 1 : -1;
-          p1->nextY += direction * offset;
+          p1->nextY += direction * overlap;
         }
         else if (h_distance > v_distance) {
-          int offset = abs(h_distance - (c1->w / 2) - (c2->w / 2));
+          int overlap = calculateOverlap(x1, x1 + c1->w, x2, x2 + c2->w);
           int direction = (Compass::EAST & p1->direction) ? -1 : 1;
-          p1->nextX += direction * offset;
+          p1->nextX += direction * overlap;
         }
       }
 
       p1->y = p1->nextY;
       p1->x = p1->nextX;
-
-#ifdef DRAW_COLLISION
-      if (colliding) {
-        SDL_RenderDrawLine(
-          game->ren,
-          x1 + (c1->w / 2) - camera->x,
-          y1 + (c1->h / 2) - camera->y,
-          x2 + (c2->w / 2) - camera->x,
-          y2 + (c2->h / 2) - camera->y
-        );
-      }
-#endif
     }
   }
 };

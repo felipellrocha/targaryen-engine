@@ -2,8 +2,7 @@
 
 void CameraSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<CenteredCameraComponent>(); 
-  for (int i = 0; i < entities.size(); i++) {
-    EID entity = entities[i];
+  for (EID entity : entities) {
     auto camera = manager->getComponent<CenteredCameraComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto dimension = manager->getComponent<DimensionComponent>(entity);
