@@ -1,10 +1,7 @@
 #include "render.h"
 
 bool RenderCacheItem::operator< (RenderCacheItem const &other) const {
-  return
-    (layer < other.layer) ||
-    (layer == other.layer && y < other.y) ||
-    (layer == other.layer && y == other.y && entity < other.entity);
+  return tie(layer, y, entity) < tie(other.layer, other.y, other.entity);
 }
 
 void RenderSystem::update(float dt) {
@@ -44,6 +41,17 @@ void RenderSystem::update(float dt) {
     auto position = manager->getComponent<PositionComponent>(entity);
     auto dimension = manager->getComponent<DimensionComponent>(entity);
     auto health = manager->getComponent<HealthComponent>(entity);
+    auto color = manager->getComponent<ColorComponent>(entity);
+
+    if (color) {
+      SDL_SetRenderDrawColor( game->ren, color->r, color->g, color->b, color->a );
+      SDL_Rect r;
+      r.x = position->x;
+      r.y = position->y;
+      r.w = dimension->w;
+      r.h = dimension->h;
+      SDL_RenderFillRect(game->ren, &r);
+    }
 
     if (tile) {
       Tileset *tileset = game->tilesets[tile->setIndex];
@@ -86,7 +94,9 @@ void RenderSystem::update(float dt) {
     }
 
     if (health) {
-      string healthDisplay = to_string(health->hearts) + "/" + to_string(health->max);
+      string healthDisplay = to_string(health->hearts)
+        + "/"
+        + to_string(health->max);
 
       bgSurface = TTF_RenderText_Blended(outline, healthDisplay.c_str(), black);
       fgSurface = TTF_RenderText_Blended(font, healthDisplay.c_str(), white);

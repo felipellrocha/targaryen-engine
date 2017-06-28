@@ -1,25 +1,27 @@
-#ifndef SYSTEMPROJECTILE_H
-#define SYSTEMPROJECTILE_H
+#ifndef SYSTEMTRANSITION_H
+#define SYSTEMTRANSITION_H
 
+#include <vector>
 #include "sdl2image.h"
+
 #include "game/components.h"
-#include "game/utils.h"
 
 #include "renderer/compass.h"
 #include "renderer/renderer.h"
 
 #include "entity/entity.h"
 #include "entity/system.h"
-#include "game/transitions/change-map.h"
 
-class ProjectileSystem : public System {
+using namespace std;
+
+class TransitionSystem : public System {
   public:
-    float timing = 2.f;
 
     void update(float dt);
 
-    ProjectileSystem(EntityManager *_manager, Renderer *_game) :
+    TransitionSystem(EntityManager *_manager, Renderer *_game) :
       System(_manager, _game) { };
 };
 
 #endif
+

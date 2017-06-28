@@ -14,6 +14,7 @@ void ProjectileSystem::update(float dt) {
 
     if (collision->isColliding) {
       manager->removeEntity(entity);
+      game->addTransition<FadeOutTransition>(5.5f);
 
       for (auto it : collision->collisions) {
         EID coll = it.first;
@@ -34,7 +35,7 @@ void ProjectileSystem::update(float dt) {
   }
 
   if (Actions::MAIN & this->game->actions) {
-    if (timing > .25f) {
+    if (timing > 1.75f) {
       int direction = 0;
       int xOffset = 0;
       int yOffset = 0;

@@ -5,6 +5,7 @@
 #include "game/components.h"
 
 #include "renderer/compass.h"
+#include "renderer/animation.h"
 #include "renderer/renderer.h"
 
 #include "entity/entity.h"

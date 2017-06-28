@@ -18,6 +18,8 @@
 #include "entity/system.h"
 
 #include "renderer/tileset.h"
+#include "renderer/animation.h"
+//#include "renderer/transition.h"
 #include "game/components.h"
 #include "game/utils.h"
 #include "game/systems/render.h"
@@ -26,16 +28,13 @@
 #include "game/systems/collision.h"
 #include "game/systems/projectile.h"
 #include "game/systems/walk.h"
+#include "game/systems/transition.h"
 
 using json = nlohmann::json;
 using namespace std;
 
-struct Animation {
-    string id;
-    int numberOfFrames;
-    map<int, SDL_Rect> keyframes;
-};
 
+class Transition;
 class Renderer {
   public:
     vector<Tileset *> tilesets;
@@ -51,8 +50,13 @@ class Renderer {
     int compass = 0;
     int actions = 0;
 
+    int numTransitions = 0;
+
     json entities;
     map<string, Animation> animations;
+    vector<Transition *> incoming;
+    vector<Transition *> outgoing;
+    set<Transition *> transitions;
 
     Grid grid;
     map<string, SDL_Texture*> textures;
@@ -60,8 +64,27 @@ class Renderer {
     bool isRunning() { return running; };
     void quit() { running = false; };
 
-    void registerSystem(System *system);
+    template<class SystemClass, typename... Args>
+    void registerSystem(Args... args) {
+      SystemClass *system = new SystemClass(args..., this);
+      this->systems.push_back(system);
+    }
+
     void loop(float dt);
+
+    template<class TransitionClass, typename... Args>
+    void addTransition(Args... args) {
+      TransitionClass *transition = new TransitionClass(args...);
+      //transition->id = numTransitions++;
+      //transitions.insert(transition);
+      incoming.push_back(transition);
+    }
+
+    void addTransition(Transition* transition) {
+      //transition->id = numTransitions++;
+      //transitions.insert(transition);
+      incoming.push_back(transition);
+    }
 
     Renderer(string levelFile);
     ~Renderer();

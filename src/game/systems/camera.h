@@ -2,7 +2,6 @@
 #define SYSTEMCAMERA_H
 
 #include "sdl2image.h"
-#include <algorithm>
 
 #include "game/components.h"
 

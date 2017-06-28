@@ -11,8 +11,6 @@
 #include "game/utils.h"
 
 struct HealthComponent : public Component {
-  static CID cid;
-
   int hearts;
   int max;
 
@@ -21,8 +19,6 @@ struct HealthComponent : public Component {
 };
 
 struct PositionComponent : public Component {
-  static CID cid;
-
   int x;
   int y;
 
@@ -38,8 +34,6 @@ struct PositionComponent : public Component {
 };
 
 struct DimensionComponent : public Component {
-  static CID cid;
-
   int w;
   int h;
 
@@ -47,8 +41,6 @@ struct DimensionComponent : public Component {
 };
 
 struct SpriteComponent : public Component {
-  static CID cid;
-
   int x;
   int y;
   int w;
@@ -62,14 +54,10 @@ struct SpriteComponent : public Component {
 };
 
 struct InputComponent : public Component {
-  static CID cid;
-
   InputComponent() {};
 };
 
 struct MovementComponent : public Component {
-  static CID cid;
-
   int vecX;
   int vecY;
 
@@ -78,8 +66,6 @@ struct MovementComponent : public Component {
 };
 
 struct TileComponent : public Component {
-  static CID cid;
-
   int setIndex;
   int tileIndex;
   int locationIndex;
@@ -96,8 +82,6 @@ struct TileComponent : public Component {
 };
 
 struct RenderComponent : public Component {
-  static CID cid;
-
   int layer;
 
   RenderComponent(int _layer)
@@ -105,16 +89,12 @@ struct RenderComponent : public Component {
 };
 
 struct CenteredCameraComponent : public Component {
-  static CID cid;
-
   EID entity;
 
   CenteredCameraComponent(EID _entity) : entity(_entity) { };
 };
 
 struct CollisionComponent : public Component {
-  static CID cid;
-
   // Static colliders are things like walls, and such, that are never moving
   // keeping track of them allows us to run a small optimization until we need
   // some more heavy duty things to check for collision
@@ -139,8 +119,6 @@ struct CollisionComponent : public Component {
 };
 
 struct ProjectileComponent : public Component {
-  static CID cid;
-
   int vec = 0;
 
   ProjectileComponent(int _vec)
@@ -148,8 +126,6 @@ struct ProjectileComponent : public Component {
 };
 
 struct WalkComponent : public Component {
-  static CID cid;
-
   int direction = Compass::SOUTH;
   int frame;
   bool animating = false;
@@ -157,6 +133,22 @@ struct WalkComponent : public Component {
   WalkComponent(int _direction, int _frame) : direction(_direction), frame(_frame) { };
   WalkComponent(int _direction) : WalkComponent(_direction, 0) { };
   WalkComponent() : WalkComponent(0, 0) { };
+};
+
+struct ColorComponent : public Component {
+  int r = 0;
+  int g = 0;
+  int b = 0;
+  int a = 0;
+
+  ColorComponent(int _r, int _g, int _b, int _a)
+    : r(_r), g(_g), b(_b), a(_a) { };
+};
+
+struct ScriptComponent : public Component {
+  bool onCollision = false;
+
+  ScriptComponent() { };
 };
 
 #endif

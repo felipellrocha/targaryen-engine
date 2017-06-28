@@ -28,6 +28,7 @@ Renderer::Renderer(string gamePackage) {
     -1,
     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
   );
+
   if (this->ren == nullptr) {
     SDL_DestroyWindow(this->win);
     std::cout << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl;
@@ -47,6 +48,8 @@ Renderer::Renderer(string gamePackage) {
     SDL_Quit();
     throw renderer_error();
   }
+
+  SDL_SetRenderDrawBlendMode(this->ren, SDL_BLENDMODE_BLEND);
 
   string gameFile = gamePackage + "/app.json";
   cout << gameFile << endl;
@@ -181,6 +184,7 @@ Renderer::Renderer(string gamePackage) {
             int y = component.at("members").at("y").at("value").get<int>();
             int w = component.at("members").at("w").at("value").get<int>();
             int h = component.at("members").at("h").at("value").get<int>();
+
             manager->addComponent<CollisionComponent>(
               entity,
               isStatic,
@@ -200,11 +204,13 @@ Renderer::Renderer(string gamePackage) {
           else if (name == "HealthComponent") {
             int hearts = component.at("members").at("hearts").at("value").get<int>();
             int max = component.at("members").at("max").at("value").get<int>();
+
             manager->addComponent<HealthComponent>(entity, hearts, max);
           }
           else if (name == "SpriteComponent") {
             string source = component.at("members").at("src").at("value").get<string>();
             SDL_Texture *texture = loadTexture(this->ren, source.c_str());
+
             manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
           }
           else if (name == "InputComponent") {
@@ -216,6 +222,7 @@ Renderer::Renderer(string gamePackage) {
           else if (name == "MovementComponent") {
             int vecX = component.at("members").at("vecX").at("value").get<int>();
             int vecY = component.at("members").at("vecY").at("value").get<int>();
+
             manager->addComponent<MovementComponent>(entity, vecX, vecY);
           }
           else if (name == "WalkComponent") {
@@ -229,17 +236,14 @@ Renderer::Renderer(string gamePackage) {
     }
   }
 
-  this->registerSystem(new InputSystem(manager, this));
-  this->registerSystem(new WalkSystem(manager, this));
-  this->registerSystem(new ProjectileSystem(manager, this));
-  this->registerSystem(new CollisionSystem(manager, this));
-  this->registerSystem(new CameraSystem(manager, this));
-  this->registerSystem(new RenderSystem(manager, this));
+  this->registerSystem<TransitionSystem>(manager);
+  this->registerSystem<InputSystem>(manager);
+  this->registerSystem<WalkSystem>(manager);
+  this->registerSystem<ProjectileSystem>(manager);
+  this->registerSystem<CollisionSystem>(manager);
+  this->registerSystem<CameraSystem>(manager);
+  this->registerSystem<RenderSystem>(manager);
 };
-
-void Renderer::registerSystem(System *system) {
-  this->systems.push_back(system);
-}
 
 void Renderer::loop(float dt) {
   SDL_Event event;
