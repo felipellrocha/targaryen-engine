@@ -1,6 +1,7 @@
 #include "renderer.h"
 
-Renderer::Renderer(string gamePackage) {
+Renderer::Renderer(string _gamePackage, EntityManager* _manager)
+  : gamePackage(_gamePackage), manager(_manager) {
   this->running = true;
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -54,24 +55,22 @@ Renderer::Renderer(string gamePackage) {
   string gameFile = gamePackage + "/app.json";
   cout << gameFile << endl;
   json game_data = readFile(gameFile.c_str());
+  json maps = game_data.at("maps");
 
-  int mapIndex = game_data.at("initialMap").get<int>();
-  auto currentMap = game_data.at("maps").at(mapIndex);
-  string mapFile = gamePackage + "/maps/" + currentMap.at("id").get<string>() + ".json";
+  for (auto& element : json::iterator_wrapper(maps)) {
+    auto map = element.value();
 
-  entities = game_data.at("entities");
-  //animations = game_data.at("animations");
+    string name = map.at("name").get<string>();
+    string id = map.at("id").get<string>();
+    mapsByName[name] = id;
+  }
 
-  cout << "Loading file: " << mapFile << endl;
-
-  json map_data = readFile(mapFile.c_str());
-
-  this->grid.columns = map_data.at("grid").at("columns").get<int>();
-  this->grid.rows = map_data.at("grid").at("rows").get<int>();
   this->grid.tile_w = game_data.at("tile").at("width").get<int>();
   this->grid.tile_h = game_data.at("tile").at("height").get<int>();
 
-  EntityManager *manager = new EntityManager();
+  int mapIndex = game_data.at("initialMap").get<int>();
+  json currentMap = game_data.at("maps").at(mapIndex);
+  string levelId = currentMap.at("id").get<string>();
 
   Entity* camera = manager->createEntity();
   manager->addComponent<DimensionComponent>(camera, this->windowWidth, this->windowHeight);
@@ -130,6 +129,35 @@ Renderer::Renderer(string gamePackage) {
 
     this->animations[key] = anim;
   }
+
+  this->loadStage(levelId);
+
+  this->registerSystem<TransitionSystem>(manager);
+  this->registerSystem<InputSystem>(manager);
+  this->registerSystem<WalkSystem>(manager);
+  this->registerSystem<ProjectileSystem>(manager);
+  this->registerSystem<CollisionSystem>(manager);
+  this->registerSystem<CameraSystem>(manager);
+  this->registerSystem<RenderSystem>(manager);
+};
+
+void Renderer::loadStage(string level) {
+  string gameFile = gamePackage + "/app.json";
+  cout << gameFile << endl;
+  json game_data = readFile(gameFile.c_str());
+
+  this->loadStage(game_data, level);
+}
+
+void Renderer::loadStage(json game_data, string level) {
+  string mapFile = gamePackage + "/maps/" + level + ".json";
+
+  cout << "Loading file: " << mapFile << endl;
+
+  json map_data = readFile(mapFile.c_str());
+
+  this->grid.columns = map_data.at("grid").at("columns").get<int>();
+  this->grid.rows = map_data.at("grid").at("rows").get<int>();
 
   for (uint i = 0; i < map_data.at("layers").size(); i++) {
     json element = map_data.at("layers").at(i);
@@ -229,21 +257,14 @@ Renderer::Renderer(string gamePackage) {
             manager->addComponent<WalkComponent>(entity);
           }
           else if (name == "CenteredCameraComponent") {
+            EID camera = manager->getSpecial("camera");
             manager->addComponent<CenteredCameraComponent>(camera, entity->eid);
           }
         }
       }
     }
   }
-
-  this->registerSystem<TransitionSystem>(manager);
-  this->registerSystem<InputSystem>(manager);
-  this->registerSystem<WalkSystem>(manager);
-  this->registerSystem<ProjectileSystem>(manager);
-  this->registerSystem<CollisionSystem>(manager);
-  this->registerSystem<CameraSystem>(manager);
-  this->registerSystem<RenderSystem>(manager);
-};
+}
 
 void Renderer::loop(float dt) {
   SDL_Event event;

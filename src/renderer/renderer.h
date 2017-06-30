@@ -52,6 +52,11 @@ class Renderer {
 
     int numTransitions = 0;
 
+    map<string, string> mapsByName;
+
+    string gamePackage;
+    EntityManager* manager;
+
     json entities;
     map<string, Animation> animations;
     vector<Transition *> incoming;
@@ -75,18 +80,17 @@ class Renderer {
     template<class TransitionClass, typename... Args>
     void addTransition(Args... args) {
       TransitionClass *transition = new TransitionClass(args...);
-      //transition->id = numTransitions++;
-      //transitions.insert(transition);
       incoming.push_back(transition);
     }
 
     void addTransition(Transition* transition) {
-      //transition->id = numTransitions++;
-      //transitions.insert(transition);
       incoming.push_back(transition);
     }
 
-    Renderer(string levelFile);
+    void loadStage(string level);
+    void loadStage(json game_data, string level);
+
+    Renderer(string _gamePackage, EntityManager* _manager);
     ~Renderer();
 };
 

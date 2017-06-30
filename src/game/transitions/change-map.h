@@ -9,9 +9,12 @@ using namespace std;
 
 class FadeOutTransition : public Transition {
   public:
+		int step = 0;
     int x = 0;
     float duration = .0f;
     float running = .0f;
+
+		EID entity;
     
     FadeOutTransition (float _duration) :
       duration(_duration) { };

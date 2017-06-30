@@ -6,6 +6,7 @@ void TransitionSystem::update(float dt) {
     game->transitions.insert(transition);
     transition->begin(manager, game);
   }
+  game->incoming.clear();
 
   for (auto transition : game->transitions) {
     bool result = transition->tick(manager, game, dt);
@@ -22,5 +23,4 @@ void TransitionSystem::update(float dt) {
   }
 
   game->outgoing.clear();
-  game->incoming.clear();
 }

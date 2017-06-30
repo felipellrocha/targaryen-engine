@@ -6,7 +6,8 @@ void FadeOutTransition::begin(EntityManager* manager, Renderer* game) {
   manager->addComponent<DimensionComponent>(entity, game->windowWidth, game->windowHeight);
   manager->addComponent<ColorComponent>(entity, 0, 0, 0, 0);
   manager->addComponent<RenderComponent>(entity, 999);
-  manager->saveSpecial("fade", entity);
+
+	this->entity = entity->eid;
 
   EID player = manager->getSpecial("player");
   manager->removeComponent<InputComponent>(player);
@@ -19,8 +20,7 @@ bool FadeOutTransition::tick(EntityManager* manager, Renderer* game, float dt) {
     return true;
   }
   else {
-    EID fade = manager->getSpecial("fade");
-    auto color = manager->getComponent<ColorComponent>(fade);
+    auto color = manager->getComponent<ColorComponent>(entity);
     color->a = (int)((running / duration) * 255);
 
     running += dt;
@@ -29,8 +29,7 @@ bool FadeOutTransition::tick(EntityManager* manager, Renderer* game, float dt) {
 };
 
 Transition* FadeOutTransition::end(EntityManager* manager, Renderer* game) {
-  EID fade = manager->getSpecial("fade");
-  manager->removeEntity(fade);
+  manager->removeEntity(entity);
 
   EID player = manager->getSpecial("player");
   manager->addComponent<InputComponent>(player);
