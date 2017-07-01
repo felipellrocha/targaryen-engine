@@ -21,9 +21,9 @@ CXX_FLAGS = \
 	-Wall \
 	-D NATIVE \
 	-pedantic \
+	-D DRAW_FPS \
 	-g
 	#-D DRAW_COLLISION \
-	# -D DRAW_FPS \
 	#-Wextra \
 	#-Wshadow \
 

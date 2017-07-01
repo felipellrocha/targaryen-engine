@@ -10,52 +10,23 @@
 #include "exceptions.h"
 #include "entity/entity.h"
 
-const int SCREEN_FPS = 60;
+const int SCREEN_FPS = 5;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
 LTimer fpsTimer;
 LTimer capTimer;
 int countedFrames = 0;
 
-#ifdef DRAW_FPS
-TTF_Font * Sans;
-SDL_Surface * surfaceMessage;
-SDL_Texture * Message;
-
-void drawFPS(float fps, Renderer &renderer) {
-	stringstream ss;
-	ss << fixed << setprecision(2) << fps;
-
-	string fpsString = ss.str();
-
-  SDL_Color White = {255, 255, 255};
-  Sans = TTF_OpenFont("/Library/Fonts/Verdana.ttf", 14);
-	surfaceMessage = TTF_RenderText_Blended(Sans, fpsString.c_str(), White);
-
-	Message = SDL_CreateTextureFromSurface(renderer.ren, surfaceMessage);
-
-	SDL_Rect rect; //create a rect
-  SDL_QueryTexture(Message, NULL, NULL, &rect.w, &rect.h );
-	rect.x = 2;
-	rect.y = 2;
-
-	SDL_RenderCopy(renderer.ren, Message, NULL, &rect);
-}
-#endif
 
 void loop(Renderer &renderer) {
   capTimer.start();
 
   float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
-  if (avgFPS > 2000000) avgFPS = 1;
+  if (avgFPS > 2000000) avgFPS = 0;
 
   SDL_RenderClear(renderer.ren);
 
   renderer.loop((double)countedFrames / fpsTimer.getTicks());
-
-#ifdef DRAW_FPS
-  drawFPS((double)capTimer.getTicks(), renderer);
-#endif
 
   SDL_RenderPresent(renderer.ren);
 

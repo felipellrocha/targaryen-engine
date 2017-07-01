@@ -23,13 +23,24 @@ Entity* EntityManager::createEntity() {
 }
 
 void EntityManager::removeEntity(EID eid) {
-  for (auto it = this->components.begin(); it != this->components.end(); ++it) {
-    auto cid = it->first;
+  for (auto& it : components) {
+    auto cid = it.first;
 
-    if (this->components[cid].count(eid)) {
-      auto entity = this->components[cid][eid];
-      this->components[cid].erase(eid);
+    if (components[cid].count(eid)) {
+      auto entity = components[cid][eid];
+      components[cid].erase(eid);
       delete entity;
     }
   }
+}
+
+void EntityManager::clear() {
+  for (auto& type : components) {
+    for (auto& component : type.second) {
+      delete component.second;
+    }
+    components[type.first].clear();
+  }
+
+  special.clear();
 }

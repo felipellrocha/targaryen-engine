@@ -72,11 +72,6 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager)
   json currentMap = game_data.at("maps").at(mapIndex);
   string levelId = currentMap.at("id").get<string>();
 
-  Entity* camera = manager->createEntity();
-  manager->addComponent<DimensionComponent>(camera, this->windowWidth, this->windowHeight);
-  manager->addComponent<PositionComponent>(camera, 0, 0);
-  manager->saveSpecial("camera", camera);
-
   textures["flame"] = loadTexture(this->ren, "assets/flame.png");
 
   auto tileset_data = game_data.at("tilesets");
@@ -158,6 +153,11 @@ void Renderer::loadStage(json game_data, string level) {
 
   this->grid.columns = map_data.at("grid").at("columns").get<int>();
   this->grid.rows = map_data.at("grid").at("rows").get<int>();
+
+  Entity* camera = manager->createEntity();
+  manager->addComponent<DimensionComponent>(camera, this->windowWidth, this->windowHeight);
+  manager->addComponent<PositionComponent>(camera, 0, 0);
+  manager->saveSpecial("camera", camera);
 
   for (uint i = 0; i < map_data.at("layers").size(); i++) {
     json element = map_data.at("layers").at(i);

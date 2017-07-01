@@ -167,6 +167,24 @@ void RenderSystem::update(float dt) {
   }
   #endif
 
+#ifdef DRAW_FPS
+	stringstream ss;
+	ss << fixed << setprecision(2) << (1 / dt);
+	string fpsString = ss.str();
+
+	fgSurface = TTF_RenderText_Blended(font, fpsString.c_str(), white);
+
+  message = SDL_CreateTextureFromSurface(game->ren, fgSurface);
+
+  SDL_Rect rect;
+  rect.w = fgSurface->w;
+  rect.h = fgSurface->h;
+  rect.x = 2;
+  rect.y = 2;
+
+  SDL_RenderCopy(game->ren, message, NULL, &rect);
+#endif
+
   cache.clear();
   SDL_SetRenderDrawColor( game->ren, 0, 0, 0, 0 );
 };

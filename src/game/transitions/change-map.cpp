@@ -16,21 +16,54 @@ void FadeOutTransition::begin(EntityManager* manager, Renderer* game) {
 };
 
 bool FadeOutTransition::tick(EntityManager* manager, Renderer* game, float dt) {
-  if (running > duration) {
-    return true;
-  }
-  else {
+  if (step == 0) {
     auto color = manager->getComponent<ColorComponent>(entity);
     color->a = (int)((running / duration) * 255);
 
     running += dt;
+
+    if (running > duration) {
+      running = 0.f;
+      step += 1;
+    }
+    
     return false;
+  }
+  else if (step == 1) {
+    manager->clear();
+    string level = game->mapsByName["room"];
+    game->loadStage(level);
+
+    Entity* entity = manager->createEntity();
+    manager->addComponent<PositionComponent>(entity, 0, 0);
+    manager->addComponent<DimensionComponent>(entity, game->windowWidth, game->windowHeight);
+    manager->addComponent<ColorComponent>(entity, 0, 0, 0, 255);
+    manager->addComponent<RenderComponent>(entity, 999);
+
+    this->entity = entity->eid;
+    step += 1;
+    
+    return false;
+  }
+  else if (step == 2) {
+    auto color = manager->getComponent<ColorComponent>(entity);
+    color->a = 255 - (int)((running / duration) * 255);
+
+    running += dt;
+
+    if (running > duration) {
+      running = 0.f;
+      step += 1;
+    }
+
+    return false;
+  }
+  else {
+    return true;
   }
 };
 
 Transition* FadeOutTransition::end(EntityManager* manager, Renderer* game) {
-  manager->removeEntity(entity);
-
   EID player = manager->getSpecial("player");
   manager->addComponent<InputComponent>(player);
 

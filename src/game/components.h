@@ -15,7 +15,14 @@ struct HealthComponent : public Component {
   int max;
 
   HealthComponent(int _hearts, int _max) : hearts(_hearts), max(_max) {}
-
+  friend ostream& operator << (ostream &os, HealthComponent component) {
+    os <<
+      "Health<hearts = " <<
+      component.hearts <<
+      ", max = " <<
+      component.max <<
+      ">";
+  }
 };
 
 struct PositionComponent : public Component {
