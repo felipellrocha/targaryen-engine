@@ -121,7 +121,7 @@ void RenderSystem::update(float dt) {
     }
   }
 
-  #ifdef DRAW_COLLISION
+#ifdef DRAW_COLLISION
   entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
   for (EID entity : entities) {
     auto position = manager->getComponent<PositionComponent>(entity);
@@ -165,7 +165,7 @@ void RenderSystem::update(float dt) {
       );
     }
   }
-  #endif
+#endif
 
 #ifdef DRAW_FPS
 	stringstream ss;

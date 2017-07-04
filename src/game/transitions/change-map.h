@@ -11,13 +11,14 @@ class FadeOutTransition : public Transition {
   public:
 		int step = 0;
     int x = 0;
+    string mapName;
     float duration = .0f;
     float running = .0f;
 
 		EID entity;
     
-    FadeOutTransition (float _duration) :
-      duration(_duration) { };
+    FadeOutTransition (string _mapName, float _duration) :
+      mapName(_mapName), duration(_duration) { };
 
     void begin(EntityManager* manager, Renderer* game);
     bool tick(EntityManager* manager, Renderer* game, float dt);

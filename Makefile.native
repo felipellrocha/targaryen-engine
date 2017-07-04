@@ -22,12 +22,10 @@ CXX_FLAGS = \
 	-D NATIVE \
 	-pedantic \
 	-D DRAW_FPS \
+	-D DRAW_COLLISION \
 	-g
-	#-D DRAW_COLLISION \
 	#-Wextra \
 	#-Wshadow \
-
-COMPILING_FLAGS = #-pthread
 
 EXEC_FLAGS = 
 LIBS := -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/SDL2_image.framework/Headers -I /Library/Frameworks/SDL2_ttf.framework/Headers -framework SDL2 -framework SDL2_image -framework SDL2_ttf
@@ -54,11 +52,11 @@ depends:
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
-	$(C) $(C_FLAGS) $(COMPILING_FLAGS) $(INC_DIRS) -c $< -o $@
+	$(C) $(C_FLAGS) $(INC_DIRS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
-	$(CXX) $(CXX_FLAGS) $(COMPILING_FLAGS) $(INC_DIRS) -c $< -o $@
+	$(CXX) $(CXX_FLAGS) $(INC_DIRS) -c $< -o $@
 
 $(OBJ_DIR)/%.d: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

@@ -3,12 +3,14 @@
 
 #include "sdl2image.h"
 #include <cstdlib>
+#include <forward_list>
 
 #include "game/components.h"
 #include "game/utils.h"
 
 #include "renderer/renderer.h"
 #include "renderer/compass.h"
+#include "renderer/script.h"
 
 #include "entity/entity.h"
 #include "entity/system.h"
@@ -18,6 +20,8 @@ using namespace std;
 class CollisionSystem : public System {
   public:
     void update(float dt);
+
+    forward_list<EID> queue;
 
     CollisionSystem(EntityManager *_manager, Renderer *_game) :
       System(_manager, _game) { };

@@ -14,7 +14,6 @@ void ProjectileSystem::update(float dt) {
 
     if (collision->isColliding) {
       manager->removeEntity(entity);
-      game->addTransition<FadeOutTransition>(1.5f);
 
       for (auto it : collision->collisions) {
         EID coll = it.first;

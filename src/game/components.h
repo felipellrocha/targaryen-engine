@@ -5,10 +5,13 @@
 #include <string>
 #include <iostream>
 
+#include "json/json.h"
 #include "renderer/compass.h"
 #include "entity/entity.h"
 #include "entity/component.h"
 #include "game/utils.h"
+
+using json = nlohmann::json;
 
 struct HealthComponent : public Component {
   int hearts;
@@ -113,6 +116,8 @@ struct CollisionComponent : public Component {
   int y;
   int w;
   int h;
+
+	json/*script*/ onCollision = nullptr;
 
   map<EID, int> collisions;
 

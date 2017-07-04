@@ -10,7 +10,7 @@
 #include "exceptions.h"
 #include "entity/entity.h"
 
-const int SCREEN_FPS = 5;
+const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
 LTimer fpsTimer;
@@ -31,10 +31,6 @@ void loop(Renderer &renderer) {
   SDL_RenderPresent(renderer.ren);
 
   countedFrames++;
-
-  int frameTicks = capTimer.getTicks();
-  if (frameTicks < SCREEN_TICKS_PER_FRAME)
-    SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
 }
 
 #ifdef __EMSCRIPTEN__
@@ -45,8 +41,6 @@ extern "C" int mainf() {
   Renderer game = Renderer("assets/rpg.targ", manager);
 
   emscripten_set_main_loop_arg((em_arg_callback_func)loop, &game, -1, 1);
-
-  delete game;
 
   SDL_Quit();
   return 0;

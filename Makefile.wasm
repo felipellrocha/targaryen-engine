@@ -17,6 +17,8 @@ CXX_FLAGS = \
 	-Wextra \
 	-Wshadow \
 	-pedantic \
+	-D DRAW_FPS \
+	-D DRAW_COLLISION \
 	-Oz \
 	-s USE_SDL=2 \
 	-s USE_SDL_IMAGE=2 \

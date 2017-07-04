@@ -207,13 +207,14 @@ void Renderer::loadStage(json game_data, string level) {
           string name = component.at("name").get<string>();
 
           if (name == "CollisionComponent") {
-            bool isStatic = component.at("members").at("isStatic").at("value").get<bool>();
-            int x = component.at("members").at("x").at("value").get<int>();
-            int y = component.at("members").at("y").at("value").get<int>();
-            int w = component.at("members").at("w").at("value").get<int>();
-            int h = component.at("members").at("h").at("value").get<int>();
+            auto members = component.at("members");
+            bool isStatic = members.at("isStatic").at("value").get<bool>();
+            int x = members.at("x").value("value", 0);
+            int y = members.at("y").value("value", 0);
+            int w = members.at("w").value("value", 0);
+            int h = members.at("h").value("value", 0);
 
-            manager->addComponent<CollisionComponent>(
+            auto component = manager->addComponent<CollisionComponent>(
               entity,
               isStatic,
               0,
@@ -222,6 +223,10 @@ void Renderer::loadStage(json game_data, string level) {
               (w > 0) ? w : this->grid.tile_w,
               (h > 0) ? h : this->grid.tile_h
             );
+
+            if (!members.at("onCollision").at("value").is_null()) {
+              component->onCollision = members.at("onCollision").at("value");
+            }
           }
           else if (name == "PositionComponent") {
             manager->addComponent<PositionComponent>(entity, x, y);
@@ -319,6 +324,18 @@ void Renderer::loop(float dt) {
 
   for (int i = 0; i < this->systems.size(); i++) this->systems[i]->update(dt);
 }
+
+void Renderer::runScript(json commands) {
+  for (auto &command : commands) {
+    cout << command << endl;
+		if (command.at("name").get<string>() == "changeMap") {
+      string level = command.at("parameters").at("map").at("value").get<string>();
+      float duration = command.at("parameters").at("duration").at("value").get<float>();
+      this->addTransition<FadeOutTransition>(level, duration);
+		}
+	}
+};
+
 
 Renderer::~Renderer() {
   SDL_DestroyRenderer(this->ren);

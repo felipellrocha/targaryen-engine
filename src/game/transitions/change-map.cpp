@@ -31,8 +31,9 @@ bool FadeOutTransition::tick(EntityManager* manager, Renderer* game, float dt) {
   }
   else if (step == 1) {
     manager->clear();
-    string level = game->mapsByName["room"];
+    string level = game->mapsByName[mapName];
     game->loadStage(level);
+
 
     Entity* entity = manager->createEntity();
     manager->addComponent<PositionComponent>(entity, 0, 0);

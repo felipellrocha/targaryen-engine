@@ -33,7 +33,6 @@
 using json = nlohmann::json;
 using namespace std;
 
-
 class Transition;
 class Renderer {
   public:
@@ -89,6 +88,7 @@ class Renderer {
 
     void loadStage(string level);
     void loadStage(json game_data, string level);
+    void runScript(json commands);
 
     Renderer(string _gamePackage, EntityManager* _manager);
     ~Renderer();
