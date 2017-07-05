@@ -1424,41 +1424,15 @@
               "value": [
                 {
                   "type": "expression",
-                  "start": 0,
-                  "end": 40,
-                  "info": [
-                    {
-                      "type": "open",
-                      "start": 9,
-                      "end": 10
-                    },
-                    {
-                      "type": "close",
-                      "start": 38,
-                      "end": 40
-                    }
-                  ],
                   "name": "changeMap",
                   "parameters": {
                     "map": {
                       "type": "string",
-                      "start": 16,
-                      "end": 22,
-                      "value": "room",
-                      "info": [
-                        {
-                          "type": "separator",
-                          "start": 22,
-                          "end": 24
-                        }
-                      ]
+                      "value": "room"
                     },
                     "duration": {
                       "type": "float",
-                      "start": 35,
-                      "end": 38,
-                      "value": 1.5,
-                      "info": []
+                      "value": 1.5
                     }
                   }
                 }
@@ -1612,41 +1586,15 @@
               "value": [
                 {
                   "type": "expression",
-                  "start": 0,
-                  "end": 42,
-                  "info": [
-                    {
-                      "type": "open",
-                      "start": 9,
-                      "end": 10
-                    },
-                    {
-                      "type": "close",
-                      "start": 40,
-                      "end": 42
-                    }
-                  ],
                   "name": "changeMap",
                   "parameters": {
                     "map": {
                       "type": "string",
-                      "start": 16,
-                      "end": 24,
-                      "value": "church",
-                      "info": [
-                        {
-                          "type": "separator",
-                          "start": 24,
-                          "end": 26
-                        }
-                      ]
+                      "value": "church"
                     },
                     "duration": {
                       "type": "float",
-                      "start": 37,
-                      "end": 40,
-                      "value": 1.5,
-                      "info": []
+                      "value": 1.5
                     }
                   }
                 }

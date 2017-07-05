@@ -10,7 +10,6 @@
 
 #include "renderer/renderer.h"
 #include "renderer/compass.h"
-#include "renderer/script.h"
 
 #include "entity/entity.h"
 #include "entity/system.h"

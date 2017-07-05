@@ -7,9 +7,7 @@ using namespace std;
 
 typedef uint32_t CID;
 
-struct Component {
-  static CID cid;
-};
+struct Component { };
 
 
 #endif

@@ -2,7 +2,6 @@
 
 void CollisionSystem::update(float dt) {
   vector<EID> entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
-  auto camera = manager->getComponent<PositionComponent>(manager->getSpecial("camera"));
 
   for (EID e1 : entities) {
     auto c1 = manager->getComponent<CollisionComponent>(e1);

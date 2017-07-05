@@ -25,7 +25,9 @@ struct HealthComponent : public Component {
       ", max = " <<
       component.max <<
       ">";
-  }
+      
+    return os;
+  };
 };
 
 struct PositionComponent : public Component {
@@ -112,10 +114,10 @@ struct CollisionComponent : public Component {
   bool isStatic = false;
   bool isColliding = false;
   int resolver = 0;
-  int x;
-  int y;
-  int w;
-  int h;
+  int x = 0;
+  int y = 0;
+  int w = 0;
+  int h = 0;
 
 	json/*script*/ onCollision = nullptr;
 

@@ -12,13 +12,13 @@ void TransitionSystem::update(float dt) {
     bool result = transition->tick(manager, game, dt);
 
     if (result) {
-      game->outgoing.push_back(transition);
+      game->outgoing.push_front(transition);
     }
   }
 
   for (auto transition : game->outgoing) {
     Transition* next = transition->end(manager, game);
-    if (next) game->incoming.push_back(next);
+    if (next) game->incoming.push_front(next);
     game->transitions.erase(transition);
   }
 

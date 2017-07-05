@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <forward_list>
 #include <SDL2/SDL.h>
 #include <string>
 #include <memory>
@@ -58,8 +59,8 @@ class Renderer {
 
     json entities;
     map<string, Animation> animations;
-    vector<Transition *> incoming;
-    vector<Transition *> outgoing;
+    forward_list<Transition *> incoming;
+    forward_list<Transition *> outgoing;
     set<Transition *> transitions;
 
     Grid grid;
@@ -79,11 +80,11 @@ class Renderer {
     template<class TransitionClass, typename... Args>
     void addTransition(Args... args) {
       TransitionClass *transition = new TransitionClass(args...);
-      incoming.push_back(transition);
+      incoming.push_front(transition);
     }
 
     void addTransition(Transition* transition) {
-      incoming.push_back(transition);
+      incoming.push_front(transition);
     }
 
     void loadStage(string level);

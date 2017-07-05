@@ -31,6 +31,9 @@ void loop(Renderer &renderer) {
   SDL_RenderPresent(renderer.ren);
 
   countedFrames++;
+
+  int frameTicks = capTimer.getTicks();
+  if (frameTicks < SCREEN_TICKS_PER_FRAME) SDL_Delay(SCREEN_TICKS_PER_FRAME - frameTicks);
 }
 
 #ifdef __EMSCRIPTEN__
