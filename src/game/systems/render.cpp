@@ -16,7 +16,8 @@ void RenderSystem::update(float dt) {
     cameraDimension->h,
   };
 
-  for (EID entity : entities) {
+  for (auto& ref : entities) {
+    EID entity = ref.first;
     auto render = manager->getComponent<RenderComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
 
@@ -33,10 +34,9 @@ void RenderSystem::update(float dt) {
     cache.insert(c);
   }
 
-  for (auto &cacheItem : cache) {
-    EID entity = cacheItem.entity;
+  for (auto &item : cache) {
+    EID entity = item.entity;
 
-    auto tile = manager->getComponent<TileComponent>(entity);
     auto sprite = manager->getComponent<SpriteComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto dimension = manager->getComponent<DimensionComponent>(entity);
@@ -53,29 +53,6 @@ void RenderSystem::update(float dt) {
       SDL_RenderFillRect(game->ren, &r);
     }
 
-    if (tile) {
-      Tileset *tileset = game->tilesets[tile->setIndex];
-      vector<array<SDL_Rect, 2>> sources;
-      if (tileset->type == "tile") {
-         sources = simpleTile::calculateAll(tile, tileset, game->grid); 
-      }
-      else if (tileset->terrains[tile->tileIndex] == "6-tile") {
-         sources = sixTile::calculateAll(tile, tileset, game->grid); 
-      } else if (tileset->terrains[tile->tileIndex] == "4-tile") {
-         sources = fourTile::calculateAll(tile, tileset, game->grid); 
-      }
-
-      for (auto calc : sources) {
-
-        SDL_Rect src = calc[0];
-        SDL_Rect dst = calc[1];
-
-        dst.x -= camera.x;
-        dst.y -= camera.y;
-
-        SDL_RenderCopy(game->ren, tileset->texture, &src, &dst);
-      }
-    }
     else if (sprite) {
       SDL_Rect src = {
         sprite->x,
@@ -88,7 +65,7 @@ void RenderSystem::update(float dt) {
         position->x - camera.x,
         position->y - camera.y,
         sprite->w,
-        sprite->h
+        sprite->h 
       };
 			SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
     }
@@ -102,13 +79,14 @@ void RenderSystem::update(float dt) {
       fgSurface = TTF_RenderText_Blended(font, healthDisplay.c_str(), white);
       message = SDL_CreateTextureFromSurface(game->ren, bgSurface);
 
-      SDL_Rect rect; 
       rect.w = bgSurface->w;
       rect.h = bgSurface->h;
       rect.x = position->x + (dimension->w / 2) - (rect.w / 2) - camera.x;
       rect.y = position->y - 17 - camera.y;
 
       SDL_RenderCopy(game->ren, message, NULL, &rect);
+      SDL_FreeSurface(bgSurface);
+      SDL_DestroyTexture(message);
 
       message = SDL_CreateTextureFromSurface(game->ren, fgSurface);
 
@@ -118,14 +96,20 @@ void RenderSystem::update(float dt) {
       rect.y = position->y - 15 - camera.y;
 
       SDL_RenderCopy(game->ren, message, NULL, &rect);
+      SDL_FreeSurface(fgSurface);
+      SDL_DestroyTexture(message);
     }
   }
 
 #ifdef DRAW_COLLISION
-  entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
-  for (EID entity : entities) {
-    auto position = manager->getComponent<PositionComponent>(entity);
+  for (auto &item : cache) {
+    /*
+    EID entity = item.entity;
     auto collision = manager->getComponent<CollisionComponent>(entity);
+
+    auto position = manager->getComponent<PositionComponent>(entity);
+
+    if (!collision) continue;
 
     int x = position->x + collision->x;
     int y = position->y + collision->y;
@@ -137,12 +121,19 @@ void RenderSystem::update(float dt) {
     r.w = collision->w;
     r.h = collision->h;
      
-    SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 250 );
+    SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 200 );
      
     SDL_RenderDrawRect( game->ren, &r );
+   */
 
-    for (auto it : collision->collisions) {
-      EID coll = it.first;
+    EID entity = item.entity;
+    auto collision = manager->getComponent<CollisionComponent>(entity);
+
+    if (!collision) continue;
+
+    auto position = manager->getComponent<PositionComponent>(entity);
+
+    for (EID coll : collision->collisions) {
       auto c2 = manager->getComponent<CollisionComponent>(coll);
       auto p2 = manager->getComponent<PositionComponent>(coll);
 
@@ -152,7 +143,7 @@ void RenderSystem::update(float dt) {
       r.w = c2->w;
       r.h = c2->h;
        
-      SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 250 );
+      SDL_SetRenderDrawColor( game->ren, 0, 255, 255, 200 );
        
       SDL_RenderDrawRect( game->ren, &r );
 

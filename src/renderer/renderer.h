@@ -19,6 +19,7 @@
 #include "entity/system.h"
 
 #include "renderer/tileset.h"
+#include "renderer/offset.h"
 #include "renderer/animation.h"
 //#include "renderer/transition.h"
 #include "game/components.h"
@@ -30,6 +31,7 @@
 #include "game/systems/projectile.h"
 #include "game/systems/walk.h"
 #include "game/systems/transition.h"
+#include "game/systems/ai.h"
 
 using json = nlohmann::json;
 using namespace std;

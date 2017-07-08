@@ -10,22 +10,22 @@
 using namespace std;
 
 struct simpleTile {
-  static vector<array<SDL_Rect, 2>> calculateAll(TileComponent *tile, Tileset *tileset, Grid grid) {
-    int width = grid.tile_w;
-    int height = grid.tile_h;
+  static vector<array<rect, 2>> calculateAll(int tileIndex, int locationIndex, Tileset *tileset, Grid* grid) {
+    int width = grid->tile_w;
+    int height = grid->tile_h;
 
-    SDL_Rect src = SDL_Rect{
-      (tileset->getX(tile->tileIndex) * width),
-      (tileset->getY(tile->tileIndex) * height),
+    rect src = rect(
+      (tileset->getX(tileIndex) * width),
+      (tileset->getY(tileIndex) * height),
       width,
       height
-    };
-    SDL_Rect dst = SDL_Rect{
-      (grid.getX(tile->locationIndex) * width),
-      (grid.getY(tile->locationIndex) * height),
+    );
+    rect dst = rect(
+      (grid->getX(locationIndex) * width),
+      (grid->getY(locationIndex) * height),
       width,
       height
-    };
+    );
 
     return {{src, dst}};
   }

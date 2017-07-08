@@ -4,6 +4,7 @@
 #include "sdl2image.h"
 #include <string>
 #include <iostream>
+#include <set>
 
 #include "json/json.h"
 #include "renderer/compass.h"
@@ -18,16 +19,6 @@ struct HealthComponent : public Component {
   int max;
 
   HealthComponent(int _hearts, int _max) : hearts(_hearts), max(_max) {}
-  friend ostream& operator << (ostream &os, HealthComponent component) {
-    os <<
-      "Health<hearts = " <<
-      component.hearts <<
-      ", max = " <<
-      component.max <<
-      ">";
-      
-    return os;
-  };
 };
 
 struct PositionComponent : public Component {
@@ -60,7 +51,7 @@ struct SpriteComponent : public Component {
   string src;
   SDL_Texture *texture;
 
-  SpriteComponent(int _x, int _y, int _w, int _h, SDL_Texture *_texture)
+  SpriteComponent(int _x, int _y, int _w, int _h, SDL_Texture* _texture)
       : x(_x), y(_y), w(_w), h(_h), texture(_texture) {
   }
 };
@@ -75,22 +66,6 @@ struct MovementComponent : public Component {
 
   MovementComponent(int _vecX, int _vecY)
     : vecX(_vecX), vecY(_vecY) { };
-};
-
-struct TileComponent : public Component {
-  int setIndex;
-  int tileIndex;
-  int locationIndex;
-  int surroundings;
-
-  TileComponent(int _set, int _tile, int _location, int _surroundings)
-    : setIndex(_set),
-      tileIndex(_tile),
-      locationIndex(_location),
-      surroundings(_surroundings) { };
-
-  TileComponent(int _set, int _tile, int _location)
-    : TileComponent(_set, _tile, _location, 0) { };
 };
 
 struct RenderComponent : public Component {
@@ -121,7 +96,7 @@ struct CollisionComponent : public Component {
 
 	json/*script*/ onCollision = nullptr;
 
-  map<EID, int> collisions;
+  set<EID> collisions;
 
   CollisionComponent(bool _isStatic, int _resolver, int _x, int _y, int _w, int _h)
     : isStatic(_isStatic),
@@ -163,6 +138,11 @@ struct ScriptComponent : public Component {
   bool onCollision = false;
 
   ScriptComponent() { };
+};
+
+struct AIComponent : public Component {
+
+  AIComponent() { };
 };
 
 #endif

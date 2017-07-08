@@ -32,10 +32,9 @@ class EntityManager {
 
     EID getSpecial(string key);
     void saveSpecial(string key, EID entity);
-    void saveSpecial(string key, Entity *entity);
 
     EID generateEid();
-    Entity* createEntity();
+    EID createEntity();
     void removeEntity(EID eid);
     void clear();
 
@@ -49,11 +48,6 @@ class EntityManager {
       type_index cid = type_index(typeid(ComponentClass));
       components[cid][entity] = component;
       return component;
-    }
-
-    template<class ComponentClass, typename... Args>
-    ComponentClass* addComponent(Entity *entity, Args... args) {
-      return this->addComponent<ComponentClass>(entity->eid, args...);
     }
 
     template<class ComponentClass>
@@ -76,15 +70,16 @@ class EntityManager {
     }
 
     template<class ComponentClass>
-    vector<EID> getAllEntitiesWithComponent() {
+    map<EID, Component *> getAllEntitiesWithComponent() {
       vector<EID> entities;
       type_index cid = type_index(typeid(ComponentClass));
 
-      for (auto& component : components[cid]) {
+      return components[cid];
+      /*for (auto& component : components[cid]) {
         entities.push_back(component.first);
-      }
+      }*/
 
-      return entities;
+      //return entities;
     }
 };
 

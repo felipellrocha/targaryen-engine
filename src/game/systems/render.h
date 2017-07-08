@@ -32,6 +32,7 @@ class RenderSystem : public System {
     SDL_Color black = {0, 0, 0};
     TTF_Font *font;
     TTF_Font *outline;
+    SDL_Rect rect;
 
     set<RenderCacheItem> cache;
 

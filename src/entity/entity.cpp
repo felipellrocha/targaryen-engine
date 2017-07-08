@@ -8,18 +8,14 @@ void EntityManager::saveSpecial(string key, EID entity) {
   this->special[key] = entity;
 }
 
-void EntityManager::saveSpecial(string key, Entity *entity) {
-  this->special[key] = entity->eid;
-}
-
 EID EntityManager::generateEid() {
   return lowestUnassignedEid++;
 }
 
-Entity* EntityManager::createEntity() {
+EID EntityManager::createEntity() {
   EID eid = generateEid();
 
-  return new Entity(eid);
+  return eid;
 }
 
 void EntityManager::removeEntity(EID eid) {

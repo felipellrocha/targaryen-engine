@@ -19,11 +19,13 @@ CXX_FLAGS = \
 	-std=c++11 \
 	-std=c++14 \
 	-Wall \
+  -Wno-missing-braces \
 	-D NATIVE \
+  -D DRAW_COLLISION \
 	-pedantic \
-	-D DRAW_FPS \
-	-D DRAW_COLLISION \
 	-g
+  #-D DRAW_FPS \
+
 	#-Wextra \
 	#-Wshadow \
 

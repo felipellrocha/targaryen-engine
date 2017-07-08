@@ -23,6 +23,8 @@ struct rect {
 
   rect(int _x, int _y, int _w, int _h)
     : x(_x), y(_y), w(_w), h(_h) { };
+
+  rect() : rect(0, 0, 0, 0) { };
 };
 
 #endif

@@ -1,13 +1,11 @@
 #include "change-map.h"
 
 void FadeOutTransition::begin(EntityManager* manager, Renderer* game) {
-  Entity* entity = manager->createEntity();
+  this->entity = manager->createEntity();
   manager->addComponent<PositionComponent>(entity, 0, 0);
   manager->addComponent<DimensionComponent>(entity, game->windowWidth, game->windowHeight);
   manager->addComponent<ColorComponent>(entity, 0, 0, 0, 0);
   manager->addComponent<RenderComponent>(entity, 999);
-
-	this->entity = entity->eid;
 
   EID player = manager->getSpecial("player");
   manager->removeComponent<InputComponent>(player);
@@ -35,13 +33,12 @@ bool FadeOutTransition::tick(EntityManager* manager, Renderer* game, float dt) {
     game->loadStage(level);
 
 
-    Entity* entity = manager->createEntity();
+    this->entity = manager->createEntity();
     manager->addComponent<PositionComponent>(entity, 0, 0);
     manager->addComponent<DimensionComponent>(entity, game->windowWidth, game->windowHeight);
     manager->addComponent<ColorComponent>(entity, 0, 0, 0, 255);
     manager->addComponent<RenderComponent>(entity, 999);
 
-    this->entity = entity->eid;
     step += 1;
     
     return false;

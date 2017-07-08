@@ -129,6 +129,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager)
 
   this->registerSystem<TransitionSystem>(manager);
   this->registerSystem<InputSystem>(manager);
+  this->registerSystem<AISystem>(manager);
   this->registerSystem<WalkSystem>(manager);
   this->registerSystem<ProjectileSystem>(manager);
   this->registerSystem<CollisionSystem>(manager);
@@ -154,7 +155,7 @@ void Renderer::loadStage(json game_data, string level) {
   this->grid.columns = map_data.at("grid").at("columns").get<int>();
   this->grid.rows = map_data.at("grid").at("rows").get<int>();
 
-  Entity* camera = manager->createEntity();
+  EID camera = manager->createEntity();
   manager->addComponent<DimensionComponent>(camera, this->windowWidth, this->windowHeight);
   manager->addComponent<PositionComponent>(camera, 0, 0);
   manager->saveSpecial("camera", camera);
@@ -174,15 +175,30 @@ void Renderer::loadStage(json game_data, string level) {
 
       if (setIndex >= 0) {
         int tileIndex = node.at(1).get<int>();
-        Entity* entity = manager->createEntity();
+
+        vector<array<rect, 2>> sources;
+        Tileset* tileset = tilesets[setIndex];
         int surrounding = this->grid.findSurroundings(node, j, data);
 
-        int x = this->grid.getX(j) * this->grid.tile_w;
-        int y = this->grid.getY(j) * this->grid.tile_h;
+        if (tileset->type == "tile") {
+          sources = simpleTile::calculateAll(tileIndex, j, tileset, &grid);
+        }
+        else if (tileset->terrains[tileIndex] == "6-tile") {
+          sources = sixTile::calculateAll(tileIndex, j, surrounding, tileset, &grid);
+        }
+        else if (tileset->terrains[tileIndex] == "4-tile") {
+          sources = fourTile::calculateAll(tileIndex, j, surrounding, tileset, &grid);
+        }
+        for (auto& calc : sources) {
+          auto src = calc[0];
+          auto dst = calc[1];
 
-        manager->addComponent<TileComponent>(entity, setIndex, tileIndex, j, surrounding);
-        manager->addComponent<PositionComponent>(entity, x, y);
-        manager->addComponent<RenderComponent>(entity, i);
+          EID entity = manager->createEntity();
+
+          manager->addComponent<SpriteComponent>(entity, src.x, src.y, src.w, src.h, tileset->texture);
+          manager->addComponent<PositionComponent>(entity, dst.x, dst.y);
+          manager->addComponent<RenderComponent>(entity, i);
+        }
       }
       // only continue if it's a action entity
       if (setIndex == -2) {
@@ -196,7 +212,7 @@ void Renderer::loadStage(json game_data, string level) {
         int w = this->grid.tile_w;
         int h = this->grid.tile_h;
 
-        Entity* entity = manager->createEntity();
+        EID entity = manager->createEntity();
 
         if (name == "player") {
           manager->saveSpecial("player", entity);
@@ -263,7 +279,7 @@ void Renderer::loadStage(json game_data, string level) {
           }
           else if (name == "CenteredCameraComponent") {
             EID camera = manager->getSpecial("camera");
-            manager->addComponent<CenteredCameraComponent>(camera, entity->eid);
+            manager->addComponent<CenteredCameraComponent>(camera, entity);
           }
         }
       }
@@ -322,7 +338,7 @@ void Renderer::loop(float dt) {
     }
   }
 
-  for (int i = 0; i < this->systems.size(); i++) this->systems[i]->update(dt);
+  for (auto& system : systems) system->update(dt);
 }
 
 void Renderer::runScript(json commands) {

@@ -1,8 +1,10 @@
 #include "camera.h"
 
 void CameraSystem::update(float dt) {
-  vector<EID> entities = manager->getAllEntitiesWithComponent<CenteredCameraComponent>(); 
-  for (EID entity : entities) {
+  auto entities = manager->getAllEntitiesWithComponent<CenteredCameraComponent>();
+  for (auto& ref : entities) {
+    EID entity = ref.first;
+
     auto camera = manager->getComponent<CenteredCameraComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto dimension = manager->getComponent<DimensionComponent>(entity);

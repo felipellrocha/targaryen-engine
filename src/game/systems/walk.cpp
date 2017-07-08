@@ -1,10 +1,12 @@
 #include "walk.h"
 
 void WalkSystem::update(float dt) {
-  vector<EID> entities = manager->getAllEntitiesWithComponent<WalkComponent>(); 
+  auto entities = manager->getAllEntitiesWithComponent<WalkComponent>();
   Animation animation;
 
-  for (EID entity : entities) {
+  for (auto& ref : entities) {
+    EID entity = ref.first;
+    
     auto sprite = manager->getComponent<SpriteComponent>(entity);
     auto walk = manager->getComponent<WalkComponent>(entity);
 

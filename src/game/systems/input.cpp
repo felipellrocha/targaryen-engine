@@ -1,8 +1,10 @@
 #include "input.h"
 
 void InputSystem::update(float dt) {
-  vector<EID> entities = manager->getAllEntitiesWithComponent<InputComponent>(); 
-  for (EID entity : entities) {
+  auto entities = manager->getAllEntitiesWithComponent<InputComponent>();
+  for (auto& ref : entities) {
+    EID entity = ref.first;
+
     auto movement = manager->getComponent<MovementComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto walk = manager->getComponent<WalkComponent>(entity);

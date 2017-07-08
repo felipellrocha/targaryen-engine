@@ -1,20 +1,25 @@
 #include "collision.h"
 
 void CollisionSystem::update(float dt) {
-  vector<EID> entities = manager->getAllEntitiesWithComponent<CollisionComponent>(); 
+  auto entities = manager->getAllEntitiesWithComponent<CollisionComponent>();
 
-  for (EID e1 : entities) {
+  for (auto& ref1 : entities) {
+    EID e1 = ref1.first;
+
     auto c1 = manager->getComponent<CollisionComponent>(e1);
     auto p1 = manager->getComponent<PositionComponent>(e1);
 
     if (c1->isStatic) continue;
 
     // cleaning up
-    for (auto& e : c1->collisions) {
-      EID e2 = e.first;
-
+    for (EID e2 : c1->collisions) {
       auto c2 = manager->getComponent<CollisionComponent>(e2);
       auto p2 = manager->getComponent<PositionComponent>(e2);
+
+      if (!c2 || !p2) {
+        queue.push_front(e2);
+        continue;
+      }
 
       int x1 = p1->x + c1->x;
       int y1 = p1->y + c1->y;
@@ -36,7 +41,9 @@ void CollisionSystem::update(float dt) {
 
     queue.clear();
 
-    for (EID e2 : entities) {
+    for (auto& ref2 : entities) {
+      EID e2 = ref2.first;
+
       auto c2 = manager->getComponent<CollisionComponent>(e2);
       auto p2 = manager->getComponent<PositionComponent>(e2);
 
@@ -60,7 +67,7 @@ void CollisionSystem::update(float dt) {
         if (c2->onCollision != nullptr && c1->collisions.find(e2) == c1->collisions.end()) {
           game->runScript(c2->onCollision);
         }
-        c1->collisions[e2] = c2->resolver;
+        c1->collisions.insert(e2);
         
         // resolve movements
         int h_distance = abs((x1 + c1->w / 2) - (x2 + c2->w / 2));

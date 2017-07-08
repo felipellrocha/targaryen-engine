@@ -1,13 +1,16 @@
 #include "projectile.h"
 
 void ProjectileSystem::update(float dt) {
-  vector<EID> entities = manager->getAllEntitiesWithComponent<ProjectileComponent>(); 
+  auto entities = manager->getAllEntitiesWithComponent<ProjectileComponent>();
+
   EID player = manager->getSpecial("player");
   auto walk = manager->getComponent<WalkComponent>(player);
   auto playerRender = manager->getComponent<RenderComponent>(player);
   auto playerPosition = manager->getComponent<PositionComponent>(player);
 
-  for (EID entity : entities) {
+  for (auto& ref : entities) {
+    EID entity = ref.first;
+    
     auto projectile = manager->getComponent<ProjectileComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto collision = manager->getComponent<CollisionComponent>(entity);
@@ -15,8 +18,7 @@ void ProjectileSystem::update(float dt) {
     if (collision->isColliding) {
       manager->removeEntity(entity);
 
-      for (auto it : collision->collisions) {
-        EID coll = it.first;
+      for (EID coll : collision->collisions) {
         auto health = manager->getComponent<HealthComponent>(coll);
 
         if (health) {
@@ -56,7 +58,7 @@ void ProjectileSystem::update(float dt) {
         xOffset = -48;
       }
 
-      Entity* attack = this->manager->createEntity();
+      EID attack = this->manager->createEntity();
 
       manager->addComponent<RenderComponent>(attack, playerRender->layer);
       manager->addComponent<ProjectileComponent>(attack, 8);

@@ -61,28 +61,28 @@ struct fourTile {
     return offset(0, 0);
   }
 
-  static vector<array<SDL_Rect, 2>> calculateAll(TileComponent *tile, Tileset *tileset, Grid grid) {
-    int width = grid.tile_w / 2;
-    int height = grid.tile_h / 2;
+  static vector<array<rect, 2>> calculateAll(int tileIndex, int locationIndex, int surroundings, Tileset *tileset, Grid* grid) {
+    int width = grid->tile_w / 2;
+    int height = grid->tile_h / 2;
 
-    auto calcs = calculateOffset(tile->surroundings);
-    vector<array<SDL_Rect, 2>> out(4);
+    auto calcs = calculateOffset(surroundings);
+    vector<array<rect, 2>> out(4);
 
     for (int i = 0; i < 4; ++i) {
       offset calc = calcs[i];
 
-      SDL_Rect src = SDL_Rect{
-        (tileset->getX(tile->tileIndex) * grid.tile_w) + (calc.x * width),
-        (tileset->getY(tile->tileIndex) * grid.tile_h) + (calc.y * height),
+      rect src = rect(
+        (tileset->getX(tileIndex) * grid->tile_w) + (calc.x * width),
+        (tileset->getY(tileIndex) * grid->tile_h) + (calc.y * height),
         width,
         height
-      };
-      SDL_Rect dst = SDL_Rect{
-        (grid.getX(tile->locationIndex) * grid.tile_w) + ((i % 2) * width),
-        (grid.getY(tile->locationIndex) * grid.tile_h) + ((i / 2) * height),
+      );
+      rect dst = rect(
+        (grid->getX(locationIndex) * grid->tile_w) + ((i % 2) * width),
+        (grid->getY(locationIndex) * grid->tile_h) + ((i / 2) * height),
         width,
         height
-      };
+      );
       out[i] = {{src, dst}};
     }
 
