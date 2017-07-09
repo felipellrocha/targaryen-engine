@@ -18,11 +18,18 @@
 #include "entity/entity.h"
 #include "entity/system.h"
 
+//#include "ai/node.h"
+//#include "ai/behaviortree.h"
+#include "ai/composite.h"
+#include "ai/decorator.h"
+
 #include "renderer/tileset.h"
 #include "renderer/offset.h"
 #include "renderer/animation.h"
-//#include "renderer/transition.h"
+
 #include "game/components.h"
+#include "game/behaviors/follow.h"
+#include "game/behaviors/proximity.h"
 #include "game/utils.h"
 #include "game/systems/render.h"
 #include "game/systems/input.h"
@@ -36,65 +43,71 @@
 using json = nlohmann::json;
 using namespace std;
 
+class Node;
 class Transition;
 class Renderer {
-  public:
-    vector<Tileset *> tilesets;
-    vector<System *> systems;
+public:
+  vector<Tileset *> tilesets;
+  vector<System *> systems;
 
-    SDL_Window *win = nullptr;
-    SDL_Renderer *ren = nullptr;
+  SDL_Window *win = nullptr;
+  SDL_Renderer *ren = nullptr;
 
-    int windowWidth = 1100;
-    int windowHeight = 600;
+  int windowWidth = 1100;
+  int windowHeight = 600;
 
-    bool running = true;
-    int compass = 0;
-    int actions = 0;
+  bool running = true;
+  int compass = 0;
+  int actions = 0;
 
-    int numTransitions = 0;
+  int numTransitions = 0;
 
-    map<string, string> mapsByName;
+  map<string, string> mapsByName;
+  map<EID, Node*> behaviors;
 
-    string gamePackage;
-    EntityManager* manager;
+  string gamePackage;
+  EntityManager* manager;
 
-    json entities;
-    map<string, Animation> animations;
-    forward_list<Transition *> incoming;
-    forward_list<Transition *> outgoing;
-    set<Transition *> transitions;
+  json entities;
+  map<string, Animation> animations;
+  forward_list<Transition *> incoming;
+  forward_list<Transition *> outgoing;
+  set<Transition *> transitions;
 
-    Grid grid;
-    map<string, SDL_Texture*> textures;
+  Grid grid;
+  map<string, SDL_Texture*> textures;
 
-    bool isRunning() { return running; };
-    void quit() { running = false; };
+  void loop(float dt);
+  bool isRunning() { return running; };
+  void quit() { running = false; };
 
-    template<class SystemClass, typename... Args>
-    void registerSystem(Args... args) {
-      SystemClass *system = new SystemClass(args..., this);
-      this->systems.push_back(system);
-    }
+  template<class BehaviorClass, typename... Args>
+  BehaviorClass* makeBehavior(Args... args) {
+    return new BehaviorClass(this, manager, args...);
+  }
 
-    void loop(float dt);
+  template<class SystemClass, typename... Args>
+  void registerSystem(Args... args) {
+    SystemClass *system = new SystemClass(args..., this);
+    this->systems.push_back(system);
+  }
 
-    template<class TransitionClass, typename... Args>
-    void addTransition(Args... args) {
-      TransitionClass *transition = new TransitionClass(args...);
-      incoming.push_front(transition);
-    }
+  template<class TransitionClass, typename... Args>
+  void addTransition(Args... args) {
+    TransitionClass *transition = new TransitionClass(args...);
+    incoming.push_front(transition);
+  }
 
-    void addTransition(Transition* transition) {
-      incoming.push_front(transition);
-    }
+  void addTransition(Transition* transition) {
+    incoming.push_front(transition);
+  }
 
-    void loadStage(string level);
-    void loadStage(json game_data, string level);
-    void runScript(json commands);
+  void loadStage(string level);
+  void loadStage(json game_data, string level);
+  void runScript(json commands);
 
-    Renderer(string _gamePackage, EntityManager* _manager);
-    ~Renderer();
+  Renderer(string _gamePackage, EntityManager* _manager);
+  ~Renderer();
 };
 
 #endif

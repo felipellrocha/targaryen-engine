@@ -30,6 +30,11 @@ struct PositionComponent : public Component {
 
   int direction = 0;
 
+  void move(int x, int y) {
+    nextX = x;
+    nextY = y;
+  };
+
   PositionComponent(int _x, int _y)
     : x(_x), y(_y), nextX(_x), nextY(_y) { }
   PositionComponent(int _x, int _y, int _direction)

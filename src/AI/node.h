@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include <vector>
+#include "entity/entity.h"
 
 enum Status {
   INVALID,
@@ -11,10 +12,17 @@ enum Status {
   ERROR,
 };
 
+class Renderer;
 class Node {
 public:
 
   Status status = Status::INVALID;
+  Renderer* game;
+  EntityManager* manager;
+  EID owner;
+
+  Node(Renderer* _game, EntityManager* _manager, EID _owner) :
+    game(_game), manager(_manager), owner(_owner) { };
 
   virtual ~Node() {};
 

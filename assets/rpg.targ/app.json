@@ -1358,6 +1358,25 @@
               "name": "onCollision"
             }
           }
+        },
+        {
+          "name": "MovementComponent",
+          "members": {
+            "vecX": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 4,
+              "name": "vecX"
+            },
+            "vecY": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 4,
+              "name": "vecY"
+            }
+          }
         }
       ]
     },

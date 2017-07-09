@@ -1,5 +1,5 @@
-#ifndef COMPOSITE_H
-#define COMPOSITE_H
+#ifndef DECORATOR_H
+#define DECORATOR_H
 
 #include "node.h"
 
@@ -10,6 +10,9 @@ public:
   void setChild(Node* _child) { child = _child; }
   bool hasNoChild() const { return child == nullptr; }
 
+  Decorator(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Node(_game, _manager, _owner) { };
+
   ~Decorator() {
     delete child;
   }
@@ -17,6 +20,9 @@ public:
 
 class Failer : public Decorator {
 public:
+  Failer(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Decorator(_game, _manager, _owner) { };
+
   Status update() override {
     child->tick();
     return Status::FAILURE;
@@ -25,6 +31,9 @@ public:
 
 class Succeeder : public Decorator {
 public:
+  Succeeder(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Decorator(_game, _manager, _owner) { };
+
   Status update() override {
     child->tick();
     return Status::SUCCESS;
@@ -33,6 +42,9 @@ public:
 
 class Inverter : public Decorator {
 public:
+  Inverter(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Decorator(_game, _manager, _owner) { };
+
   Status update() override {
     auto status = child->tick();
 
@@ -48,7 +60,8 @@ public:
   int limit = 0;
   int counter = 0;
 
-  Repeater(int _limit) : limit(_limit) { };
+  Repeater(Renderer* _game, EntityManager* _manager, EID _owner, int _limit) :
+    Decorator(_game, _manager, _owner), limit(_limit) { };
 
   void initialize() override { counter = 0; }
 
@@ -65,28 +78,11 @@ public:
   }
 };
 
-class Limiter : public Decorator {
-public:
-  int limit = 0;
-  int counter = 0;
-
-  Limiter(int _limit) : limit(_limit) { };
-
-  Status update() override {
-    if (limit > 0 && counter >= limit) return Status::SUCCESS;
-
-    auto status = child->tick();
-    
-    if (status == Status::RUNNING) return Status::RUNNING;
-    if (status == Status::FAILURE) return Status::FAILURE;
-
-    counter += 1;
-    return Status::RUNNING;
-  }
-};
-
 class untilFail : public Decorator {
 public:
+  untilFail(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Decorator(_game, _manager, _owner) { };
+
   Status update() override {
     while (true) {
       auto status = child->tick();
@@ -98,6 +94,9 @@ public:
 
 class untilSuccess : public Decorator {
 public:
+  untilSuccess(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Decorator(_game, _manager, _owner) { };
+
   Status update() override {
     while (true) {
       auto status = child->tick();

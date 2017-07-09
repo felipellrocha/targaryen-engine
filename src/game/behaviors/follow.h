@@ -3,13 +3,12 @@
 
 #include "AI/leaf.h"
 
-class FollowerBehavior : public Leaf {
+class Follower : public Leaf {
 public:
-  Status update() override {
-    cout << "following!" << endl;
+  Follower(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Leaf(_game, _manager, _owner) { };
 
-    return Status::SUCCESS;
-  };
+  Status update() override;
 };
 
 #endif

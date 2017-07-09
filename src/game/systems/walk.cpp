@@ -43,6 +43,8 @@ void WalkSystem::update(float dt) {
     sprite->y = keyframe.y;
     sprite->w = keyframe.w;
     sprite->h = keyframe.h;
+
+    walk->animating = false;
   }
 };
 

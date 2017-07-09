@@ -11,8 +11,11 @@ public:
   void addChild(Node* child) { children.push_back(child); }
   bool hasNoChildren() const { return children.empty(); }
 
+  Composite(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Node(_game, _manager, _owner) { };
+
   ~Composite() {
-    for (&child : children) {
+    for (auto& child : children) {
       delete child;
     }
     children.clear();
@@ -27,9 +30,10 @@ public:
   int minSuccess = 0;
   int minFail = 0;
 
-  Parallel(bool _successOnAll = true, bool _failOnAll = true) :
-    useSuccessFailPolicy(true), successOnAll(_successOnAll), failOnAll(_failOnAll) { };
-  Parallel(int _minSuccess, int _minFail) : minSuccess(_minSuccess), minFail(_minFail) { };
+  Parallel(Renderer* _game, EntityManager* _manager, EID _owner, bool _successOnAll = true, bool _failOnAll = true) :
+    Composite(_game, _manager, _owner), useSuccessFailPolicy(true), successOnAll(_successOnAll), failOnAll(_failOnAll) { };
+  Parallel(Renderer* _game, EntityManager* _manager, EID _owner, int _minSuccess, int _minFail) :
+    Composite(_game, _manager, _owner), minSuccess(_minSuccess), minFail(_minFail) { };
 
   Status update() override {
     int minimumSuccess = minSuccess;
@@ -62,40 +66,47 @@ public:
 
 class MemSequence : public Composite {
 public:
+  MemSequence(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Composite(_game, _manager, _owner) { };
+
   Status update() override {
     if (hasNoChildren()) return Status::SUCCESS;
 
-    while (true) {
-      auto& child = children.at(index);
+    for (auto& child : children) {
       auto status = child->tick();
 
       if (status != Status::SUCCESS) return status;
-
-      if (++index == children.size()) return Status::SUCCESS;
     }
+
+    return Status::SUCCESS;
   }
 };
 
 class Sequence : public Composite {
 public:
+  Sequence(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Composite(_game, _manager, _owner) { };
+
   void initialize() override { index = 0; }
 
   Status update() override {
     if (hasNoChildren()) return Status::SUCCESS;
 
-    while (true) {
-      auto& child = children.at(index);
+    for (auto& child : children) {
       auto status = child->tick();
 
       if (status != Status::SUCCESS) return status;
-
-      if (++index == children.size()) return Status::SUCCESS;
     }
+
+    return Status::SUCCESS;
   }
 };
 
 class MemSelector : public Composite {
 public:
+  MemSelector(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Composite(_game, _manager, _owner) { };
+
   Status update() override {
     if (hasNoChildren()) return Status::SUCCESS;
 
@@ -112,6 +123,9 @@ public:
 
 class Selector : public Composite {
 public:
+  Selector(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Composite(_game, _manager, _owner) { };
+
   void initialize() override { index = 0; }
 
   Status update() override {

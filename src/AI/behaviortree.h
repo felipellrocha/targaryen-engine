@@ -2,20 +2,16 @@
 #define BEHAVIORTREE_H
 
 #include "node.h"
-#include "entity/entity.h"
-#include "renderer/renderer.h"
 
 class BehaviorTree : public Node {
 public:
   Node* root = nullptr;
-  EntityManager* manager;
-  Renderer* game;
-
-  BehaviorTree(EntityManager* _manager, Renderer* _game) :
-    manager(_manager), game(_game) { }
 
   Status update() { return root->tick(); }
   void setRoot (Node* node) { root = node; }
+
+  BehaviorTree(Renderer* _game, EntityManager* _manager, EID _owner) :
+    Node(_game, _manager, _owner) { };
 
   ~BehaviorTree() {
     delete root;

@@ -218,6 +218,20 @@ void Renderer::loadStage(json game_data, string level) {
           manager->saveSpecial("player", entity);
         }
 
+        if (name == "enemy") {
+          auto follow = makeBehavior<Follower>(entity);
+          auto proximity = makeBehavior<Proximity>(entity, 50);
+          auto inverter = makeBehavior<Inverter>(entity);
+          auto sequence = makeBehavior<Sequence>(entity);
+          inverter->setChild(proximity);
+          sequence->addChild(inverter);
+          sequence->addChild(follow);
+
+          behaviors[entity] = sequence;
+
+          manager->addComponent<AIComponent>(entity);
+        }
+
         for (uint k = 0; k < components.size(); k++) {
           auto component = components.at(k);
           string name = component.at("name").get<string>();
