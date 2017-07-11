@@ -26,13 +26,13 @@ CXX_FLAGS = \
 	-s WASM=1 \
 	-s "BINARYEN_METHOD='native-wasm'" \
   -s ASSERTIONS=1 \
-	-s ALLOW_MEMORY_GROWTH=1
+	-s TOTAL_MEMORY=160MB \
 	#-D DRAW_FPS \
 	-D DRAW_COLLISION 
 EXEC_FLAGS = \
 	--preload-file assets \
-	-s EXPORTED_FUNCTIONS='["_mainf"]'
-	#--emrun
+	-s EXPORTED_FUNCTIONS='["_mainf"]' \
+	--emrun
 LIBS :=
 
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp')

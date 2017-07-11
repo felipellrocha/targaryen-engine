@@ -1,0 +1,1222 @@
+{
+  "name": "Untitled",
+  "tile": {
+    "width": 48,
+    "height": 48
+  },
+  "tilesets": [
+    {
+      "src": "inside-simple.png",
+      "name": "inside-simple.png",
+      "rows": 32,
+      "columns": 32,
+      "type": "tile",
+      "terrains": {}
+    },
+    {
+      "src": "inside-smart.png",
+      "name": "inside-smart.png",
+      "rows": 27,
+      "columns": 32,
+      "type": "aware",
+      "terrains": {
+        "0": {
+          "type": "6-tile"
+        },
+        "6": {
+          "type": "6-tile"
+        },
+        "8": {
+          "type": "6-tile"
+        },
+        "10": {
+          "type": "6-tile"
+        },
+        "12": {
+          "type": "6-tile"
+        },
+        "16": {
+          "type": "6-tile"
+        },
+        "18": {
+          "type": "6-tile"
+        },
+        "20": {
+          "type": "6-tile"
+        },
+        "22": {
+          "type": "6-tile"
+        },
+        "24": {
+          "type": "6-tile"
+        },
+        "26": {
+          "type": "6-tile"
+        },
+        "28": {
+          "type": "6-tile"
+        },
+        "30": {
+          "type": "6-tile"
+        },
+        "96": {
+          "type": "6-tile"
+        },
+        "102": {
+          "type": "6-tile"
+        },
+        "112": {
+          "type": "6-tile"
+        },
+        "114": {
+          "type": "6-tile"
+        },
+        "116": {
+          "type": "6-tile"
+        },
+        "118": {
+          "type": "6-tile"
+        },
+        "120": {
+          "type": "6-tile"
+        },
+        "122": {
+          "type": "6-tile"
+        },
+        "124": {
+          "type": "6-tile"
+        },
+        "126": {
+          "type": "6-tile"
+        },
+        "208": {
+          "type": "6-tile"
+        },
+        "210": {
+          "type": "6-tile"
+        },
+        "212": {
+          "type": "6-tile"
+        },
+        "214": {
+          "type": "6-tile"
+        },
+        "216": {
+          "type": "6-tile"
+        },
+        "218": {
+          "type": "6-tile"
+        },
+        "220": {
+          "type": "6-tile"
+        },
+        "222": {
+          "type": "6-tile"
+        },
+        "288": {
+          "type": "6-tile"
+        },
+        "304": {
+          "type": "6-tile"
+        },
+        "306": {
+          "type": "6-tile"
+        },
+        "308": {
+          "type": "6-tile"
+        },
+        "310": {
+          "type": "6-tile"
+        },
+        "312": {
+          "type": "6-tile"
+        },
+        "314": {
+          "type": "6-tile"
+        },
+        "316": {
+          "type": "6-tile"
+        },
+        "318": {
+          "type": "6-tile"
+        },
+        "384": {
+          "type": "6-tile"
+        },
+        "386": {
+          "type": "6-tile"
+        },
+        "388": {
+          "type": "6-tile"
+        },
+        "390": {
+          "type": "6-tile"
+        },
+        "392": {
+          "type": "6-tile"
+        },
+        "394": {
+          "type": "6-tile"
+        },
+        "396": {
+          "type": "6-tile"
+        },
+        "398": {
+          "type": "6-tile"
+        },
+        "480": {
+          "type": "4-tile"
+        },
+        "482": {
+          "type": "4-tile"
+        },
+        "484": {
+          "type": "4-tile"
+        },
+        "486": {
+          "type": "4-tile"
+        },
+        "488": {
+          "type": "4-tile"
+        },
+        "490": {
+          "type": "4-tile"
+        },
+        "492": {
+          "type": "4-tile"
+        },
+        "494": {
+          "type": "4-tile"
+        },
+        "544": {
+          "type": "6-tile"
+        },
+        "546": {
+          "type": "6-tile"
+        },
+        "548": {
+          "type": "6-tile"
+        },
+        "550": {
+          "type": "6-tile"
+        },
+        "552": {
+          "type": "6-tile"
+        },
+        "554": {
+          "type": "6-tile"
+        },
+        "556": {
+          "type": "6-tile"
+        },
+        "558": {
+          "type": "6-tile"
+        },
+        "640": {
+          "type": "4-tile"
+        },
+        "642": {
+          "type": "4-tile"
+        },
+        "644": {
+          "type": "4-tile"
+        },
+        "646": {
+          "type": "4-tile"
+        },
+        "648": {
+          "type": "4-tile"
+        },
+        "650": {
+          "type": "4-tile"
+        },
+        "652": {
+          "type": "4-tile"
+        },
+        "654": {
+          "type": "4-tile"
+        },
+        "800": {
+          "type": "4-tile"
+        },
+        "802": {
+          "type": "4-tile"
+        },
+        "804": {
+          "type": "4-tile"
+        },
+        "806": {
+          "type": "4-tile"
+        },
+        "808": {
+          "type": "4-tile"
+        },
+        "810": {
+          "type": "4-tile"
+        },
+        "812": {
+          "type": "4-tile"
+        },
+        "814": {
+          "type": "4-tile"
+        }
+      }
+    }
+  ],
+  "sheets": [],
+  "maps": [
+    {
+      "id": "start",
+      "name": "start"
+    }
+  ],
+  "animations": {
+    "walk-south": {
+      "id": "e43e58b3-83b1-48d1-b5e6-4198a466ae81",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 46,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "8": {
+          "x": 0,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "16": {
+          "x": 46,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "24": {
+          "x": 96,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "walk-east": {
+      "id": "6a24ed6d-14f0-4658-8073-4138c53e2ed4",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 48,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        },
+        "7": {
+          "x": 1,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        },
+        "15": {
+          "x": 48,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        },
+        "23": {
+          "x": 97,
+          "y": 98,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "walk-west": {
+      "id": "225dad1c-fe5f-44b2-8cb9-4543b89d680d",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 47,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        },
+        "7": {
+          "x": 0,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        },
+        "15": {
+          "x": 47,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        },
+        "23": {
+          "x": 96,
+          "y": 50,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "walk-north": {
+      "id": "a0acde57-87f1-4ce2-9dd6-6c34552e0a22",
+      "numberOfFrames": 32,
+      "sheet": 0,
+      "spritesheet": 0,
+      "keyframes": {
+        "0": {
+          "x": 47,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        },
+        "8": {
+          "x": 0,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        },
+        "16": {
+          "x": 47,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        },
+        "24": {
+          "x": 96,
+          "y": 146,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
+  "entities": {
+    "56ca70f0-5652-433c-9f86-241bbf41e688": {
+      "name": "player",
+      "avatar": null,
+      "components": [
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "HealthComponent",
+          "members": {
+            "hearts": {
+              "type": "int",
+              "pointer": false,
+              "value": 5,
+              "name": "hearts"
+            },
+            "max": {
+              "type": "int",
+              "pointer": false,
+              "value": 5,
+              "name": "max"
+            }
+          }
+        },
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            },
+            "src": {
+              "type": "string",
+              "pointer": false,
+              "value": "assets/character-1.png",
+              "name": "src"
+            },
+            "texture": {
+              "type": "SDL_Texture",
+              "pointer": true,
+              "value": null,
+              "name": "texture"
+            }
+          }
+        },
+        {
+          "name": "InputComponent",
+          "members": {}
+        },
+        {
+          "name": "MovementComponent",
+          "members": {
+            "vecX": {
+              "type": "int",
+              "pointer": false,
+              "value": 4,
+              "name": "vecX"
+            },
+            "vecY": {
+              "type": "int",
+              "pointer": false,
+              "value": 4,
+              "name": "vecY"
+            }
+          }
+        },
+        {
+          "name": "RenderComponent",
+          "members": {}
+        },
+        {
+          "name": "CenteredCameraComponent",
+          "members": {
+            "entity": {
+              "type": "EID",
+              "pointer": false,
+              "value": null,
+              "name": "entity"
+            }
+          }
+        },
+        {
+          "name": "WalkComponent",
+          "members": {
+            "frame": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "frame"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            },
+            "resolver": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "resolver"
+            },
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 12,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "h"
+            },
+            "onCollision": {
+              "type": "json",
+              "subtype": "script",
+              "pointer": false,
+              "value": null,
+              "name": "onCollision"
+            }
+          }
+        }
+      ]
+    },
+    "ddb8a383-c6c2-4003-b42c-408b9808d29c": {
+      "name": "wall",
+      "avatar": null,
+      "components": [
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": true,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            },
+            "resolver": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "resolver"
+            },
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            },
+            "onCollision": {
+              "type": "json",
+              "subtype": "script",
+              "pointer": false,
+              "value": null,
+              "name": "onCollision"
+            }
+          }
+        }
+      ]
+    },
+    "09e7a39b-7c7e-4c58-ba57-56c496e1b020": {
+      "name": "enemy",
+      "avatar": null,
+      "components": [
+        {
+          "name": "HealthComponent",
+          "members": {
+            "hearts": {
+              "type": "int",
+              "pointer": false,
+              "value": 10,
+              "name": "hearts"
+            },
+            "max": {
+              "type": "int",
+              "pointer": false,
+              "value": 10,
+              "name": "max"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": null,
+              "name": "h"
+            },
+            "src": {
+              "type": "string",
+              "pointer": false,
+              "value": "assets/character-3.png",
+              "name": "src"
+            },
+            "texture": {
+              "type": "SDL_Texture",
+              "pointer": true,
+              "value": null,
+              "name": "texture"
+            }
+          }
+        },
+        {
+          "name": "RenderComponent",
+          "members": {}
+        },
+        {
+          "name": "WalkComponent",
+          "members": {
+            "direction": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "direction"
+            },
+            "frame": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "frame"
+            },
+            "animating": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "animating"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            },
+            "resolver": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "resolver"
+            },
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 12,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "h"
+            },
+            "onCollision": {
+              "type": "json",
+              "subtype": "script",
+              "pointer": false,
+              "value": null,
+              "name": "onCollision"
+            }
+          }
+        },
+        {
+          "name": "MovementComponent",
+          "members": {
+            "vecX": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 4,
+              "name": "vecX"
+            },
+            "vecY": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 4,
+              "name": "vecY"
+            }
+          }
+        }
+      ]
+    },
+    "93c700df-7daf-4cea-97ab-a7eeb91976e4": {
+      "name": "changeToRoom",
+      "avatar": null,
+      "components": [
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": true,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            },
+            "resolver": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "resolver"
+            },
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 12,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 12,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "h"
+            },
+            "onCollision": {
+              "type": "json",
+              "subtype": "script",
+              "pointer": false,
+              "value": [
+                {
+                  "type": "expression",
+                  "name": "changeMap",
+                  "parameters": {
+                    "map": {
+                      "type": "string",
+                      "value": "room"
+                    },
+                    "duration": {
+                      "type": "float",
+                      "value": 1.5
+                    }
+                  }
+                }
+              ],
+              "name": "onCollision"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
+            }
+          }
+        }
+      ]
+    },
+    "54875c1b-57e6-4c0d-a825-b17a75cb50bf": {
+      "name": "changeToOutside",
+      "avatar": null,
+      "components": [
+        {
+          "name": "PositionComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "y"
+            },
+            "nextX": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "nextX"
+            },
+            "nextY": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": null,
+              "name": "nextY"
+            },
+            "direction": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "direction"
+            }
+          }
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": true,
+              "name": "isStatic"
+            },
+            "isColliding": {
+              "type": "bool",
+              "subtype": null,
+              "pointer": false,
+              "value": false,
+              "name": "isColliding"
+            },
+            "resolver": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": "0",
+              "name": "resolver"
+            },
+            "x": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 12,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 12,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "subtype": null,
+              "pointer": false,
+              "value": 24,
+              "name": "h"
+            },
+            "onCollision": {
+              "type": "json",
+              "subtype": "script",
+              "pointer": false,
+              "value": [
+                {
+                  "type": "expression",
+                  "name": "changeMap",
+                  "parameters": {
+                    "map": {
+                      "type": "string",
+                      "value": "church"
+                    },
+                    "duration": {
+                      "type": "float",
+                      "value": 1.5
+                    }
+                  }
+                }
+              ],
+              "name": "onCollision"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "initialMap": 0
+}

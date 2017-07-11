@@ -41,7 +41,8 @@ extern "C" int mainf() {
   fpsTimer.start();
 
   EntityManager *manager = new EntityManager();
-  Renderer game = Renderer("assets/rpg.targ", manager);
+  Renderer game = Renderer("assets/test.targ", manager);
+  //Renderer game = Renderer("assets/rpg.targ", manager);
 
   emscripten_set_main_loop_arg((em_arg_callback_func)loop, &game, -1, 1);
 
@@ -55,6 +56,7 @@ int main() {
 
   EntityManager *manager = new EntityManager();
   Renderer game = Renderer("assets/rpg.targ", manager);
+  //Renderer game = Renderer("assets/test.targ", manager);
 
   while (game.isRunning()) {
     loop(game);

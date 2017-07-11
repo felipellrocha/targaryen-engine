@@ -1,7 +1,8 @@
 {
-  "filename": "/Users/fllr/Development/game/targaryen/assets/rpg.targ",
-  "basepath": "/Users/fllr/Development/game/targaryen/assets",
-  "zoom": "0.5",
+  "filename": "/Users/fllr/Development/game/targaryen/assets/test/test.targ",
+  "basepath": "/Users/fllr/Development/game/targaryen/assets/test",
+  "componentFilename": "/Users/fllr/Development/game/targaryen/src/game/components.h",
+  "zoom": 0.5,
   "selectedMap": 0,
   "selectedAction": "put",
   "selectedTerrainType": "6-tile",
@@ -9,9 +10,9 @@
     -2,
     "09e7a39b-7c7e-4c58-ba57-56c496e1b020"
   ],
-  "selectedLayer": 3,
-  "selectedAnimation": "walk-east",
-  "selectedFrame": 23,
+  "selectedLayer": 1,
+  "selectedAnimation": null,
+  "selectedFrame": 0,
   "components": [
     {
       "name": "HealthComponent",
@@ -162,39 +163,6 @@
       }
     },
     {
-      "name": "TileComponent",
-      "members": {
-        "setIndex": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "setIndex"
-        },
-        "tileIndex": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "tileIndex"
-        },
-        "locationIndex": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "locationIndex"
-        },
-        "surroundings": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "surroundings"
-        }
-      }
-    },
-    {
       "name": "RenderComponent",
       "members": {
         "layer": {
@@ -246,35 +214,35 @@
           "type": "int",
           "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": "0",
           "name": "x"
         },
         "y": {
           "type": "int",
           "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": "0",
           "name": "y"
         },
         "w": {
           "type": "int",
           "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": "0",
           "name": "w"
         },
         "h": {
           "type": "int",
           "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": "0",
           "name": "h"
         },
         "onCollision": {
           "type": "json",
           "subtype": "script",
           "pointer": false,
-          "value": null,
+          "value": "nullptr",
           "name": "onCollision"
         }
       }
@@ -361,7 +329,10 @@
           "name": "onCollision"
         }
       }
+    },
+    {
+      "name": "AIComponent",
+      "members": {}
     }
-  ],
-  "componentFilename": "/Users/fllr/Development/game/targaryen/src/game/components.h"
+  ]
 }

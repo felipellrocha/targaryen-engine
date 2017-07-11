@@ -13,7 +13,7 @@ SDL_Texture* loadTexture(SDL_Renderer *ren, string src) {
 
   SDL_Texture *texture = IMG_LoadTexture(ren, src.c_str());
   if (texture == nullptr){
-    std::cout << "LoadTexture Error: " << SDL_GetError() << std::endl;
+    std::cout << "x LoadTexture Error: " << src << " " << SDL_GetError() << std::endl;
     IMG_Quit();
     SDL_Quit();
     throw renderer_error();
