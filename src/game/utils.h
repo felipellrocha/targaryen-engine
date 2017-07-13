@@ -7,11 +7,6 @@
 #include "sdl2image.h"
 #include "exceptions.h"
 
-enum Resolver {
-  OPAQUE = 1,
-  EXPLOSION = 2,
-};
-
 struct Collision {
   public:
     EID e1;

@@ -24,13 +24,14 @@
 #include "ai/decorator.h"
 
 #include "renderer/tileset.h"
-#include "renderer/offset.h"
+#include "renderer/geometry.h"
 #include "renderer/animation.h"
 
 #include "game/components.h"
 #include "game/behaviors/follow.h"
 #include "game/behaviors/proximity.h"
 #include "game/utils.h"
+#include "game/systems/ability.h"
 #include "game/systems/render.h"
 #include "game/systems/input.h"
 #include "game/systems/camera.h"
@@ -39,6 +40,7 @@
 #include "game/systems/walk.h"
 #include "game/systems/transition.h"
 #include "game/systems/ai.h"
+#include "game/materials.h"
 
 using json = nlohmann::json;
 using namespace std;

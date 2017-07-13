@@ -12,28 +12,28 @@ void InputSystem::update(float dt) {
     position->direction = this->game->compass;
 
     if (Compass::NORTH & this->game->compass) {
-      position->nextY -= movement->vecY; 
+      position->nextY -= (Actions::SECONDARY & this->game->actions) ? movement->fast.y : movement->slow.y;
       if (walk) {
         walk->direction = Compass::NORTH;
         walk->animating = true;
       }
     }
     if (Compass::EAST & this->game->compass) {
-      position->nextX += movement->vecX; 
+      position->nextX += (Actions::SECONDARY & this->game->actions) ? movement->fast.x : movement->slow.x;
       if (walk) {
         walk->direction = Compass::EAST;
         walk->animating = true;
       }
     }
     if (Compass::SOUTH & this->game->compass) {
-      position->nextY += movement->vecY; 
+      position->nextY += (Actions::SECONDARY & this->game->actions) ? movement->fast.y : movement->slow.y;
       if (walk) {
         walk->direction = Compass::SOUTH;
         walk->animating = true;
       }
     }
     if (Compass::WEST & this->game->compass) {
-      position->nextX -= movement->vecX;
+      position->nextX -= (Actions::SECONDARY & this->game->actions) ? movement->fast.x : movement->slow.x;
       if (walk) {
         walk->direction = Compass::WEST;
         walk->animating = true;

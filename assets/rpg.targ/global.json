@@ -6,8 +6,8 @@
   "selectedAction": "put",
   "selectedTerrainType": "6-tile",
   "selectedTile": [
-    -2,
-    "09e7a39b-7c7e-4c58-ba57-56c496e1b020"
+    -1,
+    0
   ],
   "selectedLayer": 3,
   "selectedAnimation": "walk-east",
@@ -18,56 +18,53 @@
       "members": {
         "hearts": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "hearts"
         },
         "max": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "max"
         }
       }
+    },
+    {
+      "name": "AbilityComponent",
+      "members": {}
     },
     {
       "name": "PositionComponent",
       "members": {
         "x": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "x"
         },
         "y": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "y"
         },
         "nextX": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "nextX"
         },
         "nextY": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "nextY"
         },
         "direction": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "direction"
         }
       }
@@ -77,16 +74,14 @@
       "members": {
         "w": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "w"
         },
         "h": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "h"
         }
       }
@@ -96,42 +91,36 @@
       "members": {
         "x": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "x"
         },
         "y": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "y"
         },
         "w": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "w"
         },
         "h": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "h"
         },
         "src": {
           "type": "string",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": "",
           "name": "src"
         },
         "texture": {
           "type": "SDL_Texture",
-          "subtype": null,
           "pointer": true,
           "value": null,
           "name": "texture"
@@ -145,52 +134,23 @@
     {
       "name": "MovementComponent",
       "members": {
-        "vecX": {
-          "type": "int",
-          "subtype": null,
+        "slow": {
+          "type": "point",
           "pointer": false,
-          "value": null,
-          "name": "vecX"
+          "value": {
+            "x": 0,
+            "y": 0
+          },
+          "name": "slow"
         },
-        "vecY": {
-          "type": "int",
-          "subtype": null,
+        "fast": {
+          "type": "point",
           "pointer": false,
-          "value": null,
-          "name": "vecY"
-        }
-      }
-    },
-    {
-      "name": "TileComponent",
-      "members": {
-        "setIndex": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "setIndex"
-        },
-        "tileIndex": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "tileIndex"
-        },
-        "locationIndex": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "locationIndex"
-        },
-        "surroundings": {
-          "type": "int",
-          "subtype": null,
-          "pointer": false,
-          "value": null,
-          "name": "surroundings"
+          "value": {
+            "x": 0,
+            "y": 0
+          },
+          "name": "fast"
         }
       }
     },
@@ -199,9 +159,8 @@
       "members": {
         "layer": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "layer"
         }
       }
@@ -211,7 +170,6 @@
       "members": {
         "entity": {
           "type": "EID",
-          "subtype": null,
           "pointer": false,
           "value": null,
           "name": "entity"
@@ -223,56 +181,48 @@
       "members": {
         "isStatic": {
           "type": "bool",
-          "subtype": null,
           "pointer": false,
           "value": false,
           "name": "isStatic"
         },
         "isColliding": {
           "type": "bool",
-          "subtype": null,
           "pointer": false,
           "value": false,
           "name": "isColliding"
         },
         "resolver": {
-          "type": "int",
-          "subtype": null,
+          "type": "ResolverType",
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "resolver"
         },
         "x": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "x"
         },
         "y": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "y"
         },
         "w": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "w"
         },
         "h": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "h"
         },
         "onCollision": {
-          "type": "json",
-          "subtype": "script",
+          "type": "script",
           "pointer": false,
           "value": null,
           "name": "onCollision"
@@ -284,9 +234,8 @@
       "members": {
         "vec": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "vec"
         }
       }
@@ -296,21 +245,18 @@
       "members": {
         "direction": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "Compass::SOUTH",
+          "value": null,
           "name": "direction"
         },
         "frame": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": null,
+          "value": 0,
           "name": "frame"
         },
         "animating": {
           "type": "bool",
-          "subtype": null,
           "pointer": false,
           "value": false,
           "name": "animating"
@@ -322,30 +268,26 @@
       "members": {
         "r": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "r"
         },
         "g": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "g"
         },
         "b": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "b"
         },
         "a": {
           "type": "int",
-          "subtype": null,
           "pointer": false,
-          "value": "0",
+          "value": 0,
           "name": "a"
         }
       }
@@ -355,12 +297,15 @@
       "members": {
         "onCollision": {
           "type": "bool",
-          "subtype": null,
           "pointer": false,
           "value": false,
           "name": "onCollision"
         }
       }
+    },
+    {
+      "name": "AIComponent",
+      "members": {}
     }
   ],
   "componentFilename": "/Users/fllr/Development/game/targaryen/src/game/components.h"

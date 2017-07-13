@@ -32,6 +32,8 @@ inline ostream& operator << (ostream &os, Compass const &c) {
 
 enum Actions {
   MAIN = 2,
+  SECONDARY = 4,
+  ATTACK1 = 8,
 };
 
 #endif

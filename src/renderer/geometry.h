@@ -1,11 +1,12 @@
-#ifndef OFFSET_H
-#define OFFSET_H
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
 
-struct offset {
+struct point {
   int x;
   int y;
 
-  offset(int _x, int _y) : x(_x), y(_y) { };
+  point(int _x, int _y) : x(_x), y(_y) { };
+  point() : point(0, 0) { };
 };
 
 struct dimension {

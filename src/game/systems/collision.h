@@ -17,13 +17,17 @@
 using namespace std;
 
 class CollisionSystem : public System {
-  public:
-    void update(float dt);
+public:
+  void update(float dt);
 
-    forward_list<EID> queue;
+  forward_list<EID> queue;
 
-    CollisionSystem(EntityManager *_manager, Renderer *_game) :
-      System(_manager, _game) { };
+  bool wallResolver(CollisionComponent* c1, CollisionComponent* c2);
+  bool damageResolver(CollisionComponent* c1, CollisionComponent* c2);
+  bool damageResolverCompliment(CollisionComponent* c1, CollisionComponent* c2);
+
+  CollisionSystem(EntityManager *_manager, Renderer *_game) :
+    System(_manager, _game) { };
 };
 
 #endif

@@ -10,14 +10,14 @@ Status Follower::update() {
 
   int xDiff = o_p->x - p_p->x;
   if (xDiff > 0) {
-    o_p->nextX -= movement->vecX;
+    o_p->nextX -= movement->slow.x;
     walk->direction = Compass::WEST;
 
     if (!(o_p->direction & Compass::WEST)) o_p->direction += Compass::WEST;
     if (o_p->direction & Compass::EAST) o_p->direction -= Compass::EAST;
   }
   else if (xDiff < 0) {
-    o_p->nextX += movement->vecX;
+    o_p->nextX += movement->slow.x;
     walk->direction = Compass::EAST;
 
     if (!(o_p->direction & Compass::EAST)) o_p->direction += Compass::EAST;
@@ -30,14 +30,14 @@ Status Follower::update() {
 
   int yDiff = o_p->y - p_p->y;
   if (yDiff > 0) {
-    o_p->nextY -= movement->vecY;
+    o_p->nextY -= movement->slow.y;
     walk->direction = Compass::NORTH;
 
     if (!(o_p->direction & Compass::NORTH)) o_p->direction += Compass::NORTH;
     if (o_p->direction & Compass::SOUTH) o_p->direction -= Compass::SOUTH;
   }
   else if (yDiff < 0) {
-    o_p->nextY += movement->vecY;
+    o_p->nextY += movement->slow.y;
     walk->direction = Compass::SOUTH;
 
     if (!(o_p->direction & Compass::SOUTH)) o_p->direction += Compass::NORTH;

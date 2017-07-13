@@ -927,23 +927,6 @@
           "members": {}
         },
         {
-          "name": "MovementComponent",
-          "members": {
-            "vecX": {
-              "type": "int",
-              "pointer": false,
-              "value": 4,
-              "name": "vecX"
-            },
-            "vecY": {
-              "type": "int",
-              "pointer": false,
-              "value": 4,
-              "name": "vecY"
-            }
-          }
-        },
-        {
           "name": "RenderComponent",
           "members": {}
         },
@@ -976,60 +959,79 @@
           }
         },
         {
+          "name": "MovementComponent",
+          "members": {
+            "slow": {
+              "type": "point",
+              "pointer": false,
+              "value": {
+                "x": 4,
+                "y": 4
+              },
+              "name": "slow"
+            },
+            "fast": {
+              "type": "point",
+              "pointer": false,
+              "value": {
+                "x": 6,
+                "y": 6
+              },
+              "name": "fast"
+            }
+          }
+        },
+        {
+          "name": "AbilityComponent",
+          "members": {}
+        },
+        {
           "name": "CollisionComponent",
           "members": {
             "isStatic": {
               "type": "bool",
-              "subtype": null,
               "pointer": false,
               "value": false,
               "name": "isStatic"
             },
             "isColliding": {
               "type": "bool",
-              "subtype": null,
               "pointer": false,
               "value": false,
               "name": "isColliding"
             },
             "resolver": {
-              "type": "int",
-              "subtype": null,
+              "type": "ResolverType",
               "pointer": false,
-              "value": "0",
+              "value": 2,
               "name": "resolver"
             },
             "x": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 12,
               "name": "x"
             },
             "y": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 24,
               "name": "y"
             },
             "w": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 24,
               "name": "w"
             },
             "h": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 24,
               "name": "h"
             },
             "onCollision": {
-              "type": "json",
-              "subtype": "script",
+              "type": "script",
               "pointer": false,
               "value": null,
               "name": "onCollision"
@@ -1099,56 +1101,48 @@
           "members": {
             "isStatic": {
               "type": "bool",
-              "subtype": null,
               "pointer": false,
               "value": true,
               "name": "isStatic"
             },
             "isColliding": {
               "type": "bool",
-              "subtype": null,
               "pointer": false,
               "value": false,
               "name": "isColliding"
             },
             "resolver": {
-              "type": "int",
-              "subtype": null,
+              "type": "ResolverType",
               "pointer": false,
-              "value": "0",
+              "value": 8,
               "name": "resolver"
             },
             "x": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 0,
               "name": "x"
             },
             "y": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 0,
               "name": "y"
             },
             "w": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 0,
               "name": "w"
             },
             "h": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 0,
               "name": "h"
             },
             "onCollision": {
-              "type": "json",
-              "subtype": "script",
+              "type": "script",
               "pointer": false,
               "value": null,
               "name": "onCollision"
@@ -1299,82 +1293,78 @@
           }
         },
         {
+          "name": "MovementComponent",
+          "members": {
+            "slow": {
+              "type": "point",
+              "pointer": false,
+              "value": {
+                "x": 4,
+                "y": 4
+              },
+              "name": "slow"
+            },
+            "fast": {
+              "type": "point",
+              "pointer": false,
+              "value": {
+                "x": 0,
+                "y": 0
+              },
+              "name": "fast"
+            }
+          }
+        },
+        {
           "name": "CollisionComponent",
           "members": {
             "isStatic": {
               "type": "bool",
-              "subtype": null,
               "pointer": false,
               "value": false,
               "name": "isStatic"
             },
             "isColliding": {
               "type": "bool",
-              "subtype": null,
               "pointer": false,
               "value": false,
               "name": "isColliding"
             },
             "resolver": {
-              "type": "int",
-              "subtype": null,
+              "type": "ResolverType",
               "pointer": false,
-              "value": "0",
+              "value": 2,
               "name": "resolver"
             },
             "x": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 12,
               "name": "x"
             },
             "y": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 24,
               "name": "y"
             },
             "w": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 24,
               "name": "w"
             },
             "h": {
               "type": "int",
-              "subtype": null,
               "pointer": false,
               "value": 24,
               "name": "h"
             },
             "onCollision": {
-              "type": "json",
-              "subtype": "script",
+              "type": "script",
               "pointer": false,
               "value": null,
               "name": "onCollision"
-            }
-          }
-        },
-        {
-          "name": "MovementComponent",
-          "members": {
-            "vecX": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 4,
-              "name": "vecX"
-            },
-            "vecY": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 4,
-              "name": "vecY"
             }
           }
         }
@@ -1384,82 +1374,6 @@
       "name": "changeToRoom",
       "avatar": null,
       "components": [
-        {
-          "name": "CollisionComponent",
-          "members": {
-            "isStatic": {
-              "type": "bool",
-              "subtype": null,
-              "pointer": false,
-              "value": true,
-              "name": "isStatic"
-            },
-            "isColliding": {
-              "type": "bool",
-              "subtype": null,
-              "pointer": false,
-              "value": false,
-              "name": "isColliding"
-            },
-            "resolver": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": "0",
-              "name": "resolver"
-            },
-            "x": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 12,
-              "name": "x"
-            },
-            "y": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 12,
-              "name": "y"
-            },
-            "w": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 24,
-              "name": "w"
-            },
-            "h": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 24,
-              "name": "h"
-            },
-            "onCollision": {
-              "type": "json",
-              "subtype": "script",
-              "pointer": false,
-              "value": [
-                {
-                  "type": "expression",
-                  "name": "changeMap",
-                  "parameters": {
-                    "map": {
-                      "type": "string",
-                      "value": "room"
-                    },
-                    "duration": {
-                      "type": "float",
-                      "value": 1.5
-                    }
-                  }
-                }
-              ],
-              "name": "onCollision"
-            }
-          }
-        },
         {
           "name": "PositionComponent",
           "members": {
@@ -1543,82 +1457,6 @@
               "pointer": false,
               "value": "0",
               "name": "direction"
-            }
-          }
-        },
-        {
-          "name": "CollisionComponent",
-          "members": {
-            "isStatic": {
-              "type": "bool",
-              "subtype": null,
-              "pointer": false,
-              "value": true,
-              "name": "isStatic"
-            },
-            "isColliding": {
-              "type": "bool",
-              "subtype": null,
-              "pointer": false,
-              "value": false,
-              "name": "isColliding"
-            },
-            "resolver": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": "0",
-              "name": "resolver"
-            },
-            "x": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 12,
-              "name": "x"
-            },
-            "y": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 12,
-              "name": "y"
-            },
-            "w": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 24,
-              "name": "w"
-            },
-            "h": {
-              "type": "int",
-              "subtype": null,
-              "pointer": false,
-              "value": 24,
-              "name": "h"
-            },
-            "onCollision": {
-              "type": "json",
-              "subtype": "script",
-              "pointer": false,
-              "value": [
-                {
-                  "type": "expression",
-                  "name": "changeMap",
-                  "parameters": {
-                    "map": {
-                      "type": "string",
-                      "value": "church"
-                    },
-                    "duration": {
-                      "type": "float",
-                      "value": 1.5
-                    }
-                  }
-                }
-              ],
-              "name": "onCollision"
             }
           }
         }

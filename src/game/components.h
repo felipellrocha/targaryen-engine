@@ -5,20 +5,42 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include <map>
 
 #include "json/json.h"
 #include "renderer/compass.h"
 #include "entity/entity.h"
 #include "entity/component.h"
 #include "game/utils.h"
+#include "game/materials.h"
+#include "renderer/geometry.h"
+#include "renderer/compass.h"
 
 using json = nlohmann::json;
+
+typedef json script;
+typedef int ResolverType;
 
 struct HealthComponent : public Component {
   int hearts;
   int max;
 
   HealthComponent(int _hearts, int _max) : hearts(_hearts), max(_max) {}
+};
+
+struct AbilityComponent : public Component {
+
+  map<Actions, Ability*> abilities;
+
+  AbilityComponent() { };
+
+  template<typename... Args>
+  void makeAbility(Actions action, Args... args) {
+    if (abilities[action]) delete abilities[action];
+    Ability* ability = new Ability(args...);
+
+    abilities[action] = ability;
+  };
 };
 
 struct PositionComponent : public Component {
@@ -66,11 +88,13 @@ struct InputComponent : public Component {
 };
 
 struct MovementComponent : public Component {
-  int vecX;
-  int vecY;
+  point slow;
+  point fast;
 
-  MovementComponent(int _vecX, int _vecY)
-    : vecX(_vecX), vecY(_vecY) { };
+  MovementComponent(int sX = 0, int sY = 0, int fX = 0, int fY = 0) {
+    slow = point(sX, sY);
+    fast = point(fX, fY);
+  };
 };
 
 struct RenderComponent : public Component {
@@ -93,13 +117,13 @@ struct CollisionComponent : public Component {
 
   bool isStatic = false;
   bool isColliding = false;
-  int resolver = 0;
+  ResolverType resolver;
   int x = 0;
   int y = 0;
   int w = 0;
   int h = 0;
 
-	json/*script*/ onCollision = nullptr;
+	script onCollision = nullptr;
 
   set<EID> collisions;
 

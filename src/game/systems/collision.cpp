@@ -47,7 +47,7 @@ void CollisionSystem::update(float dt) {
       auto c2 = manager->getComponent<CollisionComponent>(e2);
       auto p2 = manager->getComponent<PositionComponent>(e2);
 
-      if (e1 == e2) {
+      if (e1 == e2 || damageResolverCompliment(c1, c2)) {
         p1->y = p1->nextY;
         p1->x = p1->nextX;
         continue;
@@ -68,20 +68,37 @@ void CollisionSystem::update(float dt) {
           game->runScript(c2->onCollision);
         }
         c1->collisions.insert(e2);
-        
-        // resolve movements
-        int h_distance = abs((x1 + c1->w / 2) - (x2 + c2->w / 2));
-        int v_distance = abs((y1 + c1->h / 2) - (y2 + c2->h / 2));
 
-        if (v_distance > h_distance) {
-          int overlap = calculateOverlap(y1, y1 + c1->h,  y2, y2 + c2->h);
-          int direction = (Compass::NORTH & p1->direction) ? 1 : -1;
-          p1->nextY += direction * overlap;
+        if (wallResolver(c1, c2)) {
+          // resolve movements
+          int h_distance = abs((x1 + c1->w / 2) - (x2 + c2->w / 2));
+          int v_distance = abs((y1 + c1->h / 2) - (y2 + c2->h / 2));
+
+          if (v_distance > h_distance) {
+            int overlap = calculateOverlap(y1, y1 + c1->h,  y2, y2 + c2->h);
+            int direction = (Compass::NORTH & p1->direction) ? 1 : -1;
+            p1->nextY += direction * overlap;
+          }
+          else if (h_distance > v_distance) {
+            int overlap = calculateOverlap(x1, x1 + c1->w, x2, x2 + c2->w);
+            int direction = (Compass::EAST & p1->direction) ? -1 : 1;
+            p1->nextX += direction * overlap;
+          }
         }
-        else if (h_distance > v_distance) {
-          int overlap = calculateOverlap(x1, x1 + c1->w, x2, x2 + c2->w);
-          int direction = (Compass::EAST & p1->direction) ? -1 : 1;
-          p1->nextX += direction * overlap;
+
+        if (damageResolver(c1, c2)) {
+          manager->removeEntity(e1);
+          c2->collisions.erase(e1);
+
+          auto health = manager->getComponent<HealthComponent>(e2);
+
+          if (health) {
+            health->hearts -= 1;
+            if (health->hearts < 0) {
+              manager->removeEntity(e2);
+              c1->collisions.erase(e2);
+            }
+          }
         }
       }
 
@@ -91,4 +108,20 @@ void CollisionSystem::update(float dt) {
       p1->x = p1->nextX;
     }
   }
+};
+
+bool CollisionSystem::wallResolver(CollisionComponent* c1, CollisionComponent* c2) {
+  return (
+    (c1->resolver & Resolver::CHARACTER && c2->resolver & Resolver::WALL) ||
+    (c2->resolver & Resolver::CHARACTER && c1->resolver & Resolver::WALL) ||
+    (c2->resolver & Resolver::CHARACTER && c1->resolver & Resolver::CHARACTER)
+  );
+};
+
+bool CollisionSystem::damageResolver(CollisionComponent* c1, CollisionComponent* c2) {
+  return c1->resolver & Resolver::ATTACK && c2->resolver & Resolver::CHARACTER;
+};
+
+bool CollisionSystem::damageResolverCompliment(CollisionComponent* c1, CollisionComponent* c2) {
+  return c1->resolver & Resolver::CHARACTER && c2->resolver & Resolver::ATTACK;
 };

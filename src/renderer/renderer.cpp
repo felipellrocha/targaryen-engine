@@ -129,6 +129,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager)
 
   this->registerSystem<TransitionSystem>(manager);
   this->registerSystem<InputSystem>(manager);
+  this->registerSystem<AbilitySystem>(manager);
   this->registerSystem<AISystem>(manager);
   this->registerSystem<WalkSystem>(manager);
   this->registerSystem<ProjectileSystem>(manager);
@@ -243,11 +244,12 @@ void Renderer::loadStage(json game_data, string level) {
             int y = members.at("y").value("value", 0);
             int w = members.at("w").value("value", 0);
             int h = members.at("h").value("value", 0);
+            int resolver = members.at("resolver").value("value", 0);
 
             auto component = manager->addComponent<CollisionComponent>(
               entity,
               isStatic,
-              0,
+              resolver,
               x,
               y,
               (w > 0) ? w : this->grid.tile_w,
@@ -276,6 +278,16 @@ void Renderer::loadStage(json game_data, string level) {
 
             manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
           }
+          else if (name == "AbilityComponent") {
+            auto component = manager->addComponent<AbilityComponent>(entity);
+            component->makeAbility(
+              Actions::ATTACK1,
+              AbilityType::MELEE,
+              ElementType::FIRE,
+              0.7f,
+              5
+            );
+          }
           else if (name == "InputComponent") {
             manager->addComponent<InputComponent>(entity);
           }
@@ -283,10 +295,12 @@ void Renderer::loadStage(json game_data, string level) {
             manager->addComponent<RenderComponent>(entity, i);
           }
           else if (name == "MovementComponent") {
-            int vecX = component.at("members").at("vecX").at("value").get<int>();
-            int vecY = component.at("members").at("vecY").at("value").get<int>();
+            int sX = component.at("members").at("slow").at("value").at("x").get<int>();
+            int sY = component.at("members").at("slow").at("value").at("y").get<int>();
+            int fX = component.at("members").at("fast").at("value").at("x").get<int>();
+            int fY = component.at("members").at("fast").at("value").at("y").get<int>();
 
-            manager->addComponent<MovementComponent>(entity, vecX, vecY);
+            manager->addComponent<MovementComponent>(entity, sX, sY, fX, fY);
           }
           else if (name == "WalkComponent") {
             manager->addComponent<WalkComponent>(entity);
@@ -328,6 +342,12 @@ void Renderer::loop(float dt) {
         case SDLK_SPACE:
           if (!(Actions::MAIN & actions)) actions += Actions::MAIN;
         break;
+        case SDLK_LSHIFT:
+          if (!(Actions::SECONDARY & actions)) actions += Actions::SECONDARY;
+        break;
+        case SDLK_d:
+          if (!(Actions::ATTACK1 & actions)) actions += Actions::ATTACK1;
+        break;
       }
     }
     if (event.type == SDL_KEYUP) {
@@ -347,6 +367,12 @@ void Renderer::loop(float dt) {
         break;
         case SDLK_SPACE:
           if (Actions::MAIN & actions) actions -= Actions::MAIN;
+        break;
+        case SDLK_LSHIFT:
+          if (Actions::SECONDARY & actions) actions -= Actions::SECONDARY;
+        break;
+        case SDLK_d:
+          if (Actions::ATTACK1 & actions) actions -= Actions::ATTACK1;
         break;
       }
     }

@@ -5,7 +5,7 @@
 #include <array>
 #include "sdl2image.h"
 #include "renderer/compass.h"
-#include "renderer/offset.h"
+#include "renderer/geometry.h"
 
 using namespace std;
 
