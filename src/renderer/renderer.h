@@ -18,10 +18,10 @@
 #include "entity/entity.h"
 #include "entity/system.h"
 
-//#include "ai/node.h"
-//#include "ai/behaviortree.h"
-#include "ai/composite.h"
-#include "ai/decorator.h"
+//#include "AI/node.h"
+//#include "AI/behaviortree.h"
+#include "AI/composite.h"
+#include "AI/decorator.h"
 
 #include "renderer/tileset.h"
 #include "renderer/geometry.h"
@@ -54,6 +54,7 @@ public:
 
   SDL_Window *win = nullptr;
   SDL_Renderer *ren = nullptr;
+  SDL_GLContext context = nullptr;
 
   int windowWidth = 1100;
   int windowHeight = 600;

@@ -55,8 +55,8 @@ int main() {
   fpsTimer.start();
 
   EntityManager *manager = new EntityManager();
-  Renderer game = Renderer("assets/rpg.targ", manager);
-  //Renderer game = Renderer("assets/test.targ", manager);
+  //Renderer game = Renderer("assets/rpg.targ", manager);
+  Renderer game = Renderer("assets/test.targ", manager);
 
   while (game.isRunning()) {
     loop(game);

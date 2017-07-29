@@ -71,9 +71,9 @@ void RenderSystem::update(float dt) {
     }
 
     if (health) {
-      string healthDisplay = to_string(health->hearts)
+      string healthDisplay = to_string(health->currentHearts)
         + "/"
-        + to_string(health->max);
+        + to_string(health->maxHearts);
 
       bgSurface = TTF_RenderText_Blended(outline, healthDisplay.c_str(), black);
       fgSurface = TTF_RenderText_Blended(font, healthDisplay.c_str(), white);

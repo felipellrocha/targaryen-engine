@@ -20,17 +20,21 @@ using json = nlohmann::json;
 
 typedef json script;
 typedef int ResolverType;
+typedef map<Actions, Ability*> AbilityList;
 
 struct HealthComponent : public Component {
-  int hearts;
-  int max;
+  int currentHearts;
+  int maxHearts;
+  int currentEnergy;
+  int maxEnergy;
 
-  HealthComponent(int _hearts, int _max) : hearts(_hearts), max(_max) {}
+  HealthComponent(int _ch, int _mh, int _ce, int _me)
+    : currentHearts(_ch), maxHearts(_mh), currentEnergy(_ce), maxEnergy(_me) {}
 };
 
 struct AbilityComponent : public Component {
 
-  map<Actions, Ability*> abilities;
+  AbilityList abilities;
 
   AbilityComponent() { };
 
@@ -44,13 +48,13 @@ struct AbilityComponent : public Component {
 };
 
 struct PositionComponent : public Component {
-  int x;
-  int y;
+  int x; //private
+  int y; //private
 
-  int nextX;
-  int nextY;
+  int nextX; //private
+  int nextY; //private
 
-  int direction = 0;
+  int direction = 0; //private
 
   void move(int x, int y) {
     nextX = x;
@@ -64,8 +68,8 @@ struct PositionComponent : public Component {
 };
 
 struct DimensionComponent : public Component {
-  int w;
-  int h;
+  int w; //private
+  int h; //private
 
   DimensionComponent(int _w, int _h) : w(_w), h(_h) {}
 };
@@ -76,7 +80,7 @@ struct SpriteComponent : public Component {
   int w;
   int h;
   string src;
-  SDL_Texture *texture;
+  SDL_Texture *texture; //private
 
   SpriteComponent(int _x, int _y, int _w, int _h, SDL_Texture* _texture)
       : x(_x), y(_y), w(_w), h(_h), texture(_texture) {
@@ -98,14 +102,14 @@ struct MovementComponent : public Component {
 };
 
 struct RenderComponent : public Component {
-  int layer;
+  int layer; //private
 
   RenderComponent(int _layer)
   : layer(_layer) { };
 };
 
 struct CenteredCameraComponent : public Component {
-  EID entity;
+  EID entity; //private
 
   CenteredCameraComponent(EID _entity) : entity(_entity) { };
 };
@@ -116,7 +120,7 @@ struct CollisionComponent : public Component {
   // some more heavy duty things to check for collision
 
   bool isStatic = false;
-  bool isColliding = false;
+  bool isColliding = false; //private
   ResolverType resolver;
   int x = 0;
   int y = 0;
@@ -125,7 +129,7 @@ struct CollisionComponent : public Component {
 
 	script onCollision = nullptr;
 
-  set<EID> collisions;
+  set<EID> collisions; //private
 
   CollisionComponent(bool _isStatic, int _resolver, int _x, int _y, int _w, int _h)
     : isStatic(_isStatic),
@@ -144,9 +148,9 @@ struct ProjectileComponent : public Component {
 };
 
 struct WalkComponent : public Component {
-  int direction = Compass::SOUTH;
-  int frame;
-  bool animating = false;
+  int direction = Compass::SOUTH; //private
+  int frame; //private
+  bool animating = false; //private
 
   WalkComponent(int _direction, int _frame) : direction(_direction), frame(_frame) { };
   WalkComponent(int _direction) : WalkComponent(_direction, 0) { };

@@ -24,7 +24,7 @@ public:
 
   bool wallResolver(CollisionComponent* c1, CollisionComponent* c2);
   bool damageResolver(CollisionComponent* c1, CollisionComponent* c2);
-  bool damageResolverCompliment(CollisionComponent* c1, CollisionComponent* c2);
+  bool damageResolverComplement(CollisionComponent* c1, CollisionComponent* c2);
 
   CollisionSystem(EntityManager *_manager, Renderer *_game) :
     System(_manager, _game) { };

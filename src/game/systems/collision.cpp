@@ -47,7 +47,7 @@ void CollisionSystem::update(float dt) {
       auto c2 = manager->getComponent<CollisionComponent>(e2);
       auto p2 = manager->getComponent<PositionComponent>(e2);
 
-      if (e1 == e2 || damageResolverCompliment(c1, c2)) {
+      if (!c2 || !p2 || e1 == e2 || damageResolverComplement(c1, c2)) {
         p1->y = p1->nextY;
         p1->x = p1->nextX;
         continue;
@@ -93,8 +93,8 @@ void CollisionSystem::update(float dt) {
           auto health = manager->getComponent<HealthComponent>(e2);
 
           if (health) {
-            health->hearts -= 1;
-            if (health->hearts < 0) {
+            health->currentHearts -= 1;
+            if (health->currentHearts < 0) {
               manager->removeEntity(e2);
               c1->collisions.erase(e2);
             }
@@ -122,6 +122,6 @@ bool CollisionSystem::damageResolver(CollisionComponent* c1, CollisionComponent*
   return c1->resolver & Resolver::ATTACK && c2->resolver & Resolver::CHARACTER;
 };
 
-bool CollisionSystem::damageResolverCompliment(CollisionComponent* c1, CollisionComponent* c2) {
+bool CollisionSystem::damageResolverComplement(CollisionComponent* c1, CollisionComponent* c2) {
   return c1->resolver & Resolver::CHARACTER && c2->resolver & Resolver::ATTACK;
 };

@@ -15,7 +15,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager)
     "Game",
     0, 0,
     this->windowWidth, this->windowHeight,
-    SDL_WINDOW_SHOWN
+    SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL
   );
   if (this->win == nullptr) {
     std::cout << "SDL_CreateWindow error: " << SDL_GetError() << std::endl;
@@ -36,6 +36,8 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager)
     SDL_Quit();
     throw renderer_error();
   }
+
+  this->context = SDL_GL_CreateContext(this->win);
 
   if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG){
     std::cout << "IMG_Init Error: " << SDL_GetError() << std::endl;
@@ -201,6 +203,7 @@ void Renderer::loadStage(json game_data, string level) {
           manager->addComponent<RenderComponent>(entity, i);
         }
       }
+
       // only continue if it's a action entity
       if (setIndex == -2) {
         string entityId = node.at(1).get<string>();
@@ -267,10 +270,12 @@ void Renderer::loadStage(json game_data, string level) {
             manager->addComponent<DimensionComponent>(entity, w, h);
           }
           else if (name == "HealthComponent") {
-            int hearts = component.at("members").at("hearts").at("value").get<int>();
-            int max = component.at("members").at("max").at("value").get<int>();
+            int ch = component.at("members").at("currentHearts").at("value").get<int>();
+            int mh = component.at("members").at("maxHearts").at("value").get<int>();
+            int ce = component.at("members").at("currentEnergy").at("value").get<int>();
+            int me = component.at("members").at("maxEnergy").at("value").get<int>();
 
-            manager->addComponent<HealthComponent>(entity, hearts, max);
+            manager->addComponent<HealthComponent>(entity, ch, mh, ce, me);
           }
           else if (name == "SpriteComponent") {
             string source = component.at("members").at("src").at("value").get<string>();
@@ -282,7 +287,7 @@ void Renderer::loadStage(json game_data, string level) {
             auto component = manager->addComponent<AbilityComponent>(entity);
             component->makeAbility(
               Actions::ATTACK1,
-              AbilityType::MELEE,
+              AbilityType::RANGE,
               ElementType::FIRE,
               0.7f,
               5
@@ -317,7 +322,7 @@ void Renderer::loadStage(json game_data, string level) {
 
 void Renderer::loop(float dt) {
   SDL_Event event;
-
+  
   // extract input information so that all systems can use it
   while (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {

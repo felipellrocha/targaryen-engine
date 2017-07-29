@@ -8,7 +8,6 @@ void ProjectileSystem::update(float dt) {
     
     auto projectile = manager->getComponent<ProjectileComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
-    auto collision = manager->getComponent<CollisionComponent>(entity);
 
     if (Compass::NORTH & position->direction) position->nextY -= projectile->vec; 
     if (Compass::EAST & position->direction) position->nextX += projectile->vec; 

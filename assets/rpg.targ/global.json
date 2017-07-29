@@ -16,17 +16,29 @@
     {
       "name": "HealthComponent",
       "members": {
-        "hearts": {
+        "currentHearts": {
           "type": "int",
           "pointer": false,
           "value": 0,
-          "name": "hearts"
+          "name": "currentHearts"
         },
-        "max": {
+        "maxHearts": {
           "type": "int",
           "pointer": false,
           "value": 0,
-          "name": "max"
+          "name": "maxHearts"
+        },
+        "currentEnergy": {
+          "type": "int",
+          "pointer": false,
+          "value": 0,
+          "name": "currentEnergy"
+        },
+        "maxEnergy": {
+          "type": "int",
+          "pointer": false,
+          "value": 0,
+          "name": "maxEnergy"
         }
       }
     },
@@ -36,55 +48,11 @@
     },
     {
       "name": "PositionComponent",
-      "members": {
-        "x": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "x"
-        },
-        "y": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "y"
-        },
-        "nextX": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "nextX"
-        },
-        "nextY": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "nextY"
-        },
-        "direction": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "direction"
-        }
-      }
+      "members": {}
     },
     {
       "name": "DimensionComponent",
-      "members": {
-        "w": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "w"
-        },
-        "h": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "h"
-        }
-      }
+      "members": {}
     },
     {
       "name": "SpriteComponent",
@@ -118,12 +86,6 @@
           "pointer": false,
           "value": "",
           "name": "src"
-        },
-        "texture": {
-          "type": "SDL_Texture",
-          "pointer": true,
-          "value": null,
-          "name": "texture"
         }
       }
     },
@@ -156,25 +118,11 @@
     },
     {
       "name": "RenderComponent",
-      "members": {
-        "layer": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "layer"
-        }
-      }
+      "members": {}
     },
     {
       "name": "CenteredCameraComponent",
-      "members": {
-        "entity": {
-          "type": "EID",
-          "pointer": false,
-          "value": null,
-          "name": "entity"
-        }
-      }
+      "members": {}
     },
     {
       "name": "CollisionComponent",
@@ -184,12 +132,6 @@
           "pointer": false,
           "value": false,
           "name": "isStatic"
-        },
-        "isColliding": {
-          "type": "bool",
-          "pointer": false,
-          "value": false,
-          "name": "isColliding"
         },
         "resolver": {
           "type": "ResolverType",
@@ -242,26 +184,7 @@
     },
     {
       "name": "WalkComponent",
-      "members": {
-        "direction": {
-          "type": "int",
-          "pointer": false,
-          "value": null,
-          "name": "direction"
-        },
-        "frame": {
-          "type": "int",
-          "pointer": false,
-          "value": 0,
-          "name": "frame"
-        },
-        "animating": {
-          "type": "bool",
-          "pointer": false,
-          "value": false,
-          "name": "animating"
-        }
-      }
+      "members": {}
     },
     {
       "name": "ColorComponent",
