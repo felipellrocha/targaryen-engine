@@ -37,17 +37,22 @@ void loop(Renderer &renderer) {
 }
 
 #ifdef __EMSCRIPTEN__
-extern "C" int mainf() {
-  fpsTimer.start();
+EntityManager *manager = new EntityManager();
+Renderer game = Renderer("assets/test.targ", manager, 100, 100);
 
-  EntityManager *manager = new EntityManager();
-  Renderer game = Renderer("assets/test.targ", manager);
-  //Renderer game = Renderer("assets/rpg.targ", manager);
+extern "C" {
+  void resize(int width, int height) {
+    game.resize(width, height);
+  }
 
-  emscripten_set_main_loop_arg((em_arg_callback_func)loop, &game, -1, 1);
+  int initialize() {
+    fpsTimer.start();
 
-  SDL_Quit();
-  return 0;
+    emscripten_set_main_loop_arg((em_arg_callback_func)loop, &game, -1, 1);
+
+    SDL_Quit();
+    return 0;
+  }
 }
 #else
 
@@ -56,7 +61,8 @@ int main() {
 
   EntityManager *manager = new EntityManager();
   //Renderer game = Renderer("assets/rpg.targ", manager);
-  Renderer game = Renderer("assets/test.targ", manager);
+  Renderer game = Renderer("assets/test.targ", manager, 100, 100);
+  game.resize(1200, 800);
 
   while (game.isRunning()) {
     loop(game);

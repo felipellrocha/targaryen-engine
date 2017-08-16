@@ -1,5 +1,6 @@
 OUT_FILE := game
 
+ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OUT_DIR := out
 INC_DIR := src
 SRC_DIR := src
@@ -30,7 +31,15 @@ CXX_FLAGS = \
 	#-Wshadow \
 
 EXEC_FLAGS = 
-LIBS := -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/SDL2_image.framework/Headers -I /Library/Frameworks/SDL2_ttf.framework/Headers -framework SDL2 -framework SDL2_image -framework SDL2_ttf
+LIBS := -I /Library/Frameworks/SDL2.framework/Headers \
+  -I /Library/Frameworks/SDL2_image.framework/Headers \
+  -I /Library/Frameworks/SDL2_ttf.framework/Headers \
+  -I /usr/local/Cellar/glew/2.1.0/include \
+	-lglew \
+  -framework SDL2 \
+  -framework SDL2_image \
+  -framework SDL2_ttf \
+  -framework OpenGL
 
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp' -o -name '*.c')
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))

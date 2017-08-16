@@ -1,7 +1,7 @@
 #include "renderer.h"
 
-Renderer::Renderer(string _gamePackage, EntityManager* _manager)
-  : gamePackage(_gamePackage), manager(_manager) {
+Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidth, int _windowHeight)
+  : gamePackage(_gamePackage), manager(_manager), windowWidth(_windowWidth), windowHeight(_windowHeight) {
   this->running = true;
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -15,7 +15,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager)
     "Game",
     0, 0,
     this->windowWidth, this->windowHeight,
-    SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL
+    SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
   );
   if (this->win == nullptr) {
     std::cout << "SDL_CreateWindow error: " << SDL_GetError() << std::endl;

@@ -13,7 +13,8 @@ INC_DIRS := -I$(INC_DIR)
 CXX_FLAGS = \
 	-std=c++11 \
 	-std=c++14 \
-	-Wall \
+  -Wall \
+  -Wno-missing-braces \
 	-Wextra \
 	-Wshadow \
 	-pedantic \
@@ -32,7 +33,7 @@ CXX_FLAGS = \
 	-D DRAW_COLLISION 
 EXEC_FLAGS = \
 	--preload-file assets \
-	-s EXPORTED_FUNCTIONS='["_mainf"]' \
+	-s EXPORTED_FUNCTIONS='["_initialize", "_resize"]' \
 	--emrun
 LIBS :=
 

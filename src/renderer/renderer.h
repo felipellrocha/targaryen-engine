@@ -56,15 +56,6 @@ public:
   SDL_Renderer *ren = nullptr;
   SDL_GLContext context = nullptr;
 
-  int windowWidth = 1100;
-  int windowHeight = 600;
-
-  bool running = true;
-  int compass = 0;
-  int actions = 0;
-
-  int numTransitions = 0;
-
   map<string, string> mapsByName;
   map<EID, Node*> behaviors;
 
@@ -79,6 +70,23 @@ public:
 
   Grid grid;
   map<string, SDL_Texture*> textures;
+
+  int windowWidth = 1100;
+  int windowHeight = 600;
+
+  bool running = true;
+  int compass = 0;
+  int actions = 0;
+
+  int numTransitions = 0;
+
+  void resize(int w, int h) {
+    SDL_SetWindowSize(win, w, h);
+    auto camera = manager->getSpecial("camera");
+    auto dim = manager->getComponent<DimensionComponent>(camera);
+    dim->w = w;
+    dim->h = h;
+  }
 
   void loop(float dt);
   bool isRunning() { return running; };
@@ -109,7 +117,7 @@ public:
   void loadStage(json game_data, string level);
   void runScript(json commands);
 
-  Renderer(string _gamePackage, EntityManager* _manager);
+  Renderer(string _gamePackage, EntityManager* _manager, int width, int height);
   ~Renderer();
 };
 
