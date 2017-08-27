@@ -1,0 +1,24 @@
+{
+  "filename": "/Users/fllr/Development/game/targaryen/assets/metroidvania/game.targ",
+  "basepath": "/Users/fllr/Development/game/targaryen/assets/metroidvania",
+  "componentFilename": "",
+  "zoom": "1",
+  "selectingShape": false,
+  "selectedMap": 0,
+  "selectedAction": "put",
+  "selectedTerrainType": "6-tile",
+  "selectedTile": [
+    0,
+    60
+  ],
+  "selectedLayer": 0,
+  "selectedAnimation": null,
+  "selectedFrame": 0,
+  "selectedShape": {
+    "columns": 7,
+    "rows": 6
+  },
+  "components": [],
+  "initialTileIndex": 60,
+  "hideGrid": true
+}

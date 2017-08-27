@@ -24,11 +24,7 @@ void loop(Renderer &renderer) {
   float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
   if (avgFPS > 2000000) avgFPS = 0;
 
-  SDL_RenderClear(renderer.ren);
-
   renderer.loop((double)countedFrames / fpsTimer.getTicks());
-
-  SDL_RenderPresent(renderer.ren);
 
   countedFrames++;
 
@@ -61,7 +57,7 @@ int main() {
 
   EntityManager *manager = new EntityManager();
   //Renderer game = Renderer("assets/rpg.targ", manager);
-  Renderer game = Renderer("assets/test.targ", manager, 100, 100);
+  Renderer game = Renderer("assets/metroidvania/", "game.targ", manager, 100, 100);
   game.resize(1200, 800);
 
   while (game.isRunning()) {

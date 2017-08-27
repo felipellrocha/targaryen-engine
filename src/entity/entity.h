@@ -21,9 +21,6 @@ struct Entity {
   Entity(EID _eid) : eid(_eid) {}
 };
 
-const int MAX_ENTITY = 8192;
-const int NUM_COMPONENTS = 11;
-
 class EntityManager {
   public:
     int lowestUnassignedEid = 0;

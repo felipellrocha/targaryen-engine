@@ -1,7 +1,7 @@
 #include "renderer.h"
 
-Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidth, int _windowHeight)
-  : gamePackage(_gamePackage), manager(_manager), windowWidth(_windowWidth), windowHeight(_windowHeight) {
+Renderer::Renderer(string _assetPath, string _gamePackage, EntityManager* _manager, int _windowWidth, int _windowHeight)
+  : assetPath(_assetPath), gamePackage(_gamePackage), manager(_manager), windowWidth(_windowWidth), windowHeight(_windowHeight) {
   this->running = true;
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -27,7 +27,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidt
   this->ren = SDL_CreateRenderer(
     this->win,
     -1,
-    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE
   );
 
   if (this->ren == nullptr) {
@@ -35,6 +35,16 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidt
     std::cout << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl;
     SDL_Quit();
     throw renderer_error();
+  }
+  this->texture = SDL_CreateTexture(
+    this->ren,
+    SDL_PIXELFORMAT_RGBA8888,
+    SDL_TEXTUREACCESS_TARGET,
+    this->windowWidth, this->windowHeight
+  );
+
+  if( this->texture == NULL ) {
+    printf( "Unable to create blank texture! SDL Error: %s\n", SDL_GetError() );
   }
 
   this->context = SDL_GL_CreateContext(this->win);
@@ -52,9 +62,15 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidt
     throw renderer_error();
   }
 
+  if (glewInit() == -1) {
+    printf( "GLEW could not initialize!" );
+    SDL_Quit();
+    throw renderer_error();
+  }
+
   SDL_SetRenderDrawBlendMode(this->ren, SDL_BLENDMODE_BLEND);
 
-  string gameFile = gamePackage + "/app.json";
+  string gameFile = getAssetPath(gamePackage + "/app.json");
   cout << gameFile << endl;
   json game_data = readFile(gameFile.c_str());
   json maps = game_data.at("maps");
@@ -74,7 +90,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidt
   json currentMap = game_data.at("maps").at(mapIndex);
   string levelId = currentMap.at("id").get<string>();
 
-  textures["flame"] = loadTexture(this->ren, "assets/flame.png");
+  //textures["flame"] = loadTexture(this->ren, getAssetPath("flame.png"));
 
   auto tileset_data = game_data.at("tilesets");
   for (uint i = 0; i < tileset_data.size(); i++) {
@@ -83,7 +99,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidt
     int rows = tileset.at("rows").get<int>();
     int columns = tileset.at("columns").get<int>();
     string type = tileset.at("type").get<string>();
-    string src = "assets/" + tileset.at("src").get<string>();
+    string src = getAssetPath(tileset.at("src").get<string>());
     auto tr = tileset.at("terrains");
     map<int, string> terrains;
 
@@ -141,7 +157,7 @@ Renderer::Renderer(string _gamePackage, EntityManager* _manager, int _windowWidt
 };
 
 void Renderer::loadStage(string level) {
-  string gameFile = gamePackage + "/app.json";
+  string gameFile = getAssetPath(gamePackage + "/app.json");
   cout << gameFile << endl;
   json game_data = readFile(gameFile.c_str());
 
@@ -149,7 +165,7 @@ void Renderer::loadStage(string level) {
 }
 
 void Renderer::loadStage(json game_data, string level) {
-  string mapFile = gamePackage + "/maps/" + level + ".json";
+  string mapFile = getAssetPath(gamePackage + "/maps/" + level + ".json");
 
   cout << "Loading file: " << mapFile << endl;
 
@@ -397,8 +413,24 @@ void Renderer::runScript(json commands) {
 	}
 };
 
+void Renderer::resize(int w, int h) {
+  SDL_SetWindowSize(win, w, h);
+  SDL_DestroyTexture(this->texture);
+  this->texture = SDL_CreateTexture(
+    this->ren,
+    SDL_PIXELFORMAT_RGBA8888,
+    SDL_TEXTUREACCESS_TARGET,
+    w, h
+  );
+  auto camera = manager->getSpecial("camera");
+  auto dim = manager->getComponent<DimensionComponent>(camera);
+  dim->w = w;
+  dim->h = h;
+}
+
 
 Renderer::~Renderer() {
+  SDL_DestroyTexture(this->texture);
   SDL_DestroyRenderer(this->ren);
   SDL_DestroyWindow(this->win);
 }

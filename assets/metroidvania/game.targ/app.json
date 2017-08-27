@@ -1,0 +1,27 @@
+{
+  "name": "Untitled",
+  "tile": {
+    "width": 16,
+    "height": 16
+  },
+  "tilesets": [
+    {
+      "src": "tileset.png",
+      "name": "tileset.png",
+      "rows": 20,
+      "columns": 58,
+      "type": "tile",
+      "terrains": {}
+    }
+  ],
+  "sheets": [],
+  "maps": [
+    {
+      "id": "start",
+      "name": "start"
+    }
+  ],
+  "animations": {},
+  "entities": {},
+  "initialMap": 0
+}

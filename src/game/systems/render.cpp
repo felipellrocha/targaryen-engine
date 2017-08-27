@@ -16,6 +16,9 @@ void RenderSystem::update(float dt) {
     cameraDimension->h,
   };
 
+  SDL_SetRenderTarget(game->ren, game->texture);
+  SDL_RenderClear(game->ren);
+
   for (auto& ref : entities) {
     EID entity = ref.first;
     auto render = manager->getComponent<RenderComponent>(entity);
@@ -176,6 +179,15 @@ void RenderSystem::update(float dt) {
   SDL_RenderCopy(game->ren, message, NULL, &rect);
 #endif
 
+  //testShader.use();
+
   cache.clear();
   SDL_SetRenderDrawColor( game->ren, 0, 0, 0, 0 );
+  SDL_SetRenderTarget( game->ren, NULL );
+
+  SDL_Rect transfer = {0, 0, cameraDimension->w, cameraDimension->h};
+
+  SDL_RenderCopy(game->ren, game->texture, &transfer, &transfer);
+
+  SDL_RenderPresent(game->ren);
 };

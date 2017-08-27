@@ -54,12 +54,14 @@ public:
 
   SDL_Window *win = nullptr;
   SDL_Renderer *ren = nullptr;
+  SDL_Texture *texture = nullptr;
   SDL_GLContext context = nullptr;
 
   map<string, string> mapsByName;
   map<EID, Node*> behaviors;
 
   string gamePackage;
+  string assetPath;
   EntityManager* manager;
 
   json entities;
@@ -80,13 +82,11 @@ public:
 
   int numTransitions = 0;
 
-  void resize(int w, int h) {
-    SDL_SetWindowSize(win, w, h);
-    auto camera = manager->getSpecial("camera");
-    auto dim = manager->getComponent<DimensionComponent>(camera);
-    dim->w = w;
-    dim->h = h;
+  string getAssetPath(string asset) {
+    return assetPath + asset;
   }
+
+  void resize(int w, int h);
 
   void loop(float dt);
   bool isRunning() { return running; };
@@ -117,7 +117,7 @@ public:
   void loadStage(json game_data, string level);
   void runScript(json commands);
 
-  Renderer(string _gamePackage, EntityManager* _manager, int width, int height);
+  Renderer(string assetPath, string _gamePackage, EntityManager* _manager, int width, int height);
   ~Renderer();
 };
 
