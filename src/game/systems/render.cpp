@@ -1,9 +1,5 @@
 #include "render.h"
 
-bool RenderCacheItem::operator< (RenderCacheItem const &other) const {
-  return tie(layer, y, entity) < tie(other.layer, other.y, other.entity);
-}
-
 void RenderSystem::update(float dt) {
   auto entities = manager->getAllEntitiesWithComponent<RenderComponent>(); 
   auto cameraPosition = manager->getComponent<PositionComponent>(manager->getSpecial("camera"));
@@ -27,9 +23,9 @@ void RenderSystem::update(float dt) {
     int x = position->x;
     int y = position->y;
 
-    bool colliding = 
-      isOverlapping(x, x + game->grid.tile_w, camera.x, camera.x + camera.w) &&
-      isOverlapping(y, y + game->grid.tile_h, camera.y, camera.y + camera.h);
+    bool overlappingX = isOverlapping(x, x + game->grid.tile_w, camera.x, camera.x + camera.w) || render->shouldTileX;
+    bool overlappingY = isOverlapping(y, y + game->grid.tile_h, camera.y, camera.y + camera.h) || render->shouldTileY;
+    bool colliding = overlappingX && overlappingY;
 
     if (!colliding) continue;
 
@@ -40,6 +36,7 @@ void RenderSystem::update(float dt) {
   for (auto &item : cache) {
     EID entity = item.entity;
 
+    auto render = manager->getComponent<RenderComponent>(entity);
     auto sprite = manager->getComponent<SpriteComponent>(entity);
     auto position = manager->getComponent<PositionComponent>(entity);
     auto dimension = manager->getComponent<DimensionComponent>(entity);
@@ -57,20 +54,81 @@ void RenderSystem::update(float dt) {
     }
 
     else if (sprite) {
-      SDL_Rect src = {
-        sprite->x,
-        sprite->y,
-        sprite->w,
-        sprite->h
-      };
+      if (render->shouldTileY && render->shouldTileX) {
+        int xs = position->x - (ceil((float)position->x / sprite->w) * sprite->w);
+        int ys = position->y - (ceil((float)position->y / sprite->h) * sprite->h);
+        for (int x = xs; x + sprite->w < camera.w; x += sprite->w)
+        for (int y = ys; y + sprite->h < camera.h; y += sprite->h) {
+          SDL_Rect src = {
+            sprite->x,
+            sprite->y,
+            sprite->w,
+            sprite->h
+          };
 
-      SDL_Rect dst = {
-        position->x - camera.x,
-        position->y - camera.y,
-        sprite->w,
-        sprite->h 
-      };
-			SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
+          SDL_Rect dst = {
+            x - camera.x,
+            y - camera.y,
+            sprite->w,
+            sprite->h
+          };
+          SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
+        }
+      }
+      else if (render->shouldTileX) {
+        int xs = position->x - (ceil((float)position->x / sprite->w) * sprite->w);
+        for (int x = xs; x < camera.w; x += sprite->w) {
+          SDL_Rect src = {
+            sprite->x,
+            sprite->y,
+            sprite->w,
+            sprite->h
+          };
+
+          SDL_Rect dst = {
+            x - camera.x,
+            position->y - camera.y,
+            sprite->w,
+            sprite->h
+          };
+          SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
+        }
+      }
+      else if (render->shouldTileY) {
+        int ys = position->y - (ceil((float)position->y / sprite->h) * sprite->h);
+        for (int y = ys; y + sprite->h < camera.h; y += sprite->h) {
+          SDL_Rect src = {
+            sprite->x,
+            sprite->y,
+            sprite->w,
+            sprite->h
+          };
+
+          SDL_Rect dst = {
+            position->x - camera.x,
+            y - camera.y,
+            sprite->w,
+            sprite->h
+          };
+          SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
+        }
+      }
+      else {
+        SDL_Rect src = {
+          sprite->x,
+          sprite->y,
+          sprite->w,
+          sprite->h
+        };
+
+        SDL_Rect dst = {
+          position->x - camera.x,
+          position->y - camera.y,
+          sprite->w,
+          sprite->h 
+        };
+        SDL_RenderCopy(game->ren, sprite->texture, &src, &dst);
+      }
     }
 
     if (health) {
@@ -191,3 +249,7 @@ void RenderSystem::update(float dt) {
 
   SDL_RenderPresent(game->ren);
 };
+
+bool RenderCacheItem::operator< (RenderCacheItem const &other) const {
+  return tie(layer, y, entity) < tie(other.layer, other.y, other.entity);
+}

@@ -83,6 +83,16 @@ Renderer::Renderer(string _assetPath, string _gamePackage, EntityManager* _manag
     mapsByName[name] = id;
   }
 
+  json textures = game_data.at("tilesets");
+  for (auto& element : json::iterator_wrapper(textures)) {
+    auto texture = element.value();
+    string name = texture.at("src");
+    string src = getAssetPath(texture.at("src"));
+
+    this->textures[name] = loadTexture(this->ren, src);
+  }
+
+
   this->grid.tile_w = game_data.at("tile").at("width").get<int>();
   this->grid.tile_h = game_data.at("tile").at("height").get<int>();
 
@@ -99,7 +109,7 @@ Renderer::Renderer(string _assetPath, string _gamePackage, EntityManager* _manag
     int rows = tileset.at("rows").get<int>();
     int columns = tileset.at("columns").get<int>();
     string type = tileset.at("type").get<string>();
-    string src = getAssetPath(tileset.at("src").get<string>());
+    string src = tileset.at("src").get<string>();
     auto tr = tileset.at("terrains");
     map<int, string> terrains;
 
@@ -109,7 +119,7 @@ Renderer::Renderer(string _assetPath, string _gamePackage, EntityManager* _manag
       terrains[key] = value;
     }
 
-    SDL_Texture *texture = loadTexture(this->ren, src.c_str());
+    SDL_Texture *texture = this->textures[src];
 
     Tileset *t = new Tileset(rows, columns, type, texture, terrains);
 
@@ -294,10 +304,17 @@ void Renderer::loadStage(json game_data, string level) {
             manager->addComponent<HealthComponent>(entity, ch, mh, ce, me);
           }
           else if (name == "SpriteComponent") {
-            string source = component.at("members").at("src").at("value").get<string>();
-            SDL_Texture *texture = loadTexture(this->ren, source.c_str());
+            auto members = component.at("members");
+            string source = members.at("src").at("value").get<string>();
 
-            manager->addComponent<SpriteComponent>(entity, 0, 0, w, h, texture);
+            int x = members.at("x").value("value", 0);
+            int y = members.at("y").value("value", 0);
+            int w_v = members.at("w").value("value", 0);
+            int h_v = members.at("h").value("value", 0);
+
+            SDL_Texture *texture = this->textures[source];
+
+            manager->addComponent<SpriteComponent>(entity, x, y, (w_v) ? w_v : w, (h_v) ? h_v : h, texture);
           }
           else if (name == "AbilityComponent") {
             auto component = manager->addComponent<AbilityComponent>(entity);
@@ -313,7 +330,11 @@ void Renderer::loadStage(json game_data, string level) {
             manager->addComponent<InputComponent>(entity);
           }
           else if (name == "RenderComponent") {
-            manager->addComponent<RenderComponent>(entity, i);
+            auto members = component.at("members");
+            bool shouldTileX = members.at("shouldTileX").at("value").get<bool>();
+            bool shouldTileY = members.at("shouldTileY").at("value").get<bool>();
+
+            manager->addComponent<RenderComponent>(entity, i, shouldTileX, shouldTileY);
           }
           else if (name == "MovementComponent") {
             int sX = component.at("members").at("slow").at("value").at("x").get<int>();

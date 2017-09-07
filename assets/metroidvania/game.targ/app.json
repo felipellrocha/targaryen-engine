@@ -12,6 +12,14 @@
       "columns": 58,
       "type": "tile",
       "terrains": {}
+    },
+    {
+      "src": "far-grounds.png",
+      "name": "far-grounds.png",
+      "rows": 6.875,
+      "columns": 38.5,
+      "type": "image",
+      "terrains": {}
     }
   ],
   "sheets": [],
@@ -22,6 +30,109 @@
     }
   ],
   "animations": {},
-  "entities": {},
+  "entities": {
+    "4f436517-dfe3-4b20-bf2f-069a4750ca6b": {
+      "name": "background",
+      "avatar": null,
+      "components": [
+        {
+          "name": "RenderComponent",
+          "members": {
+            "shouldTileX": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "shouldTileX"
+            },
+            "shouldTileY": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "shouldTileY"
+            }
+          }
+        },
+        {
+          "name": "MovementComponent",
+          "members": {
+            "slow": {
+              "type": "point",
+              "pointer": false,
+              "value": {
+                "x": 2,
+                "y": 0
+              },
+              "name": "slow"
+            },
+            "fast": {
+              "type": "point",
+              "pointer": false,
+              "value": {
+                "x": 2,
+                "y": 0
+              },
+              "name": "fast"
+            }
+          }
+        },
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 616,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 110,
+              "name": "h"
+            },
+            "src": {
+              "type": "TextureSource",
+              "pointer": false,
+              "value": "far-grounds.png",
+              "name": "src"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {}
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 616,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 110,
+              "name": "h"
+            }
+          }
+        }
+      ]
+    }
+  },
   "initialMap": 0
 }

@@ -37,7 +37,7 @@ void AbilitySystem::update(float dt) {
 
         EID attack = this->manager->createEntity();
 
-        manager->addComponent<RenderComponent>(attack, render->layer);
+        manager->addComponent<RenderComponent>(attack, render->layer, false, false);
         manager->addComponent<DimensionComponent>(attack, 48, 48);
 
         manager->addComponent<CollisionComponent>(attack,

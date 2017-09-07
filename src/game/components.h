@@ -18,6 +18,7 @@
 
 using json = nlohmann::json;
 
+typedef string TextureSource;
 typedef json script;
 typedef int ResolverType;
 typedef map<Actions, Ability*> AbilityList;
@@ -79,7 +80,7 @@ struct SpriteComponent : public Component {
   int y;
   int w;
   int h;
-  string src;
+  TextureSource src;
   SDL_Texture *texture; //private
 
   SpriteComponent(int _x, int _y, int _w, int _h, SDL_Texture* _texture)
@@ -103,9 +104,14 @@ struct MovementComponent : public Component {
 
 struct RenderComponent : public Component {
   int layer; //private
+  bool shouldTileX;
+  bool shouldTileY;
+
+  RenderComponent(int _layer, bool _shouldTileX, bool _shouldTileY)
+  : layer(_layer), shouldTileX(_shouldTileX), shouldTileY(_shouldTileY) { };
 
   RenderComponent(int _layer)
-  : layer(_layer) { };
+  : layer(_layer), shouldTileX(false), shouldTileY(false) { };
 };
 
 struct CenteredCameraComponent : public Component {
