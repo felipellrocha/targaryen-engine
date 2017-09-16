@@ -20,6 +20,30 @@
       "columns": 38.5,
       "type": "image",
       "terrains": {}
+    },
+    {
+      "src": "clouds.png",
+      "name": "clouds.png",
+      "rows": 14.75,
+      "columns": 34,
+      "type": "image",
+      "terrains": {}
+    },
+    {
+      "src": "sea.png",
+      "name": "sea.png",
+      "rows": 6,
+      "columns": 7,
+      "type": "image",
+      "terrains": {}
+    },
+    {
+      "src": "sky.png",
+      "name": "sky.png",
+      "rows": 19,
+      "columns": 7,
+      "type": "image",
+      "terrains": {}
     }
   ],
   "sheets": [],
@@ -32,7 +56,7 @@
   "animations": {},
   "entities": {
     "4f436517-dfe3-4b20-bf2f-069a4750ca6b": {
-      "name": "background",
+      "name": "hills",
       "avatar": null,
       "components": [
         {
@@ -41,7 +65,7 @@
             "shouldTileX": {
               "type": "bool",
               "pointer": false,
-              "value": true,
+              "value": false,
               "name": "shouldTileX"
             },
             "shouldTileY": {
@@ -128,6 +152,317 @@
               "pointer": false,
               "value": 110,
               "name": "h"
+            }
+          }
+        }
+      ]
+    },
+    "4fe2bb1e-a7ea-4d42-9bbc-2d890b2b32a1": {
+      "name": "sky",
+      "avatar": null,
+      "components": [
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 112,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 304,
+              "name": "h"
+            },
+            "src": {
+              "type": "TextureSource",
+              "pointer": false,
+              "value": "sky.png",
+              "name": "src"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {}
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "RenderComponent",
+          "members": {
+            "shouldTileX": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "shouldTileX"
+            },
+            "shouldTileY": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "shouldTileY"
+            }
+          }
+        }
+      ]
+    },
+    "849ec5c7-52af-47c2-961d-c0fcc182fa8a": {
+      "name": "cloud",
+      "avatar": null,
+      "components": [
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 544,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 236,
+              "name": "h"
+            },
+            "src": {
+              "type": "TextureSource",
+              "pointer": false,
+              "value": "clouds.png",
+              "name": "src"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {}
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "RenderComponent",
+          "members": {
+            "shouldTileX": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "shouldTileX"
+            },
+            "shouldTileY": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "shouldTileY"
+            }
+          }
+        }
+      ]
+    },
+    "4959850f-4723-436b-a9d5-3a9dc8d973f8": {
+      "name": "sea",
+      "avatar": null,
+      "components": [
+        {
+          "name": "SpriteComponent",
+          "members": {
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 112,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 96,
+              "name": "h"
+            },
+            "src": {
+              "type": "TextureSource",
+              "pointer": false,
+              "value": "sea.png",
+              "name": "src"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {}
+        },
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "RenderComponent",
+          "members": {
+            "shouldTileX": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "shouldTileX"
+            },
+            "shouldTileY": {
+              "type": "bool",
+              "pointer": false,
+              "value": false,
+              "name": "shouldTileY"
+            }
+          }
+        }
+      ]
+    },
+    "6d7ffb40-784d-473c-8819-7d147e28c28d": {
+      "name": "wall",
+      "avatar": null,
+      "components": [
+        {
+          "name": "DimensionComponent",
+          "members": {
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            }
+          }
+        },
+        {
+          "name": "PositionComponent",
+          "members": {}
+        },
+        {
+          "name": "CollisionComponent",
+          "members": {
+            "isStatic": {
+              "type": "bool",
+              "pointer": false,
+              "value": true,
+              "name": "isStatic"
+            },
+            "resolver": {
+              "type": "ResolverType",
+              "pointer": false,
+              "value": 8,
+              "name": "resolver"
+            },
+            "x": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "x"
+            },
+            "y": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "y"
+            },
+            "w": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "w"
+            },
+            "h": {
+              "type": "int",
+              "pointer": false,
+              "value": 0,
+              "name": "h"
+            },
+            "onCollision": {
+              "type": "script",
+              "pointer": false,
+              "value": null,
+              "name": "onCollision"
             }
           }
         }

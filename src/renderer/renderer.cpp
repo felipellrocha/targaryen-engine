@@ -83,6 +83,16 @@ Renderer::Renderer(string _assetPath, string _gamePackage, EntityManager* _manag
     mapsByName[name] = id;
   }
 
+  this->entities = game_data.at("entities");
+
+  for (auto& element : json::iterator_wrapper(entities)) {
+    string id = element.key();
+    auto entity = element.value();
+    string name = entity.at("name").get<string>();
+
+    entitiesByName[name] = id;
+  }
+
   json textures = game_data.at("tilesets");
   for (auto& element : json::iterator_wrapper(textures)) {
     auto texture = element.value();
@@ -190,168 +200,32 @@ void Renderer::loadStage(json game_data, string level) {
   manager->saveSpecial("camera", camera);
 
   for (uint i = 0; i < map_data.at("layers").size(); i++) {
-    json element = map_data.at("layers").at(i);
-    json data = element.at("data");
+    json layer = map_data.at("layers").at(i);
+    json data = layer.at("data");
 
-    string type = element.at("type").get<string>();
-    string name = element.at("name").get<string>();
+    string type = layer.at("type").get<string>();
+    string name = layer.at("name").get<string>();
 
     cout << "Loading layer: " << name << endl;
 
-    for (int j = 0; j < data.size(); j++) {
-      json node = data.at(j);
-      int setIndex = node.at(0).get<int>();
-
-      if (setIndex >= 0) {
-        int tileIndex = node.at(1).get<int>();
-
-        vector<array<rect, 2>> sources;
-        Tileset* tileset = tilesets[setIndex];
-        int surrounding = this->grid.findSurroundings(node, j, data);
-
-        if (tileset->type == "tile") {
-          sources = simpleTile::calculateAll(tileIndex, j, tileset, &grid);
-        }
-        else if (tileset->terrains[tileIndex] == "6-tile") {
-          sources = sixTile::calculateAll(tileIndex, j, surrounding, tileset, &grid);
-        }
-        else if (tileset->terrains[tileIndex] == "4-tile") {
-          sources = fourTile::calculateAll(tileIndex, j, surrounding, tileset, &grid);
-        }
-        for (auto& calc : sources) {
-          auto src = calc[0];
-          auto dst = calc[1];
-
-          EID entity = manager->createEntity();
-
-          manager->addComponent<SpriteComponent>(entity, src.x, src.y, src.w, src.h, tileset->texture);
-          manager->addComponent<PositionComponent>(entity, dst.x, dst.y);
-          manager->addComponent<RenderComponent>(entity, i);
-        }
+    if (type == "tile") {
+      for (int j = 0; j < data.size(); j++) {
+        int setIndex = data.at(j).at(0).get<int>();
+        
+        if (setIndex >= 0) createTile(data, i, j);
+        // only continue if it's a action entity
+        else if (setIndex == -2) createEntityByData(data, i, j);
       }
+    } else if (type == "object") {
+      for (auto item : json::iterator_wrapper(data)) {
+        auto entity = item.value();
+        string entityId = entity.at("entity").get<string>();
+        int x = entity.at("rect").at("x").get<int>();
+        int y = entity.at("rect").at("y").get<int>();
+        int w = entity.at("rect").at("w").get<int>();
+        int h = entity.at("rect").at("h").get<int>();
 
-      // only continue if it's a action entity
-      if (setIndex == -2) {
-        string entityId = node.at(1).get<string>();
-        json entity_definition = game_data.at("entities").at(entityId);
-        json components = entity_definition.at("components");
-        string name = entity_definition.at("name").get<string>();
-
-        int x = this->grid.tile_w * this->grid.getX(j);
-        int y = this->grid.tile_h * this->grid.getY(j);
-        int w = this->grid.tile_w;
-        int h = this->grid.tile_h;
-
-        EID entity = manager->createEntity();
-
-        if (name == "player") {
-          manager->saveSpecial("player", entity);
-        }
-
-        if (name == "enemy") {
-          auto follow = makeBehavior<Follower>(entity);
-          auto proximity = makeBehavior<Proximity>(entity, 50);
-          auto inverter = makeBehavior<Inverter>(entity);
-          auto sequence = makeBehavior<Sequence>(entity);
-          inverter->setChild(proximity);
-          sequence->addChild(inverter);
-          sequence->addChild(follow);
-
-          behaviors[entity] = sequence;
-
-          manager->addComponent<AIComponent>(entity);
-        }
-
-        for (uint k = 0; k < components.size(); k++) {
-          auto component = components.at(k);
-          string name = component.at("name").get<string>();
-
-          if (name == "CollisionComponent") {
-            auto members = component.at("members");
-            bool isStatic = members.at("isStatic").at("value").get<bool>();
-            int x = members.at("x").value("value", 0);
-            int y = members.at("y").value("value", 0);
-            int w = members.at("w").value("value", 0);
-            int h = members.at("h").value("value", 0);
-            int resolver = members.at("resolver").value("value", 0);
-
-            auto component = manager->addComponent<CollisionComponent>(
-              entity,
-              isStatic,
-              resolver,
-              x,
-              y,
-              (w > 0) ? w : this->grid.tile_w,
-              (h > 0) ? h : this->grid.tile_h
-            );
-
-            if (!members.at("onCollision").at("value").is_null()) {
-              component->onCollision = members.at("onCollision").at("value");
-            }
-          }
-          else if (name == "PositionComponent") {
-            manager->addComponent<PositionComponent>(entity, x, y);
-          }
-          else if (name == "DimensionComponent") {
-            manager->addComponent<DimensionComponent>(entity, w, h);
-          }
-          else if (name == "HealthComponent") {
-            int ch = component.at("members").at("currentHearts").at("value").get<int>();
-            int mh = component.at("members").at("maxHearts").at("value").get<int>();
-            int ce = component.at("members").at("currentEnergy").at("value").get<int>();
-            int me = component.at("members").at("maxEnergy").at("value").get<int>();
-
-            manager->addComponent<HealthComponent>(entity, ch, mh, ce, me);
-          }
-          else if (name == "SpriteComponent") {
-            auto members = component.at("members");
-            string source = members.at("src").at("value").get<string>();
-
-            int x = members.at("x").value("value", 0);
-            int y = members.at("y").value("value", 0);
-            int w_v = members.at("w").value("value", 0);
-            int h_v = members.at("h").value("value", 0);
-
-            SDL_Texture *texture = this->textures[source];
-
-            manager->addComponent<SpriteComponent>(entity, x, y, (w_v) ? w_v : w, (h_v) ? h_v : h, texture);
-          }
-          else if (name == "AbilityComponent") {
-            auto component = manager->addComponent<AbilityComponent>(entity);
-            component->makeAbility(
-              Actions::ATTACK1,
-              AbilityType::RANGE,
-              ElementType::FIRE,
-              0.7f,
-              5
-            );
-          }
-          else if (name == "InputComponent") {
-            manager->addComponent<InputComponent>(entity);
-          }
-          else if (name == "RenderComponent") {
-            auto members = component.at("members");
-            bool shouldTileX = members.at("shouldTileX").at("value").get<bool>();
-            bool shouldTileY = members.at("shouldTileY").at("value").get<bool>();
-
-            manager->addComponent<RenderComponent>(entity, i, shouldTileX, shouldTileY);
-          }
-          else if (name == "MovementComponent") {
-            int sX = component.at("members").at("slow").at("value").at("x").get<int>();
-            int sY = component.at("members").at("slow").at("value").at("y").get<int>();
-            int fX = component.at("members").at("fast").at("value").at("x").get<int>();
-            int fY = component.at("members").at("fast").at("value").at("y").get<int>();
-
-            manager->addComponent<MovementComponent>(entity, sX, sY, fX, fY);
-          }
-          else if (name == "WalkComponent") {
-            manager->addComponent<WalkComponent>(entity);
-          }
-          else if (name == "CenteredCameraComponent") {
-            EID camera = manager->getSpecial("camera");
-            manager->addComponent<CenteredCameraComponent>(camera, entity);
-          }
-        }
+        createEntityByID(entityId, i, x, y, w, h);
       }
     }
   }
@@ -433,6 +307,181 @@ void Renderer::runScript(json commands) {
 		}
 	}
 };
+
+void Renderer::createTile(json& data, int layer, int index) {
+  json node = data.at(index);
+
+  int setIndex = node.at(0).get<int>();
+  int tileIndex = node.at(1).get<int>();
+
+  vector<array<rect, 2>> sources;
+  Tileset* tileset = tilesets[setIndex];
+  int surrounding = this->grid.findSurroundings(node, index, data);
+
+  if (tileset->type == "tile") {
+    sources = simpleTile::calculateAll(tileIndex, index, tileset, &grid);
+  }
+  else if (tileset->terrains[tileIndex] == "6-tile") {
+    sources = sixTile::calculateAll(tileIndex, index, surrounding, tileset, &grid);
+  }
+  else if (tileset->terrains[tileIndex] == "4-tile") {
+    sources = fourTile::calculateAll(tileIndex, index, surrounding, tileset, &grid);
+  }
+  for (auto& calc : sources) {
+    auto src = calc[0];
+    auto dst = calc[1];
+
+    EID entity = manager->createEntity();
+
+    manager->addComponent<SpriteComponent>(entity, src.x, src.y, src.w, src.h, tileset->texture);
+    manager->addComponent<PositionComponent>(entity, dst.x, dst.y);
+    manager->addComponent<RenderComponent>(entity, layer);
+  }
+}
+
+void Renderer::createEntityByData(json& data, int layer, int index) {
+  json node = data.at(index);
+
+  string entityId = node.at(1).get<string>();
+  createEntityByID(entityId, layer, index);
+}
+
+// if you don't care about where it's placed rendering wise (If entity has no
+// rendering component)
+void Renderer::createEntityByID(string entityId) {
+  createEntityByID(entityId, 0, 0);
+}
+
+// if you know the coordinates
+void Renderer::createEntityByID(string entityId, int layer, int x, int y, int w, int h) {
+  createEntity(entityId, layer, x, y, w, h);
+}
+
+void Renderer::createEntityByID(string entityId, int layer, int index) {
+  int x = this->grid.tile_w * this->grid.getX(index);
+  int y = this->grid.tile_h * this->grid.getY(index);
+  int w = this->grid.tile_w;
+  int h = this->grid.tile_h;
+
+  createEntity(entityId, layer, x, y, w, h);
+}
+
+void Renderer::createEntity(string entityId, int layer, int x, int y, int w, int h) {
+  json entity_definition = entities.at(entityId);
+  json components = entity_definition.at("components");
+  string name = entity_definition.at("name").get<string>();
+
+  EID entity = manager->createEntity();
+
+  if (name == "player") {
+    manager->saveSpecial("player", entity);
+  }
+
+  if (name == "enemy") {
+    auto follow = makeBehavior<Follower>(entity);
+    auto proximity = makeBehavior<Proximity>(entity, 50);
+    auto inverter = makeBehavior<Inverter>(entity);
+    auto sequence = makeBehavior<Sequence>(entity);
+    inverter->setChild(proximity);
+    sequence->addChild(inverter);
+    sequence->addChild(follow);
+
+    behaviors[entity] = sequence;
+
+    manager->addComponent<AIComponent>(entity);
+  }
+
+  for (uint k = 0; k < components.size(); k++) {
+    auto component = components.at(k);
+    string name = component.at("name").get<string>();
+
+    if (name == "CollisionComponent") {
+      auto members = component.at("members");
+      bool isStatic = members.at("isStatic").at("value").get<bool>();
+      int x = members.at("x").value("value", 0);
+      int y = members.at("y").value("value", 0);
+      int ww = members.at("w").value("value", 0);
+      int hh = members.at("h").value("value", 0);
+      int resolver = members.at("resolver").value("value", 0);
+
+      auto component = manager->addComponent<CollisionComponent>(
+        entity,
+        isStatic,
+        resolver,
+        x,
+        y,
+        (ww > 0) ? ww : (w > 0) ? w : this->grid.tile_w,
+        (hh > 0) ? hh : (h > 0) ? h : this->grid.tile_h
+      );
+
+      if (!members.at("onCollision").at("value").is_null()) {
+        component->onCollision = members.at("onCollision").at("value");
+      }
+    }
+    else if (name == "PositionComponent") {
+      manager->addComponent<PositionComponent>(entity, x, y);
+    }
+    else if (name == "DimensionComponent") {
+      manager->addComponent<DimensionComponent>(entity, w, h);
+    }
+    else if (name == "HealthComponent") {
+      int ch = component.at("members").at("currentHearts").at("value").get<int>();
+      int mh = component.at("members").at("maxHearts").at("value").get<int>();
+      int ce = component.at("members").at("currentEnergy").at("value").get<int>();
+      int me = component.at("members").at("maxEnergy").at("value").get<int>();
+
+      manager->addComponent<HealthComponent>(entity, ch, mh, ce, me);
+    }
+    else if (name == "SpriteComponent") {
+      auto members = component.at("members");
+      string source = members.at("src").at("value").get<string>();
+
+      int x = members.at("x").value("value", 0);
+      int y = members.at("y").value("value", 0);
+      int w_v = members.at("w").value("value", 0);
+      int h_v = members.at("h").value("value", 0);
+
+      SDL_Texture *texture = this->textures[source];
+
+      manager->addComponent<SpriteComponent>(entity, x, y, (w_v) ? w_v : w, (h_v) ? h_v : h, texture);
+    }
+    else if (name == "AbilityComponent") {
+      auto component = manager->addComponent<AbilityComponent>(entity);
+      component->makeAbility(
+        Actions::ATTACK1,
+        AbilityType::RANGE,
+        ElementType::FIRE,
+        0.7f,
+        5
+      );
+    }
+    else if (name == "InputComponent") {
+      manager->addComponent<InputComponent>(entity);
+    }
+    else if (name == "RenderComponent") {
+      auto members = component.at("members");
+      bool shouldTileX = members.at("shouldTileX").at("value").get<bool>();
+      bool shouldTileY = members.at("shouldTileY").at("value").get<bool>();
+
+      manager->addComponent<RenderComponent>(entity, layer, shouldTileX, shouldTileY);
+    }
+    else if (name == "MovementComponent") {
+      int sX = component.at("members").at("slow").at("value").at("x").get<int>();
+      int sY = component.at("members").at("slow").at("value").at("y").get<int>();
+      int fX = component.at("members").at("fast").at("value").at("x").get<int>();
+      int fY = component.at("members").at("fast").at("value").at("y").get<int>();
+
+      manager->addComponent<MovementComponent>(entity, sX, sY, fX, fY);
+    }
+    else if (name == "WalkComponent") {
+      manager->addComponent<WalkComponent>(entity);
+    }
+    else if (name == "CenteredCameraComponent") {
+      EID camera = manager->getSpecial("camera");
+      manager->addComponent<CenteredCameraComponent>(camera, entity);
+    }
+  }
+}
 
 void Renderer::resize(int w, int h) {
   SDL_SetWindowSize(win, w, h);

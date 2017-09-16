@@ -13,6 +13,7 @@ INC_DIRS := -I$(INC_DIR)
 C_FLAGS = \
 	-Wall \
 	-D NATIVE \
+  -D DRAW_COLLISION \
 	-pedantic \
 	-g
 

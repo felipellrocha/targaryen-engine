@@ -163,14 +163,11 @@ void RenderSystem::update(float dt) {
   }
 
 #ifdef DRAW_COLLISION
-  for (auto &item : cache) {
-    /*
-    EID entity = item.entity;
+  entities = manager->getAllEntitiesWithComponent<CollisionComponent>();
+  for (auto &item : entities) {
+    EID entity = item.first;
     auto collision = manager->getComponent<CollisionComponent>(entity);
-
     auto position = manager->getComponent<PositionComponent>(entity);
-
-    if (!collision) continue;
 
     int x = position->x + collision->x;
     int y = position->y + collision->y;
@@ -181,11 +178,11 @@ void RenderSystem::update(float dt) {
     r.y = y - camera.y;
     r.w = collision->w;
     r.h = collision->h;
-     
+
     SDL_SetRenderDrawColor( game->ren, 100, 255, 0, 200 );
-     
+
     SDL_RenderDrawRect( game->ren, &r );
-   */
+    /*
 
     EID entity = item.entity;
     auto collision = manager->getComponent<CollisionComponent>(entity);
@@ -203,9 +200,9 @@ void RenderSystem::update(float dt) {
       r.y = p2->y + c2->y - camera.y;
       r.w = c2->w;
       r.h = c2->h;
-       
+
       SDL_SetRenderDrawColor( game->ren, 0, 255, 255, 200 );
-       
+
       SDL_RenderDrawRect( game->ren, &r );
 
       SDL_RenderDrawLine(
@@ -216,6 +213,7 @@ void RenderSystem::update(float dt) {
         p2->y + c2->y + (c2->h / 2) - camera.y
       );
     }
+    */
   }
 #endif
 

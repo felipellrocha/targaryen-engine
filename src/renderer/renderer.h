@@ -59,6 +59,7 @@ public:
 
   map<string, string> mapsByName;
   map<EID, Node*> behaviors;
+  map<string, string> entitiesByName;
 
   string gamePackage;
   string assetPath;
@@ -116,6 +117,16 @@ public:
   void loadStage(string level);
   void loadStage(json game_data, string level);
   void runScript(json commands);
+
+  void createTile(json& data, int layer, int index);
+  void createEntityByData(json& data, int layer, int index);
+  void createEntityByID(string entityId);
+  void createEntityByID(string entityId, int layer, int x, int y, int w, int h);
+  void createEntityByID(string entityId, int layer, int index);
+  void createEntity(string entityId, int layer, int x, int y, int w, int h);
+  string getEntityIDByName(string name) {
+    return entitiesByName[name];
+  }
 
   Renderer(string assetPath, string _gamePackage, EntityManager* _manager, int width, int height);
   ~Renderer();

@@ -8,10 +8,10 @@
   "selectedAction": "put",
   "selectedTerrainType": "6-tile",
   "selectedTile": [
-    -2,
-    "4f436517-dfe3-4b20-bf2f-069a4750ca6b"
+    -1,
+    0
   ],
-  "selectedLayer": 0,
+  "selectedLayer": 4,
   "selectedAnimation": null,
   "selectedFrame": 0,
   "selectedShape": {
@@ -264,5 +264,6 @@
     }
   ],
   "initialTileIndex": 60,
-  "hideGrid": true
+  "hideGrid": true,
+  "selectedObject": "7b6fa69c-b24a-44d1-8418-74c80ae96acb"
 }
